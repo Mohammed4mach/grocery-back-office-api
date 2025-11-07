@@ -59,9 +59,18 @@ module Postgres =
                 connection.Execute(CommandDefinition (sql, paramWrapper.Value))
         )
 
+    let private executeNonQuery (sql : string) : int =
+        useConnection (
+            fun connection ->
+                let cmd = new NpgsqlCommand(sql, (connection :?> NpgsqlConnection))
+
+                cmd.ExecuteNonQuery()
+        )
+
     let operations : Operations =
         {
             configureDatabase = configurePostgresDatabase
             execute = execute
+            executeNonQuery= executeNonQuery
         }
 

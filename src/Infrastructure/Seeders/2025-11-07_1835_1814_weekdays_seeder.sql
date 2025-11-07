@@ -1,0 +1,37 @@
+INSERT INTO weekdays (id, name, code) VALUES
+    (
+        1,
+        'Saturday',
+        'Saturday'
+    ),
+    (
+        2,
+        'Sunday',
+        'Sunday'
+    ),
+    (
+        3,
+        'Monday',
+        'Monday'
+    ),
+    (
+        4,
+        'Tuesday',
+        'Tuesday'
+    ),
+    (
+        5,
+        'Wednesday',
+        'Wednesday'
+    ),
+    (
+        6,
+        'Thursday',
+        'Thursday'
+    ),
+    (
+        7,
+        'Friday',
+        'Friday'
+    )
+

@@ -31,3 +31,5 @@ list name,task description,run time,timer started,timer stopped
 "grocery-back-office-api","Debug pgsql connection error",910,2025-11-07T16:48:13+0200,2025-11-07T17:03:24+0200
 "grocery-back-office-api","Build migration naive control utility",2700,2025-11-07T17:03:48+0200,2025-11-07T17:48:48+0200
 "grocery-back-office-api","Build migration naive control utility",153,2025-11-07T17:48:52+0200,2025-11-07T17:51:24+0200
+"grocery-back-office-api","Build seeder naive utility",1893,2025-11-07T18:27:40+0200,2025-11-07T18:59:12+0200
+"grocery-back-office-api","Build seeder naive utility & write seeders",2700,2025-11-07T18:59:14+0200,2025-11-07T19:44:14+0200

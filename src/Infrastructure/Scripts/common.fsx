@@ -22,14 +22,16 @@ module Common =
 
     let __ = Path.DirectorySeparatorChar.ToString()
     let migrationsPath : string = __SOURCE_DIRECTORY__ + ($"{__}..{__}Migrations{__}")
+    let seedersPath : string = __SOURCE_DIRECTORY__ + ($"{__}..{__}Seeders{__}")
 
-    let files : string array = getDirContents migrationsPath
+    let migrationFiles : string array = getDirContents migrationsPath
+    let seedingFiles : string array = getDirContents seedersPath
 
 module Migrate =
     let exec () : unit =
         Common.configure()
 
-        for file in Common.files do
+        for file in Common.migrationFiles do
             let __ = Common.__
             let up : string = Common.getFileContents $"{file}{__}up.sql"
             let migration : string = Common.getFileName file
@@ -44,7 +46,7 @@ module Rollback =
     let exec () : unit =
         Common.configure()
 
-        for file in Array.rev Common.files do
+        for file in Array.rev Common.migrationFiles do
             let __ = Common.__
             let down : string = Common.getFileContents $"{file}{__}down.sql"
             let migration : string = Common.getFileName file
@@ -60,4 +62,19 @@ module MigrateFresh =
         Common.configure()
         Rollback.exec()
         Migrate.exec()
+
+module Seed =
+    let exec () : unit =
+        Common.configure()
+
+        for file in Common.seedingFiles do
+            let __ = Common.__
+            let sql : string = Common.getFileContents $"{file}"
+            let seeder : string = Common.getFileName file
+
+            printfn $"Seeding: {seeder}"
+
+            Database.operations.execute (QueryOnly(sql)) |> ignore
+
+            printfn $"DONE   : {seeder}\n"
 

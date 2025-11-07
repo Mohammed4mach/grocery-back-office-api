@@ -63,5 +63,6 @@ module MySql =
         {
             configureDatabase = configurePostgresDatabase
             execute = execute
+            executeNonQuery = fun (x : string) -> 1
         }
 

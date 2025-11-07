@@ -9,5 +9,6 @@ module Types =
         {
             configureDatabase : unit -> unit
             execute : ExecuteParameter -> int
+            executeNonQuery : string -> int
         }
 
