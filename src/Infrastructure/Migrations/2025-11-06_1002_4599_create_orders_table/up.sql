@@ -5,7 +5,7 @@ CREATE TABLE orders (
     delivery_date DATE NOT NULL,
     delivery_time TIME NOT NULL,
     is_green_delivery BOOLEAN NOT NULL,
-    user_id INT NOT NULL REFERENCES "user"(id),
-    customer_id INT NOT NULL REFERENCES customer(id)
+    user_id INT NOT NULL REFERENCES users(id),
+    customer_id INT NOT NULL REFERENCES customers(id)
 );
 

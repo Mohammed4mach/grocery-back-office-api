@@ -3,6 +3,6 @@ CREATE TABLE products (
     name VARCHAR NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     description TEXT,
-    product_storage_type_id INT NOT NULL REFERENCES product_storage_type(id)
+    product_storage_type_id INT NOT NULL REFERENCES product_storage_types(id)
 );
 

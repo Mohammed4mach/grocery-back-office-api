@@ -44,7 +44,7 @@ module Rollback =
     let exec () : unit =
         Common.configure()
 
-        for file in Common.files do
+        for file in Array.rev Common.files do
             let __ = Common.__
             let down : string = Common.getFileContents $"{file}{__}down.sql"
             let migration : string = Common.getFileName file
