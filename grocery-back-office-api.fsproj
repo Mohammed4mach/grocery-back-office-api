@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>grocery-back-office-api</AssemblyName>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Dapper.FSharp" Version="4.9.0" />
+    <PackageReference Include="dotnetenv" Version="3.1.1" />
+    <PackageReference Include="Giraffe" Version="6.4.0" />
+    <PackageReference Include="Npgsql" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Configs.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="HttpHandlers.fs" />
+
+    <Compile Include="src/App/**/*.fs" />
+    <Compile Include="src/Core/**/*.fs" />
+    <Compile Include="src/Http/**/*.fs" />
+
+    <Compile Include="src/Infrastructure/Core/Types/*.fs" />
+    <Compile Include="src/Infrastructure/Core/Exceptions/*.fs" />
+    <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
+    <Compile Include="src/Infrastructure/Core/*.fs" />
+
+    <Compile Include="Program.fs" />
+
+    <Compile Remove="./assets/*" />
+    <Compile Remove="./src/Infrastructure/Scripts/*.fs" />
+    <Compile Remove="./src/Infrastructure/Scripts/*.fsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="web.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

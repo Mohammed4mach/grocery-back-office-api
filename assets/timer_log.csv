@@ -1,0 +1,33 @@
+list name,task description,run time,timer started,timer stopped
+"grocery-back-office-api","Breakdown tasks",1104,2025-11-06T06:06:35+0200,2025-11-06T06:24:59+0200
+"grocery-back-office-api","ERD Design",2700,2025-11-06T06:25:25+0200,2025-11-06T07:10:26+0200
+"grocery-back-office-api","ERD Design",2700,2025-11-06T07:27:39+0200,2025-11-06T08:12:39+0200
+"grocery-back-office-api","ERD Design",1381,2025-11-06T08:12:43+0200,2025-11-06T08:35:45+0200
+"grocery-back-office-api","ERD Design",357,2025-11-06T08:53:16+0200,2025-11-06T08:59:13+0200
+"grocery-back-office-api","ERD Mapping",1515,2025-11-06T08:59:15+0200,2025-11-06T09:24:30+0200
+"grocery-back-office-api","Write migrations",1851,2025-11-06T09:44:25+0200,2025-11-06T10:15:16+0200
+"grocery-back-office-api","Build migration naive control utility",362,2025-11-06T10:29:09+0200,2025-11-06T10:35:10+0200
+"grocery-back-office-api","App configs",1580,2025-11-06T10:39:19+0200,2025-11-06T11:05:40+0200
+"grocery-back-office-api","Build migration naive control utility",775,2025-11-06T11:11:50+0200,2025-11-06T11:24:45+0200
+"grocery-back-office-api","DB: abstract db interface",2189,2025-11-06T19:47:41+0200,2025-11-06T20:24:10+0200
+"grocery-back-office-api","DB: abstract db interface",2,2025-11-06T20:24:11+0200,2025-11-06T20:24:13+0200
+"grocery-back-office-api","DB: abstract db interface",2700,2025-11-06T20:24:14+0200,2025-11-06T21:09:15+0200
+"grocery-back-office-api","DB: abstract db interface",2700,2025-11-06T21:09:19+0200,2025-11-06T21:54:19+0200
+"grocery-back-office-api","DB: abstract db interface",1047,2025-11-06T21:54:24+0200,2025-11-06T22:11:51+0200
+"grocery-back-office-api","DB: abstract db interface",1,2025-11-06T22:29:55+0200,2025-11-06T22:29:56+0200
+"grocery-back-office-api","DB: abstract db interface",572,2025-11-06T22:43:41+0200,2025-11-06T22:53:13+0200
+"grocery-back-office-api","DB: abstract db interface",7,2025-11-07T01:43:33+0200,2025-11-07T01:43:40+0200
+"grocery-back-office-api","DB: abstract db interface",708,2025-11-07T01:53:48+0200,2025-11-07T02:05:36+0200
+"grocery-back-office-api","DB: abstract db interface",2653,2025-11-07T02:25:12+0200,2025-11-07T03:09:26+0200
+"grocery-back-office-api","DB: abstract db interface",1384,2025-11-07T03:16:29+0200,2025-11-07T03:39:33+0200
+"grocery-back-office-api","DB: abstract db interface",596,2025-11-07T03:39:44+0200,2025-11-07T03:49:40+0200
+"grocery-back-office-api","DB: abstract db interface",1425,2025-11-07T13:26:58+0200,2025-11-07T13:50:44+0200
+"grocery-back-office-api","Build migration naive control utility",662,2025-11-07T13:51:00+0200,2025-11-07T14:02:02+0200
+"grocery-back-office-api","Build migration naive control utility",1162,2025-11-07T14:04:40+0200,2025-11-07T14:24:02+0200
+"grocery-back-office-api","Build migration naive control utility",2574,2025-11-07T14:24:08+0200,2025-11-07T15:07:02+0200
+"grocery-back-office-api","Build migration naive control utility",2645,2025-11-07T15:07:06+0200,2025-11-07T15:51:12+0200
+"grocery-back-office-api","Build migration naive control utility",1494,2025-11-07T15:54:32+0200,2025-11-07T16:19:26+0200
+"grocery-back-office-api","Build migration naive control utility",1216,2025-11-07T16:19:27+0200,2025-11-07T16:39:43+0200
+"grocery-back-office-api","Debug pgsql connection error",910,2025-11-07T16:48:13+0200,2025-11-07T17:03:24+0200
+"grocery-back-office-api","Build migration naive control utility",2700,2025-11-07T17:03:48+0200,2025-11-07T17:48:48+0200
+"grocery-back-office-api","Build migration naive control utility",153,2025-11-07T17:48:52+0200,2025-11-07T17:51:24+0200
