@@ -1,8 +1,4 @@
-2025-11-07 Build seeder naive utility & write seeders timer:2h-1m-38s
-2025-11-06 DB: abstract db interface timer:4h-47m-39s
-2025-11-06 DB: postgresql implementation for db interface
-2025-11-06 Entities definitions
-2025-11-06 Repository: repo base interface
+2025-11-06 Repository: repo base interface timer:0h-59m-18s
 2025-11-06 Repository: repos implementation
 2025-11-06 Services implementations
 2025-11-06 Middlewares implementations
@@ -20,3 +16,7 @@ x 2025-11-06 2025-11-06 Write migrations timer:0h-30m-51s
 x 2025-11-06 2025-11-06 App configs timer:0h-26m-20s
 x 2025-11-07 2025-11-07 Debug pgsql connection error timer:0h-15m-10s
 x 2025-11-07 2025-11-06 Build migration naive control utility timer:3h-58m-49s
+x 2025-11-07 2025-11-07 Build seeder naive utility & write seeders timer:2h-2m-58s
+x 2025-11-07 2025-11-06 Entities definitions timer:0h-20m-48s
+x 2025-11-08 2025-11-06 DB: postgresql implementation for db interface
+x 2025-11-08 2025-11-06 DB: abstract db interface timer:4h-47m-39s

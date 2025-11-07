@@ -29,6 +29,8 @@
     <Compile Include="src/Infrastructure/Core/Exceptions/*.fs" />
     <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
     <Compile Include="src/Infrastructure/Core/*.fs" />
+    <Compile Include="src/Infrastructure/Tables/**/*.fs" />
+    <Compile Include="src/Infrastructure/Repositories/**/*.fs" />
 
     <Compile Include="Program.fs" />
 
