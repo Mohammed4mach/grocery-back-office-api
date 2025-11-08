@@ -5,10 +5,10 @@
 2025-11-06 Resources & validation definitions
 2025-11-06 Http handlers
 2025-11-06 Routes definitions
-2025-11-06 Write detailed README.md
 2025-11-06 Enums
 2025-11-06 Consider using fsdocs-tool to gen docs
 2025-11-07 Make TODO in README
+2025-11-06 Write detailed README.md
 x 2025-11-06 2025-11-06 Breakdown tasks timer:0h-18m-24s
 x 2025-11-06 2025-11-06 ERD Design timer:2h-13m-5s
 x 2025-11-06 2025-11-06 ERD Mapping timer:0h-25m-15s

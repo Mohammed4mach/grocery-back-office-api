@@ -18,8 +18,8 @@ migrate-fresh:
 migrate-rollback:
 	dotnet fsi ./src/Infrastructure/Scripts/migrate-rollback.fsx
 
-project: migrate-fresh seed
-
 seed:
 	dotnet fsi ./src/Infrastructure/Scripts/seed.fsx
+
+project: migrate-fresh seed
 

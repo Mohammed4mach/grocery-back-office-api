@@ -1,10 +1,9 @@
-# Grocery Back-Office API
+<h1 style="text-align: center">Grocery Back-Office API</h1>
 
-Table of Contents
-=================
+## Table of Contents
 
 - [Installation](#installation)
-- [Entity Relationship Diagram](#entity-relationship-diagram)
+- [The Design](#the-design)
 - [ERD Mapping](#erd-mapping)
 
 ## Installation
@@ -13,16 +12,44 @@ To install and run the Grocery Back-Office API, follow these steps:
 1. Clone the repository:
 
 ```bash
-    git clone
+git clone https://github.com/Mohammed4mach/grocery-back-office-api.git
 ```
 
-## Entity Relationship Diagram
+2. Initialize the project (using [GNU Make](https://www.gnu.org/software/make/#download))
+
+```bash
+make project
+```
+
+3. Run the server
+
+```bash
+make
+```
+
+or use
+
+```bash
+dotnet run watch
+```
+
+**Note**:
+
+**The project still under development and zero endpoint are implemented**
+
+## The Design
+
+Here is the design for my solution to the problem
 
 [![ERD](assets/diagrams/ERD.png)](assets/diagrams/ERD.png)
 
+The idea is to avoid hard-coding product categories and thier time constraints.
+This is better for users and developers as business needs and policies tends
+to change or be extended over the time.
+
 ## ERD Mapping
 
-### user
+### Users
 
 | Column | Type | Constraints |
 |--------|------|-------------|
@@ -31,7 +58,48 @@ To install and run the Grocery Back-Office API, follow these steps:
 | username | varchar | |
 | password | varchar | |
 
-### product
+### Customers
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | integer | Primary Key |
+| fullname | varchar | |
+| address | text | |
+
+### Weekdays
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | integer | Primary Key |
+| name | varchar | |
+| code | varchar | |
+
+### Delivery Time Rules
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | integer | Primary Key |
+| name | varchar | |
+| in_advance_days | integer | |
+| same_day_deadline | time | |
+
+### Delivery Time Rule Not Available Weekdays (pivot table)
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | integer | Primary Key |
+| delivery_time_rule_id | integer | References delivery_time_rule(id) |
+| weekday_id | integer | References weekday(id) |
+
+### Product Storage Types
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | integer | Primary Key |
+| name | varchar | |
+| delivery_time_rule_id | integer | References delivery_time_rule(id) |
+
+### Products
 
 | Column | Type | Constraints |
 |--------|------|-------------|
@@ -41,48 +109,7 @@ To install and run the Grocery Back-Office API, follow these steps:
 | description | text | |
 | product_storage_type_id | integer | References product_storage_type(id) |
 
-### product_storage_type
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| delivery_time_rule_id | integer | References delivery_time_rule(id) |
-
-### delivery_time_rule
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| in_advance_days | integer | |
-| same_day_deadline | time | |
-
-### weekday
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| code | varchar | |
-
-### delivery_time_rule_not_available_weekday (pivot table)
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| delivery_time_rule_id | integer | References delivery_time_rule(id) |
-| weekday_id | integer | References weekday(id) |
-
-### customer
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| fullname | varchar | |
-| address | text | |
-
-### order
+### Orders
 
 | Column | Type | Constraints |
 |--------|------|-------------|
@@ -95,7 +122,7 @@ To install and run the Grocery Back-Office API, follow these steps:
 | user_id | integer | References user(id) |
 | customer_id | integer | References customer(id) |
 
-### order_item
+### Order Items
 
 | Column | Type | Constraints |
 |--------|------|-------------|
