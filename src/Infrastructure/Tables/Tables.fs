@@ -10,7 +10,7 @@ module Tables =
     let orderItemsTable = table'<OrderItem> "order_items"
     let productsTable = table'<Product> "products"
     let productStorageTypesTable = table'<ProductStorageType> "product_storage_types"
-    let weekdaysTable = table'<Customer> "customer"
+    let weekdaysTable = table'<Weekday> "weekdays"
     let deliveryTimeRulesTable = table'<DeliveryTimeRule> "delivery_time_rules"
     let deliveryTimeRuleNotAvailableWeekdaysTable = table'<DeliveryTimeRuleNotAvailableWeekday> "delivery_time_rule_not_available_weekdays"
 

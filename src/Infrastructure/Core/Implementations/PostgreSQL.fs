@@ -8,7 +8,7 @@ open Dapper.FSharp
 open Infrastructure.Core.Types
 open Infrastructure.Core.Exceptions
 
-module MySql =
+module PostgreSQL =
     let mutable private  connectionWrapper : IDbConnection option = Option.None
 
     let private getConnectionString () =

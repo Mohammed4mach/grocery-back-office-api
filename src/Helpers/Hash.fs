@@ -2,7 +2,7 @@ namespace Helpers
 
 open BCrypt.Net
 
-module String =
+module Hash =
     let hash (str : string) : string =
         BCrypt.HashPassword (str, workFactor = 12)
 

@@ -1,4 +1,4 @@
-namespace Infrastructure.Repository
+namespace Infrastructure.Repositories
 
 type Repository<'T> =
     {

@@ -5,10 +5,21 @@ module Types =
         | QueryOnly of string
         | WithParam of string * obj
 
-    type Operations =
+    type Condition =
+        {
+            column : string
+            operator : string
+            value : string option
+        }
+
+    type Operations<'T> =
         {
             configureDatabase : unit -> unit
             execute : ExecuteParameter -> int
-            executeNonQuery : string -> int
+            insert : string -> string seq -> 'T seq -> Condition seq -> int
+            update : string -> string seq -> 'T seq -> Condition seq -> int
+            delete : string -> Condition seq -> int
+            select : string -> Condition seq -> 'T list
+            selectSingle : string -> Condition seq -> 'T
         }
 

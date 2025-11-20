@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Include="Configs.fs" />
+    <Compile Include="src/Infrastructure/Core/Types/*.fs" />
     <Compile Include="src/Helpers/**/*.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="HttpHandlers.fs" />
@@ -25,7 +26,6 @@
     <Compile Include="src/Core/**/*.fs" />
     <Compile Include="src/Http/**/*.fs" />
 
-    <Compile Include="src/Infrastructure/Core/Types/*.fs" />
     <Compile Include="src/Infrastructure/Core/Exceptions/*.fs" />
     <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
     <Compile Include="src/Infrastructure/Core/*.fs" />
