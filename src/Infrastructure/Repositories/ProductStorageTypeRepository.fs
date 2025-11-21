@@ -1,8 +1,10 @@
 namespace Infrastructure.Repositories
 
-type ProductStorageType = {
-    id: int
-    name: string
-    deliveryTimeRuleId: string
-}
+[<AutoOpen>]
+module ProductStorageType =
+    type ProductStorageType = {
+        id: int
+        name: string
+        deliveryTimeRuleId: string
+    }
 

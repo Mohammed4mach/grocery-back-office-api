@@ -68,26 +68,31 @@ module MySql =
     let private getUpdateValueStr (fields : string seq) : string =
         (fields |> Seq.fold (fun (acc) (field) -> $"{acc} {field} = @{field}, ") "").Trim ','
 
+    let private getConditionValue (valueWrapper : string option) =
+        match valueWrapper with
+        | Some value -> value
+        | None -> "NULL"
+
     let private getConditionStr (condition : Condition) =
-        $"{condition.column} {condition.operator} {condition.value}"
+        $"{condition.column} {condition.operator} {getConditionValue condition.value}"
 
     let private getConditionsStr (conditions : Condition seq) : string =
         conditions |> Seq.fold (fun (acc) (condition) -> $"{acc} AND {getConditionStr condition}") "TRUE"
 
     let private getParamConditionStr (conditions : Condition seq) : string * obj =
-        let columnValue        = seq { for condition in conditions -> (condition.column, condition.value) } |> Map.ofSeq
+        let columnValue = seq { for condition in conditions -> (condition.column, getConditionValue condition.value) } |> Map.ofSeq
+
         let conditionsStr = conditions |> Seq.fold (fun (acc) (condition) -> $"{acc} AND {condition.column} {condition.operator} @{condition.column}") "TRUE"
 
         (conditionsStr, columnValue)
 
-    let private insert<'T> (table : string) (fields : string seq) (value : 'T) (conditions : Condition seq) : int =
+    let private insert<'T> (table : string) (fields : string seq) (value : 'T) : int =
         useConnection (
             fun connection ->
                 let fieldsStr     = getFieldsStr fields
                 let valueStr      = getInsertValueStr fields
-                let conditionsStr = getConditionsStr conditions
 
-                let sql  = $"INSERT INTO {table} ({fieldsStr}) VALUE ({valueStr}) WHERE {conditionsStr}"
+                let sql  = $"INSERT INTO {table} ({fieldsStr}) VALUE ({valueStr})"
 
                 connection.Execute (CommandDefinition (sql, value))
         )
@@ -113,16 +118,6 @@ module MySql =
                 connection.Execute (CommandDefinition sql)
         )
 
-    let private selectSingle<'T> (table : string) (conditions : Condition seq) : 'T =
-        useConnection (
-            fun connection ->
-                let (conditionsStr, columnValue) = getParamConditionStr conditions
-
-                let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
-
-                connection.QuerySingle<'T> (sql, columnValue)
-        )
-
     let private select<'T> (table : string) (conditions : Condition seq) : 'T list =
         useConnection (
             fun connection ->
@@ -133,14 +128,23 @@ module MySql =
                 connection.Query<'T> (sql, columnValue) |> List.ofSeq
         )
 
+    let private selectSingle<'T> (table : string) (conditions : Condition seq) : 'T =
+        useConnection (
+            fun connection ->
+                let (conditionsStr, columnValue) = getParamConditionStr conditions
+
+                let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
+
+                connection.QuerySingle<'T> (sql, columnValue)
+        )
+
     let operations : Operations<'T> =
         {
+            insert            = insert
+            update            = update
+            delete            = delete
+            select            = select
+            execute           = execute
+            selectSingle      = selectSingle
             configureDatabase = configurePostgresDatabase
-            execute      = execute
-            insert       = insert
-            update       = update
-            delete       = delete
-            select       = select
-            selectSingle = selectSingle
         }
-

@@ -2,6 +2,7 @@ namespace Core.Entities
 
 open System
 
+[<CLIMutable>]
 type Order = {
     id: int
     totalCost: float

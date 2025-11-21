@@ -1,5 +1,6 @@
 namespace Core.Entities
 
+[<CLIMutable>]
 type OrderItem = {
     id: int
     costPerItem: float

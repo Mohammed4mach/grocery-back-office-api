@@ -1,5 +1,6 @@
 namespace Core.Entities
 
+[<CLIMutable>]
 type Product = {
     id: int
     name: string

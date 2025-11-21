@@ -9,13 +9,13 @@ module Database =
         | MySql
         | MsSql
 
-    let pgsqlOperations = Implementations.PostgreSQL.operations
-    let mysqlOperations = Implementations.MySql.operations
-    let mssqlOperations = Implementations.MsSql.operations
+    let private pgsqlOperations = Implementations.PostgreSQL.operations
+    let private mysqlOperations = Implementations.MySql.operations
+    let private mssqlOperations = Implementations.MsSql.operations
 
-    let pgsqlKey = Connections.PgSql.ToString().ToLower()
-    let mysqlKey = Connections.MySql.ToString().ToLower()
-    let mssqlKey = Connections.MsSql.ToString().ToLower()
+    let private pgsqlKey = Connections.PgSql.ToString().ToLower()
+    let private mysqlKey = Connections.MySql.ToString().ToLower()
+    let private mssqlKey = Connections.MsSql.ToString().ToLower()
 
     let operations<'T> : Operations<'T> =
         match Configs.Database.connection with

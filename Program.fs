@@ -9,6 +9,7 @@ open Giraffe
 open DotNetEnv
 open App.HttpHandlers
 open Infrastructure.Core
+open Http.Handlers
 
 // ---------------------------------
 // Web app
@@ -19,10 +20,12 @@ let webApp =
         subRoute "/api"
             (choose [
                 GET >=> choose [
+                    route "/users" >=> UserHandlers.index
                     route "/hello" >=> handleGetHello
                 ]
             ])
-        setStatusCode 404 >=> text "Not Found" ]
+        setStatusCode 404 >=> negotiate {| message = "Not Found" |}
+    ]
 
 // ---------------------------------
 // Error handler
@@ -30,7 +33,7 @@ let webApp =
 
 let errorHandler (ex : Exception) (logger : ILogger) =
     logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
-    clearResponse >=> setStatusCode 500 >=> text ex.Message
+    clearResponse >=> setStatusCode 500 >=> negotiate {| ``type`` = ex.GetType(); message = ex.Message; trace = ex.StackTrace; |}
 
 // ---------------------------------
 // Config and Main

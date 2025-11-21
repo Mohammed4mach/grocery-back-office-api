@@ -22,15 +22,19 @@
     <Compile Include="Models.fs" />
     <Compile Include="HttpHandlers.fs" />
 
-    <Compile Include="src/App/**/*.fs" />
     <Compile Include="src/Core/**/*.fs" />
-    <Compile Include="src/Http/**/*.fs" />
 
     <Compile Include="src/Infrastructure/Core/Exceptions/*.fs" />
     <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
     <Compile Include="src/Infrastructure/Core/*.fs" />
     <Compile Include="src/Infrastructure/Tables/**/*.fs" />
     <Compile Include="src/Infrastructure/Repositories/**/*.fs" />
+
+    <Compile Include="src/App/**/*.fs" />
+
+    <Compile Include="src/Http/Resources/**/*Resource.fs" />
+    <Compile Include="src/Http/Resources/**/*Collection.fs" />
+    <Compile Include="src/Http/**/*.fs" Exclude="src/Http/Resources/**/*.fs" />
 
     <Compile Include="Program.fs" />
 

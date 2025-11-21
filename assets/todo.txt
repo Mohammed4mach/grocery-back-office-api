@@ -1,14 +1,16 @@
-2025-11-06 Repository: repo base interface timer:6h-42m-11s
-2025-11-06 Repository: repos implementation timer:0h-0m-10s
-2025-11-06 Services implementations
+2025-11-06 Repository: repos implementation timer:1h-35m-10s
+2025-11-06 Services implementations timer:0h-44m-5s
+2025-11-21 Resources definition
 2025-11-06 Middlewares implementations
-2025-11-06 Resources & validation definitions
+2025-11-06 Validation definitions
 2025-11-06 Http handlers
 2025-11-06 Routes definitions
 2025-11-06 Enums
 2025-11-06 Consider using fsdocs-tool to gen docs
 2025-11-07 Make TODO in README
 2025-11-06 Write detailed README.md
+2025-11-21 Error handler
+2025-11-21 Make super user to control users
 x 2025-11-06 2025-11-06 Breakdown tasks timer:0h-18m-24s
 x 2025-11-06 2025-11-06 ERD Design timer:2h-13m-5s
 x 2025-11-06 2025-11-06 ERD Mapping timer:0h-25m-15s
@@ -20,3 +22,5 @@ x 2025-11-07 2025-11-07 Build seeder naive utility & write seeders timer:2h-2m-5
 x 2025-11-07 2025-11-06 Entities definitions timer:0h-20m-48s
 x 2025-11-08 2025-11-06 DB: postgresql implementation for db interface
 x 2025-11-08 2025-11-06 DB: abstract db interface timer:4h-47m-39s
+x 2025-11-21 2025-11-06 Repository: repo base interface timer:9h-12m-15s
+x 2025-11-21 2025-11-21 Repository: repos test & debugging timer:2h-2m-50s

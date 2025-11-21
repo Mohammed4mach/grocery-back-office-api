@@ -1,8 +1,10 @@
 namespace Infrastructure.Repositories
 
-type Weekday = {
-    id: int
-    name: string
-    code: string
-}
+[<AutoOpen>]
+module Weekday =
+    type Weekday = {
+        id: int
+        name: string
+        code: string
+    }
 

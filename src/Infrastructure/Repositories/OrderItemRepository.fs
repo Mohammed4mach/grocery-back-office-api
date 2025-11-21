@@ -1,10 +1,11 @@
 namespace Infrastructure.Repositories
 
-type OrderItem = {
-    id: int
-    costPerItem: float
-    quantity: int
-    productId: int
-    orderId: int
-}
+module OrderItem =
+    type OrderItem = {
+        id: int
+        costPerItem: float
+        quantity: int
+        productId: int
+        orderId: int
+    }
 
