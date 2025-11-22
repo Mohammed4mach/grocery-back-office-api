@@ -1,8 +1,7 @@
-2025-11-06 Services implementations timer:0h-45m-39s
+2025-11-06 Services implementations timer:1h-11m-42s
+2025-11-06 Routes & Http handlers
 2025-11-06 Middlewares implementations
 2025-11-06 Validation definitions
-2025-11-06 Http handlers
-2025-11-06 Routes definitions
 2025-11-06 Enums
 2025-11-06 Consider using fsdocs-tool to gen docs
 2025-11-07 Make TODO in README

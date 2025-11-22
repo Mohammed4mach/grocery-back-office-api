@@ -7,7 +7,6 @@ open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open DotNetEnv
-open App.HttpHandlers
 open Infrastructure.Core
 open Http.Handlers
 
@@ -21,7 +20,6 @@ let webApp =
             (choose [
                 GET >=> choose [
                     route "/users" >=> UserHandlers.index
-                    route "/hello" >=> handleGetHello
                 ]
             ])
         setStatusCode 404 >=> negotiate {| message = "Not Found" |}
