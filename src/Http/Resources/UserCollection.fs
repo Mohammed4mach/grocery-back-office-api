@@ -12,7 +12,7 @@ type UserCollection =
             seq {
                 for user in users do
                     yield {
-                        id = user.id
+                        id       = user.id
                         fullname = user.fullname
                         username = user.username
                     }

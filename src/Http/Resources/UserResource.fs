@@ -16,7 +16,7 @@ type UserResource =
 
     static member ofEntity (user : User) : UserResource =
         let data : UserResourceData = {
-            id = user.id
+            id       = user.id
             fullname = user.fullname
             username = user.username
         }
