@@ -1,9 +1,16 @@
 namespace Infrastructure.Repositories
 
+open Core.Entities
+
+[<AutoOpen>]
 module DeliveryTimeRuleNotAvailableWeekday =
-    type DeliveryTimeRuleNotAvailableWeekday = {
-        id: int
-        deliveryTimeRuleId: int
-        weekdayId: int
+    let DeliveryTimeRuleNotAvailableWeekdayRepository : Repository<DeliveryTimeRuleNotAvailableWeekday> = {
+        Repository.Default with
+            table = "delivery_time_rule_not_available_weekdays"
+            fillable = [
+                "id"
+                "delivery_time_rule_id"
+                "weekday_id"
+            ]
     }
 

@@ -1,10 +1,16 @@
 namespace Infrastructure.Repositories
 
+open Core.Entities
+
 [<AutoOpen>]
 module Customer =
-    type Customer = {
-        id: int
-        fullname: string
-        address: string
+    let CustomerRepository : Infrastructure.Repositories.Repository<Customer> = {
+        Repository.Default with
+            table = "customers"
+            fillable = [
+                "id"
+                "fullname"
+                "address"
+            ]
     }
 

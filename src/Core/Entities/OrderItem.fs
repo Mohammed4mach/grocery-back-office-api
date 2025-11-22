@@ -3,9 +3,9 @@ namespace Core.Entities
 [<CLIMutable>]
 type OrderItem = {
     id: int
-    costPerItem: float
+    cost_per_item: float
     quantity: int
-    productId: int
-    orderId: int
+    product_id: int
+    order_id: int
 }
 

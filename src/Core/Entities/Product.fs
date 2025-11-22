@@ -6,6 +6,6 @@ type Product = {
     name: string
     price: float
     description: string
-    productStorageTypeId: int
+    product_storage_type_id: int
 }
 

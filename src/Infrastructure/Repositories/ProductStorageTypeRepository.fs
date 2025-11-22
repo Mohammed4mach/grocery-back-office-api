@@ -1,10 +1,16 @@
 namespace Infrastructure.Repositories
 
+open Core.Entities
+
 [<AutoOpen>]
 module ProductStorageType =
-    type ProductStorageType = {
-        id: int
-        name: string
-        deliveryTimeRuleId: string
+    let ProductStorageTypeRepository : Repository<ProductStorageType> = {
+        Repository.Default with
+            table = "product_storage_types"
+            fillable = [
+                "id"
+                "name"
+                "delivery_time_rule_id"
+            ]
     }
 

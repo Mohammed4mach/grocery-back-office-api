@@ -4,6 +4,6 @@ namespace Core.Entities
 type ProductStorageType = {
     id: int
     name: string
-    deliveryTimeRuleId: string
+    delivery_time_rule_id: string
 }
 

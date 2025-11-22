@@ -6,7 +6,7 @@ open System
 type DeliveryTimeRule = {
     id: int
     name: string
-    inAdvanceDays: int
-    sameDayDeadline: DateTime
+    in_advance_days: int
+    same_day_deadline: DateTime
 }
 

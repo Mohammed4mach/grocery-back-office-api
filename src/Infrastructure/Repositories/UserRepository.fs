@@ -1,7 +1,6 @@
 namespace Infrastructure.Repositories
 
 open Core.Entities
-open Infrastructure.Repositories
 
 [<AutoOpen>]
 module User =

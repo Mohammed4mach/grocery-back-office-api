@@ -1,12 +1,17 @@
 namespace Infrastructure.Repositories
 
-open System
+open Core.Entities
 
+[<AutoOpen>]
 module DeliveryTimeRule =
-    type DeliveryTimeRule = {
-        id: int
-        name: string
-        inAdvanceDays: int
-        sameDayDeadline: DateTime
+    let DeliveryTimeRuleRepository : Repository<DeliveryTimeRule> = {
+        Repository.Default with
+            table = "delivery_time_rules"
+            fillable = [
+                "id"
+                "name"
+                "in_advance_days"
+                "same_day_deadline"
+            ]
     }
 

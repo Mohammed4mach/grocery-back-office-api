@@ -1,10 +1,16 @@
 namespace Infrastructure.Repositories
 
+open Core.Entities
+
 [<AutoOpen>]
 module Weekday =
-    type Weekday = {
-        id: int
-        name: string
-        code: string
+    let WeekdayRepository : Repository<Weekday> = {
+        Repository.Default with
+            table = "weekdays"
+            fillable = [
+                "id"
+                "name"
+                "code"
+            ]
     }
 

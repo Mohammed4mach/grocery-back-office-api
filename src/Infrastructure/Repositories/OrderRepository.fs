@@ -1,16 +1,18 @@
 namespace Infrastructure.Repositories
 
-open System
+open Core.Entities
 
+[<AutoOpen>]
 module Order =
-    type Order = {
-        id: int
-        totalCost: float
-        orderTime: DateTime
-        deliveryDate: DateTime
-        deliveryTime: DateTime
-        isGreenDelivery: bool
-        userId: int
-        customerId: int
+    let OrderRepository : Repository<Order> = {
+        Repository.Default with
+            table = "orders"
+            fillable = [
+                "id"
+                "total_cost"
+                "order_time"
+                "delivery_date"
+                "delivery_time"
+            ]
     }
 

@@ -1,11 +1,18 @@
 namespace Infrastructure.Repositories
 
+open Core.Entities
+
+[<AutoOpen>]
 module OrderItem =
-    type OrderItem = {
-        id: int
-        costPerItem: float
-        quantity: int
-        productId: int
-        orderId: int
+    let OrderItemRepository : Repository<OrderItem> = {
+        Repository.Default with
+            table = "order_items"
+            fillable = [
+                "id"
+                "cost_per_item"
+                "quantity"
+                "product_id"
+                "order_id"
+            ]
     }
 

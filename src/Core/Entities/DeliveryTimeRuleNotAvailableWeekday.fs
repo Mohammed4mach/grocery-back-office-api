@@ -3,7 +3,7 @@ namespace Core.Entities
 [<CLIMutable>]
 type DeliveryTimeRuleNotAvailableWeekday = {
     id: int
-    deliveryTimeRuleId: int
-    weekdayId: int
+    delivery_time_rule_id: int
+    weekday_id: int
 }
 
