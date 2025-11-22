@@ -50,17 +50,6 @@ module PostgreSQL =
         finally
             connection.Close()
 
-    let private execute (_param : ExecuteParameter) : int =
-        useConnection (
-            fun connection ->
-                let (sql : string, paramWrapper : obj option) =
-                    match _param with
-                    | ExecuteParameter.QueryOnly sql -> (sql, Some { new Object() with member _.ToString() = "" })
-                    | ExecuteParameter.WithParam (sql, param) -> (sql, Some param)
-
-                connection.Execute (CommandDefinition (sql, paramWrapper.Value))
-        )
-
     let private getFieldsStr (fields : string seq) =
         String.Join (",", fields)
 
@@ -76,7 +65,7 @@ module PostgreSQL =
         | None -> "NULL"
 
     let private getConditionStr (condition : Condition) =
-        $"{condition.column} {condition.operator} {getConditionValue condition.value}"
+        $"{condition.column}::VARCHAR {condition.operator} {getConditionValue condition.value}"
 
     let private getConditionsStr (conditions : Condition seq) : string =
         conditions |> Seq.fold (fun (acc) (condition) -> $"{acc} AND {getConditionStr condition}") "TRUE"
@@ -84,9 +73,20 @@ module PostgreSQL =
     let private getParamConditionStr (conditions : Condition seq) : string * obj =
         let columnValue = seq { for condition in conditions -> (condition.column, getConditionValue condition.value) } |> Map.ofSeq |> Helpers.DynamicObject.ofMap
 
-        let conditionsStr = conditions |> Seq.fold (fun (acc) (condition) -> $"{acc} AND {condition.column} {condition.operator} @{condition.column}") "TRUE"
+        let conditionsStr = conditions |> Seq.fold (fun (acc) (condition) -> $"{acc} AND {condition.column}::VARCHAR {condition.operator} @{condition.column}") "TRUE"
 
         (conditionsStr, columnValue)
+
+    let private execute (_param : ExecuteParameter) : int =
+        useConnection (
+            fun connection ->
+                let (sql : string, paramWrapper : obj option) =
+                    match _param with
+                    | ExecuteParameter.QueryOnly sql -> (sql, Some { new Object() with member _.ToString() = "" })
+                    | ExecuteParameter.WithParam (sql, param) -> (sql, Some param)
+
+                connection.Execute (CommandDefinition (sql, paramWrapper.Value))
+        )
 
     let private insert<'T> (table : string) (fields : string seq) (value : 'T) : int =
         useConnection (
@@ -136,7 +136,7 @@ module PostgreSQL =
                 let (conditionsStr, columnValue) = getParamConditionStr conditions
 
                 let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
-
+                System.Console.WriteLine sql
                 connection.QuerySingle<'T> (sql, columnValue)
         )
 
