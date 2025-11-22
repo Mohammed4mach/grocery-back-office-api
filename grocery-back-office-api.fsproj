@@ -18,14 +18,21 @@
   <ItemGroup>
     <Compile Include="Configs.fs" />
     <Compile Include="src/Infrastructure/Core/Types/*.fs" />
+    <Compile Include="src/Core/Interfaces/IValidationRule.fs" />
+    <Compile Include="src/Core/Interfaces/IValidatable.fs" />
+    <Compile Include="src/Core/Exceptions/**/*.fs" />
     <Compile Include="src/Helpers/**/*.fs" />
-
-    <Compile Include="src/Core/**/*.fs" />
 
     <Compile Include="src/Infrastructure/Core/Exceptions/*.fs" />
     <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
     <Compile Include="src/Infrastructure/Core/*.fs" />
-    <Compile Include="src/Infrastructure/Tables/**/*.fs" />
+
+    <Compile Include="src/Core/Entities/**/*.fs" />
+
+    <Compile Include="src/Core/ValidationRules/**/*.fs" />
+    <Compile Include="src/Core/Jobs/**/*.fs" />
+    <Compile Include="src/Core/Events/**/*.fs" />
+
     <Compile Include="src/Infrastructure/Repositories/Repository.fs" />
     <Compile Include="src/Infrastructure/Repositories/**/*.fs" Exclude="src/Infrastructure/Repositories/Repository.fs" />
 
@@ -33,7 +40,11 @@
 
     <Compile Include="src/Http/Resources/**/*Resource.fs" />
     <Compile Include="src/Http/Resources/**/*Collection.fs" />
-    <Compile Include="src/Http/**/*.fs" Exclude="src/Http/Resources/**/*.fs" />
+    <Compile Include="src/Http/Requests/**/*.fs" />
+    <Compile
+        Include="src/Http/**/*.fs"
+        Exclude="src/Http/Re*/**/*.fs"
+    />
 
     <Compile Include="Program.fs" />
 

@@ -18,9 +18,12 @@ let webApp =
     choose [
         subRoute "/api"
             (choose [
-                GET >=> choose [
-                    route "/users" >=> UserHandlers.index
-                ]
+                subRoute "/users"
+                    (choose [
+                        GET  >=> route "" >=> UserHandlers.index
+                        GET  >=> routef "/%i" UserHandlers.show
+                        POST >=> route "" >=> UserHandlers.store
+                    ])
             ])
         setStatusCode 404 >=> negotiate {| message = "Not Found" |}
     ]

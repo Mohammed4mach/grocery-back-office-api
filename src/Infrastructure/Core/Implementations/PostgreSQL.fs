@@ -54,7 +54,7 @@ module PostgreSQL =
         String.Join (",", fields)
 
     let private getInsertValueStr (fields : string seq) : string =
-        (fields |> Seq.fold (fun (acc) (field) -> $"{acc} @{field}, ") "").Trim ','
+        (fields |> Seq.fold (fun (acc) (field) -> $"{acc} @{field},") "").Trim ','
 
     let private getUpdateValueStr (fields : string seq) : string =
         (fields |> Seq.fold (fun (acc) (field) -> $"{acc} {field} = @{field}, ") "").Trim ','
@@ -94,7 +94,7 @@ module PostgreSQL =
                 let fieldsStr     = getFieldsStr fields
                 let valueStr      = getInsertValueStr fields
 
-                let sql  = $"INSERT INTO {table} ({fieldsStr}) VALUE ({valueStr})"
+                let sql  = $"INSERT INTO {table} ({fieldsStr}) VALUES ({valueStr})"
 
                 connection.Execute (CommandDefinition (sql, value))
         )
@@ -136,7 +136,7 @@ module PostgreSQL =
                 let (conditionsStr, columnValue) = getParamConditionStr conditions
 
                 let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
-                System.Console.WriteLine sql
+
                 connection.QuerySingle<'T> (sql, columnValue)
         )
 

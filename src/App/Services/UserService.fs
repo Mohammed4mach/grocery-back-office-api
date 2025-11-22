@@ -7,17 +7,15 @@ open Infrastructure.Core.Types
 
 module UserService =
     let index (filters : Condition seq) : User seq =
-        let users = UserRepository.get filters
-
-        users
+        UserRepository.get filters
 
     let show (id : string) : User =
-        let user = UserRepository.find id
-
-        user
+        UserRepository.find id
 
     let store (user : User) : unit =
-        UserRepository.store user
+        let storedUser : User = { user with password = Helpers.Hash.hash(user.password) }
+
+        UserRepository.store storedUser
 
     let update (id : string) (updatedUser : User) : unit =
         let user = UserRepository.find id
