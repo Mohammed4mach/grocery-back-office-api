@@ -10,5 +10,5 @@ type In<'T when 'T : equality> (attributeName : string, value : 'T, collection :
             try
                 collection |> Seq.find (fun (elem : 'T) -> value = elem) |> ignore
             with
-                | :? KeyNotFoundException -> raise (BadRequestError($"Invalid {attributeName}"))
+                | :? KeyNotFoundException -> raise (BadRequestError $"Invalid {attributeName}")
 

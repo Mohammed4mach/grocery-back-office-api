@@ -7,5 +7,5 @@ type Min (attributeName : string, value : string, minVal : int) =
     interface IValidationRule with
         member _.Validate() : unit =
             if value.Length < minVal then
-                raise (MinLengthError($"Min length for {attributeName} is {minVal}"))
+                raise (MinLengthError($"Minimum length for {attributeName} is {minVal}"))
 

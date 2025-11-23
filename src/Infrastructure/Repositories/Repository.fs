@@ -23,7 +23,9 @@ type Repository<'T> =
     member this.find (id : string) : 'T =
         let conditions = [ Helpers.Database.where this.identifier (Some id) ]
 
-        Database.operations.selectSingle this.table conditions
+        let entity = Database.operations.selectSingle this.table conditions
+
+        entity
 
     member this.store (value : 'T) : unit =
         Database.operations.insert this.table this.fillable value |> ignore

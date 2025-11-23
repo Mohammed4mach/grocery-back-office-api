@@ -7,5 +7,5 @@ type Max (attributeName : string, value : int, maxVal : int) =
     interface IValidationRule with
         member _.Validate() : unit =
             if value > maxVal then
-                raise (MaxValueExceededError($"Max value for {attributeName} is {maxVal.ToString()}"))
+                raise (MaxValueExceededError($"Maximum value for {attributeName} is {maxVal.ToString()}"))
 

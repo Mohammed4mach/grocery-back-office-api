@@ -1,8 +1,9 @@
 2025-11-22 Routes & Http handlers timer:2h-31m-51s
 2025-11-06 Middlewares implementations
-2025-11-21 Error handler
+2025-11-21 Error handler timer:0h-59m-47s
 2025-11-06 Write detailed README.md
 2025-11-21 Make super user to control users
+2025-11-23 Dockerize
 x 2025-11-06 2025-11-06 Breakdown tasks timer:0h-18m-24s
 x 2025-11-06 2025-11-06 ERD Design timer:2h-13m-5s
 x 2025-11-06 2025-11-06 ERD Mapping timer:0h-25m-15s

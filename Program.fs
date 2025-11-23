@@ -7,6 +7,7 @@ open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open DotNetEnv
+open Core
 open Infrastructure.Core
 open Http.Handlers
 
@@ -29,14 +30,6 @@ let webApp =
     ]
 
 // ---------------------------------
-// Error handler
-// ---------------------------------
-
-let errorHandler (ex : Exception) (logger : ILogger) =
-    logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
-    clearResponse >=> setStatusCode 500 >=> negotiate {| ``type`` = ex.GetType(); message = ex.Message; trace = ex.StackTrace; |}
-
-// ---------------------------------
 // Config and Main
 // ---------------------------------
 
@@ -55,7 +48,7 @@ let configureApp (app : IApplicationBuilder) =
     | true  ->
         app.UseDeveloperExceptionPage()
     | false ->
-        app .UseGiraffeErrorHandler(errorHandler)
+        app .UseGiraffeErrorHandler(ErrorHandlers.mainHandler)
             .UseHttpsRedirection())
         .UseCors(configureCors)
         .UseGiraffe(webApp)

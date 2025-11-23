@@ -7,5 +7,5 @@ type Min (attributeName : string, value : int, minVal : int) =
     interface IValidationRule with
         member _.Validate() : unit =
             if value < minVal then
-                raise (MinValueError($"Min value for {attributeName} is {minVal.ToString()}"))
+                raise (MinValueError($"Minimum value for {attributeName} is {minVal.ToString()}"))
 

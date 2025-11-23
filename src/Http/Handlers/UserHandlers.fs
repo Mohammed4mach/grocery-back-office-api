@@ -40,6 +40,6 @@ module UserHandlers =
 
                     UserService.store user
 
-                    Successful.CREATED()
+                    Successful.CREATED (negotiate "")
             ) next ctx
 

@@ -46,6 +46,8 @@
         Exclude="src/Http/Re*/**/*.fs"
     />
 
+    <Compile Include="src/Core/ErrorHandlers/**/*.fs" />
+
     <Compile Include="Program.fs" />
 
     <Compile Remove="./assets/*" />

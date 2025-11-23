@@ -1,6 +1,5 @@
 namespace Http.Resources
 
-open System
 open Core.Entities
 
 type DeliveryTimeRuleNotAvailableWeekdayResourceData =
