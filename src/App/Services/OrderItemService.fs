@@ -10,19 +10,19 @@ module OrderItemService =
 
         items
 
-    let show (id : string) : OrderItem =
-        let item = OrderItemRepository.find id
+    let show (id : int) : OrderItem =
+        let item = OrderItemRepository.find (id.ToString())
 
         item
 
     let store (item : OrderItem) : OrderItem =
         OrderItemRepository.store item
 
-    let update (id : string) (updatedItem : OrderItem) : OrderItem =
-        let item = OrderItemRepository.find id
+    let update (id : int) (updatedItem : OrderItem) : OrderItem =
+        let item = OrderItemRepository.find (id.ToString())
 
-        OrderItemRepository.update id updatedItem
+        OrderItemRepository.update (id.ToString()) updatedItem
 
-    let delete (id : string) : unit =
-        OrderItemRepository.delete id
+    let delete (id : int) : unit =
+        OrderItemRepository.delete (id.ToString())
 

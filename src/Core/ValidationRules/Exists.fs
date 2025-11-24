@@ -11,6 +11,6 @@ type Exists<'T> (attributeName: string, value : 'T, table : string, column : str
             let records    = Database.operations.select table conditions
 
             if records.Length < 1 then
-                raise (EntityNotFoundError($"Entity ${table} of ${attributeName} = ${value} not found"))
+                raise (EntityNotFoundError $"Entity {table} of {attributeName} = {value} not found")
             ()
 

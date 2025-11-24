@@ -130,3 +130,6 @@ list name,task description,run time,timer started,timer stopped
 "grocery-back-office-api","Customers endpoints",1500,2025-11-24T09:52:53+0200,2025-11-24T10:17:53+0200
 "grocery-back-office-api","Customers endpoints",1500,2025-11-24T10:18:01+0200,2025-11-24T10:43:01+0200
 "grocery-back-office-api","Customers endpoints",460,2025-11-24T11:04:24+0200,2025-11-24T11:12:04+0200
+"grocery-back-office-api","Weekdays endpoints",50,2025-11-24T11:47:59+0200,2025-11-24T11:48:49+0200
+"grocery-back-office-api","Weekdays endpoints",751,2025-11-24T11:48:58+0200,2025-11-24T12:01:29+0200
+"grocery-back-office-api","Weekdays endpoints",411,2025-11-24T12:53:33+0200,2025-11-24T13:00:25+0200

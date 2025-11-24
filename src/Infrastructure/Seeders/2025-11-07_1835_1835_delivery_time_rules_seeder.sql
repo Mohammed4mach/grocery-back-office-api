@@ -1,18 +1,15 @@
-INSERT INTO delivery_time_rules (id, name, in_advance_days, same_day_deadline) VALUES
+INSERT INTO delivery_time_rules (name, in_advance_days, same_day_deadline) VALUES
     (
-        1,
         'In-Stock Rule',
         0,
         '18:00'
     ),
     (
-        2,
         'Fresh Food Rule',
         0,
         '12:00'
     ),
     (
-        3,
         'External Rule',
         3,
         NULL

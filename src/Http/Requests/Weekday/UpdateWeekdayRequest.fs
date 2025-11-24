@@ -15,7 +15,7 @@ type UpdateWeekdayRequest =
         member this.Rules (): IValidationRule seq =
             [
                 (* Weekday exists *)
-                new Exists<int>("id", this.id, "users", "id")
+                new Exists<int>("id", this.id, "weekdays", "id")
                 (* name validation *)
                 new Required<string>("name", this.name)
                 new Strings.Min("name", this.name, 2); new Strings.Max("name", this.name, 255)

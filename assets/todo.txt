@@ -1,4 +1,4 @@
-2025-11-24 Weekdays endpoints
+2025-11-24 Weekdays endpoints timer:0h-20m-23s
 2025-11-24 DeliveryTimeRule endpoints
 2025-11-24 DeliveryTimeRuleNotAvailableWeekday endpoints
 2025-11-24 ProductStorgaTypes endpoints

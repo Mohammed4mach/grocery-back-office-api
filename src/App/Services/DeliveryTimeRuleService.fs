@@ -10,19 +10,19 @@ module DeliveryTimeRuleService =
 
         rules
 
-    let show (id : string) : DeliveryTimeRule =
-        let rule = DeliveryTimeRuleRepository.find id
+    let show (id : int) : DeliveryTimeRule =
+        let rule = DeliveryTimeRuleRepository.find (id.ToString())
 
         rule
 
     let store (rule : DeliveryTimeRule) : DeliveryTimeRule =
         DeliveryTimeRuleRepository.store rule
 
-    let update (id : string) (updatedRule : DeliveryTimeRule) : DeliveryTimeRule =
-        let rule = DeliveryTimeRuleRepository.find id
+    let update (id : int) (updatedRule : DeliveryTimeRule) : DeliveryTimeRule =
+        let rule = DeliveryTimeRuleRepository.find (id.ToString())
 
-        DeliveryTimeRuleRepository.update id updatedRule
+        DeliveryTimeRuleRepository.update (id.ToString()) updatedRule
 
-    let delete (id : string) : unit =
-        DeliveryTimeRuleRepository.delete id
+    let delete (id : int) : unit =
+        DeliveryTimeRuleRepository.delete (id.ToString())
 

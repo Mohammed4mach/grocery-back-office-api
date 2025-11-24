@@ -10,19 +10,19 @@ module DeliveryTimeRuleNotAvailableWeekdayService =
 
         notAvailableWeekdays
 
-    let show (id : string) : DeliveryTimeRuleNotAvailableWeekday =
-        let notAvailableWeekday = DeliveryTimeRuleNotAvailableWeekdayRepository.find id
+    let show (id : int) : DeliveryTimeRuleNotAvailableWeekday =
+        let notAvailableWeekday = DeliveryTimeRuleNotAvailableWeekdayRepository.find (id.ToString())
 
         notAvailableWeekday
 
     let store (user : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekday =
         DeliveryTimeRuleNotAvailableWeekdayRepository.store user
 
-    let update (id : string) (updatedNotAvailableWeekday : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekday =
-        let notAvailableWeekday = DeliveryTimeRuleNotAvailableWeekdayRepository.find id
+    let update (id : int) (updatedNotAvailableWeekday : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekday =
+        let notAvailableWeekday = DeliveryTimeRuleNotAvailableWeekdayRepository.find (id.ToString())
 
-        DeliveryTimeRuleNotAvailableWeekdayRepository.update id updatedNotAvailableWeekday
+        DeliveryTimeRuleNotAvailableWeekdayRepository.update (id.ToString()) updatedNotAvailableWeekday
 
-    let delete (id : string) : unit =
-        DeliveryTimeRuleNotAvailableWeekdayRepository.delete id
+    let delete (id : int) : unit =
+        DeliveryTimeRuleNotAvailableWeekdayRepository.delete (id.ToString())
 

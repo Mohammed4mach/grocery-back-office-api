@@ -10,19 +10,19 @@ module ProductStorageTypeService =
 
         productTypes
 
-    let show (id : string) : ProductStorageType =
-        let productType = ProductStorageTypeRepository.find id
+    let show (id : int) : ProductStorageType =
+        let productType = ProductStorageTypeRepository.find (id.ToString())
 
         productType
 
     let store (productType : ProductStorageType) : ProductStorageType =
         ProductStorageTypeRepository.store productType
 
-    let update (id : string) (updatedProductStorageType : ProductStorageType) : ProductStorageType =
-        let productType = ProductStorageTypeRepository.find id
+    let update (id : int) (updatedProductStorageType : ProductStorageType) : ProductStorageType =
+        let productType = ProductStorageTypeRepository.find (id.ToString())
 
-        ProductStorageTypeRepository.update id updatedProductStorageType
+        ProductStorageTypeRepository.update (id.ToString()) updatedProductStorageType
 
-    let delete (id : string) : unit =
-        ProductStorageTypeRepository.delete id
+    let delete (id : int) : unit =
+        ProductStorageTypeRepository.delete (id.ToString())
 

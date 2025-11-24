@@ -10,19 +10,19 @@ module WeekdayService =
 
         weekdays
 
-    let show (id : string) : Weekday =
-        let weekday = WeekdayRepository.find id
+    let show (id : int) : Weekday =
+        let weekday = WeekdayRepository.find (id.ToString())
 
         weekday
 
     let store (weekday : Weekday) : Weekday =
         WeekdayRepository.store weekday
 
-    let update (id : string) (updatedWeekday : Weekday) : Weekday =
-        let weekday = WeekdayRepository.find id
+    let update (id : int) (updatedWeekday : Weekday) : Weekday =
+        let weekday = WeekdayRepository.find (id.ToString())
 
-        WeekdayRepository.update id updatedWeekday
+        WeekdayRepository.update (id.ToString()) updatedWeekday
 
-    let delete (id : string) : unit =
-        WeekdayRepository.delete id
+    let delete (id : int) : unit =
+        WeekdayRepository.delete (id.ToString())
 

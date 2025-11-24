@@ -28,6 +28,7 @@ let webApp =
                     POST >=> route "/logout" >=> AuthHandlers.logout
                     Routes.Users.routes
                     Routes.Customers.routes
+                    Routes.Weekdays.routes
                 ]
             ])
         setStatusCode 404 >=> negotiate {| message = "Not Found" |}

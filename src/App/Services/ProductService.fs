@@ -10,19 +10,19 @@ module ProductService =
 
         products
 
-    let show (id : string) : Product =
-        let product = ProductRepository.find id
+    let show (id : int) : Product =
+        let product = ProductRepository.find (id.ToString())
 
         product
 
     let store (product : Product) : Product =
         ProductRepository.store product
 
-    let update (id : string) (updatedProduct : Product) : Product =
-        let product = ProductRepository.find id
+    let update (id : int) (updatedProduct : Product) : Product =
+        let product = ProductRepository.find (id.ToString())
 
-        ProductRepository.update id updatedProduct
+        ProductRepository.update (id.ToString()) updatedProduct
 
-    let delete (id : string) : unit =
-        ProductRepository.delete id
+    let delete (id : int) : unit =
+        ProductRepository.delete (id.ToString())
 
