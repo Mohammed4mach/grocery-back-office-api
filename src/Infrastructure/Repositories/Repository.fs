@@ -27,7 +27,7 @@ type Repository<'T when 'T : equality and 'T : null> =
         let entity = Database.operations.selectSingle this.table conditions
 
         if entity = null then
-            raise (EntityNotFoundError($"Entity {this.table} of id = {id} not found"))
+            raise (EntityNotFoundError $"Entity {this.table} of id = {id} not found")
 
         entity
 
@@ -35,22 +35,22 @@ type Repository<'T when 'T : equality and 'T : null> =
         let entity = Database.operations.selectSingle this.table conditions
 
         if entity = null then
-            raise (EntityNotFoundError($"Entity {this.table} of id = {id} not found"))
+            raise (EntityNotFoundError $"Entity {this.table} of id = {id} not found")
 
         entity
 
-    member this.store (value : 'T) : unit =
-        Database.operations.insert this.table this.fillable value |> ignore
+    member this.store (value : 'T) : 'T =
+        Database.operations.insert this.table this.fillable value
 
-    member this.update (id : string) (value : 'T) : unit =
+    member this.update<'T, 'U> (id : string) (value : 'T) : 'T =
         let conditions = [ Helpers.Database.where this.identifier (Some id) ]
 
-        Database.operations.update this.table this.fillable value conditions |> ignore
+        Database.operations.update this.table this.fillable value conditions
 
-    member this.partialUpdate (id : string) (fields : string seq) (value : 'U) : unit =
+    member this.partialUpdate (id : string) (fields : string seq) (value : 'T) : 'T =
         let conditions = [ Helpers.Database.where this.identifier (Some id) ]
 
-        Database.operations.update this.table fields value conditions |> ignore
+        Database.operations.update this.table fields value conditions
 
     member this.delete (id : string) : unit =
         let conditions = [ Helpers.Database.where this.identifier (Some id) ]

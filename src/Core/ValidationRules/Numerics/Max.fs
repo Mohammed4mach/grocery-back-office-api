@@ -3,7 +3,7 @@ namespace Core.ValidationRules.Numerics
 open Core.Interfaces
 open Core.Exceptions.Validation
 
-type Max (attributeName : string, value : int, maxVal : int) =
+type Max<'T when ^T : comparison>(attributeName : string, value : 'T, maxVal : 'T) =
     interface IValidationRule with
         member _.Validate() : unit =
             if value > maxVal then

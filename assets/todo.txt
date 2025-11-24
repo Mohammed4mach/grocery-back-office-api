@@ -1,5 +1,10 @@
-2025-11-22 Routes & Http handlers timer:8h-22m-21s
-2025-11-23 Authentication
+2025-11-24 Weekdays endpoints
+2025-11-24 DeliveryTimeRule endpoints
+2025-11-24 DeliveryTimeRuleNotAvailableWeekday endpoints
+2025-11-24 ProductStorgaTypes endpoints
+2025-11-24 Products endpoints
+2025-11-24 Order endpoints
+2025-11-24 OrderItems endpoints
 2025-11-06 Write detailed README.md
 2025-11-21 Make super user to control users
 2025-11-23 Dockerize
@@ -23,3 +28,6 @@ x 2025-11-22 2025-11-06 Routes & Http handlers timer:0h-32m-42s
 x 2025-11-22 2025-11-06 Validation & Rules definitions timer:2h-27m-25s
 x 2025-11-23 2025-11-21 Error handler timer:0h-59m-47s
 x 2025-11-23 2025-11-23 Authentication timer:2h-50m-2s
+x 2025-11-24 2025-11-22 Routes & Http handlers timer:8h-28m-39s
+x 2025-11-24 2025-11-23 Authentication
+x 2025-11-24 2025-11-24 Customers endpoints timer:4h-16m-3s

@@ -12,12 +12,12 @@ module UserService =
     let show (id : int) : User =
         UserRepository.find (id.ToString())
 
-    let store (user : User) : unit =
+    let store (user : User) : User =
         let storedUser : User = { user with password = Helpers.Hash.hash user.password }
 
         UserRepository.store storedUser
 
-    let update (id : int) (updatedUser : User) : unit =
+    let update (id : int) (updatedUser : User) : User =
         let user = UserRepository.find (id.ToString())
 
         if not(Helpers.Hash.verifyHashed updatedUser.password user.password) then
@@ -27,15 +27,15 @@ module UserService =
 
         UserRepository.update (id.ToString()) values
 
-    let updatePassword (id : int) (password : string) (newPassword : string) =
+    let updatePassword (id : int) (password : string) (newPassword : string) : User =
         let user = UserRepository.find (id.ToString())
 
         if not(Helpers.Hash.verifyHashed password user.password) then
             raise (AuthenticationException "Wrong Password")
 
-        let values = {| password = Helpers.Hash.hash newPassword |}
+        let updatedUser : User = { user with password = Helpers.Hash.hash newPassword }
 
-        UserRepository.partialUpdate (id.ToString()) ["password"] values
+        UserRepository.partialUpdate (id.ToString()) ["password"] updatedUser
 
     let delete (id : int) : unit =
         UserRepository.delete (id.ToString())

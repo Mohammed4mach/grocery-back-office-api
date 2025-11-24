@@ -8,7 +8,6 @@ module DeliveryTimeRule =
         Repository.Default with
             table = "delivery_time_rules"
             fillable = [
-                "id"
                 "name"
                 "in_advance_days"
                 "same_day_deadline"

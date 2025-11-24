@@ -8,7 +8,6 @@ module Product =
         Repository.Default with
             table = "products"
             fillable = [
-                "id"
                 "name"
                 "price"
                 "description"

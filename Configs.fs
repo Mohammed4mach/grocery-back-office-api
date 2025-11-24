@@ -1,20 +1,33 @@
 namespace Configs
 
-open System
+open DotNetEnv
 
 module App =
-    let name     = Environment.GetEnvironmentVariable("APP_NAME")
-    let env      = Environment.GetEnvironmentVariable("APP_ENV")
-    let timezone = Environment.GetEnvironmentVariable("APP_TIMEZONE")
+    let mutable name     = Env.GetString "APP_NAME"
+    let mutable env      = Env.GetString "APP_ENV"
+    let mutable timezone = Env.GetString "APP_TIMEZONE"
 
 module Database =
-    let connection = Environment.GetEnvironmentVariable("DB_CONNECTION")
-    let host       = Environment.GetEnvironmentVariable("DB_HOST")
-    let port       = Environment.GetEnvironmentVariable("DB_PORT")
-    let database   = Environment.GetEnvironmentVariable("DB_DATABASE")
-    let username   = Environment.GetEnvironmentVariable("DB_USERNAME")
-    let password   = Environment.GetEnvironmentVariable("DB_PASSWORD")
+    let mutable connection = Env.GetString "DB_CONNECTION"
+    let mutable host       = Env.GetString "DB_HOST"
+    let mutable port       = Env.GetInt "DB_PORT"
+    let mutable database   = Env.GetString "DB_DATABASE"
+    let mutable username   = Env.GetString "DB_USERNAME"
+    let mutable password   = Env.GetString "DB_PASSWORD"
 
 module Auth =
-    let realm = App.name
+    let mutable realm = App.name
+
+module Helpers =
+    let refreshConfigs() =
+        App.name            <- Env.GetString "APP_NAME"
+        App.env             <- Env.GetString "APP_ENV"
+        App.timezone        <- Env.GetString "APP_TIMEZONE"
+        Database.connection <- Env.GetString "DB_CONNECTION"
+        Database.host       <- Env.GetString "DB_HOST"
+        Database.port       <- Env.GetInt "DB_PORT"
+        Database.database   <- Env.GetString "DB_DATABASE"
+        Database.username   <- Env.GetString "DB_USERNAME"
+        Database.password   <- Env.GetString "DB_PASSWORD"
+        Auth.realm          <- App.name
 

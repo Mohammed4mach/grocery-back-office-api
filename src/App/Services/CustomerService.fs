@@ -10,19 +10,17 @@ module CustomerService =
 
         customers
 
-    let show (id : string) : Customer =
-        let customer = CustomerRepository.find id
+    let show (id : int) : Customer =
+        let customer = CustomerRepository.find (id.ToString())
 
         customer
 
-    let store (customer : Customer) : unit =
+    let store (customer : Customer) : Customer =
         CustomerRepository.store customer
 
-    let update (id : string) (updatedCustomer : Customer) : unit =
-        let customer = CustomerRepository.find id
+    let update (id : int) (updatedCustomer : Customer) : Customer =
+        CustomerRepository.update (id.ToString()) updatedCustomer
 
-        CustomerRepository.update id updatedCustomer
-
-    let delete (id : string) : unit =
-        CustomerRepository.delete id
+    let delete (id : int) : unit =
+        CustomerRepository.delete (id.ToString())
 

@@ -14,8 +14,8 @@ module Types =
 
     type Operations<'T> =
         {
-            insert : string -> string seq -> 'T -> int
-            update : string -> string seq -> 'T -> Condition seq -> int
+            insert : string -> string seq -> 'T -> 'T
+            update : string -> string seq -> 'T -> Condition seq -> 'T
             delete : string -> Condition seq -> int
             select : string -> Condition seq -> 'T list
             execute : ExecuteParameter -> int

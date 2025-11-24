@@ -8,7 +8,6 @@ module Customer =
         Repository.Default with
             table = "customers"
             fillable = [
-                "id"
                 "fullname"
                 "address"
             ]

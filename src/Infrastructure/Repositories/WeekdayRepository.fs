@@ -8,7 +8,6 @@ module Weekday =
         Repository.Default with
             table = "weekdays"
             fillable = [
-                "id"
                 "name"
                 "code"
             ]

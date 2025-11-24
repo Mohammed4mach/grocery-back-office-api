@@ -11,7 +11,9 @@ open Giraffe
 open DotNetEnv
 open Core
 open Infrastructure.Core
+open Http
 open Http.Handlers
+open Http.Middlewares
 
 // ---------------------------------
 // Web app
@@ -22,16 +24,11 @@ let webApp =
         subRoute "/api"
             (choose [
                 POST >=> route "/login" >=> AuthHandlers.login
-                POST >=> route "/logout" >=> AuthHandlers.logout
-                subRoute "/users"
-                    (choose [
-                        GET  >=> route "" >=> UserHandlers.index
-                        GET  >=> route "/me" >=> UserHandlers.show
-                        POST >=> route "" >=> UserHandlers.store
-                        PUT >=> route "/me" >=> UserHandlers.update
-                        PATCH >=> route "/me/credentials" >=> UserHandlers.updateCredentials
-                        DELETE >=> routef "/%i" UserHandlers.delete
-                    ])
+                Auth.authenticated >=> choose [
+                    POST >=> route "/logout" >=> AuthHandlers.logout
+                    Routes.Users.routes
+                    Routes.Customers.routes
+                ]
             ])
         setStatusCode 404 >=> negotiate {| message = "Not Found" |}
     ]
@@ -82,6 +79,7 @@ let configureLogging (builder : ILoggingBuilder) =
 [<EntryPoint>]
 let main args =
     Env.Load() |> ignore
+    Configs.Helpers.refreshConfigs()
 
     Database.configure() |> ignore
 

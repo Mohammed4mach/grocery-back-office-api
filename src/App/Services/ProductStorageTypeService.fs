@@ -15,10 +15,10 @@ module ProductStorageTypeService =
 
         productType
 
-    let store (productType : ProductStorageType) : unit =
+    let store (productType : ProductStorageType) : ProductStorageType =
         ProductStorageTypeRepository.store productType
 
-    let update (id : string) (updatedProductStorageType : ProductStorageType) : unit =
+    let update (id : string) (updatedProductStorageType : ProductStorageType) : ProductStorageType =
         let productType = ProductStorageTypeRepository.find id
 
         ProductStorageTypeRepository.update id updatedProductStorageType

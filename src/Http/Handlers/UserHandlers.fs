@@ -5,7 +5,6 @@ open Giraffe
 open Helpers.Validation
 open Core.Entities
 open Core.Exceptions.Authorization
-open Core.Enums.Http
 open Infrastructure.Core.Types
 open App.Services
 open Http.Resources
@@ -47,9 +46,9 @@ module UserHandlers =
                         is_super = request.is_super
                     }
 
-                    UserService.store user
+                    let resource = UserResource.ofEntity (UserService.store user)
 
-                    Successful.CREATED (negotiate "")
+                    negotiate resource
             ) next ctx
 
     let update : HttpHandler =
@@ -70,9 +69,8 @@ module UserHandlers =
                         password = request.password
                         is_super = isSuper
                     }
-                    let resource : UserResource = UserResource.ofEntity user
 
-                    UserService.update id user
+                    let resource = UserResource.ofEntity (UserService.update id user)
 
                     negotiate resource
             ) next ctx
@@ -85,9 +83,9 @@ module UserHandlers =
 
                     validate request
 
-                    UserService.updatePassword id request.password request.new_password
+                    let resource = UserResource.ofEntity (UserService.updatePassword id request.password request.new_password)
 
-                    setStatusCode (int HttpStatus.OK)
+                    negotiate resource
             ) next ctx
 
     let delete (id : int) : HttpHandler =

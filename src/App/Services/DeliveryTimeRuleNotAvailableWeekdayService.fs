@@ -15,10 +15,10 @@ module DeliveryTimeRuleNotAvailableWeekdayService =
 
         notAvailableWeekday
 
-    let store (user : DeliveryTimeRuleNotAvailableWeekday) : unit =
+    let store (user : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekday =
         DeliveryTimeRuleNotAvailableWeekdayRepository.store user
 
-    let update (id : string) (updatedNotAvailableWeekday : DeliveryTimeRuleNotAvailableWeekday) : unit =
+    let update (id : string) (updatedNotAvailableWeekday : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekday =
         let notAvailableWeekday = DeliveryTimeRuleNotAvailableWeekdayRepository.find id
 
         DeliveryTimeRuleNotAvailableWeekdayRepository.update id updatedNotAvailableWeekday

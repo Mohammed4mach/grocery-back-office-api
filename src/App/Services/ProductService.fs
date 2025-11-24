@@ -15,10 +15,10 @@ module ProductService =
 
         product
 
-    let store (product : Product) : unit =
+    let store (product : Product) : Product =
         ProductRepository.store product
 
-    let update (id : string) (updatedProduct : Product) : unit =
+    let update (id : string) (updatedProduct : Product) : Product =
         let product = ProductRepository.find id
 
         ProductRepository.update id updatedProduct

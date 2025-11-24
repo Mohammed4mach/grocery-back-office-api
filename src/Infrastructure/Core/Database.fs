@@ -22,7 +22,7 @@ module Database =
             | connection when connection = pgsqlKey -> pgsqlOperations
             | connection when connection = mysqlKey -> mysqlOperations
             | connection when connection = mssqlKey -> mssqlOperations
-            | __ -> raise (DatabaseChoosingError ($"Database connection choosed is not valid. Check your configs {__}"))
+            | __ -> raise (DatabaseChoosingError $"Database connection choosed is not valid. Check your configs {__}")
 
     let configure () : unit =
         operations.configureDatabase()

@@ -15,10 +15,10 @@ module DeliveryTimeRuleService =
 
         rule
 
-    let store (rule : DeliveryTimeRule) : unit =
+    let store (rule : DeliveryTimeRule) : DeliveryTimeRule =
         DeliveryTimeRuleRepository.store rule
 
-    let update (id : string) (updatedRule : DeliveryTimeRule) : unit =
+    let update (id : string) (updatedRule : DeliveryTimeRule) : DeliveryTimeRule =
         let rule = DeliveryTimeRuleRepository.find id
 
         DeliveryTimeRuleRepository.update id updatedRule

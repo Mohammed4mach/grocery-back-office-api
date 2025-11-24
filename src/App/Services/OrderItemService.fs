@@ -15,10 +15,10 @@ module OrderItemService =
 
         item
 
-    let store (item : OrderItem) : unit =
+    let store (item : OrderItem) : OrderItem =
         OrderItemRepository.store item
 
-    let update (id : string) (updatedItem : OrderItem) : unit =
+    let update (id : string) (updatedItem : OrderItem) : OrderItem =
         let item = OrderItemRepository.find id
 
         OrderItemRepository.update id updatedItem

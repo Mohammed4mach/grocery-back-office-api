@@ -8,7 +8,6 @@ module OrderItem =
         Repository.Default with
             table = "order_items"
             fillable = [
-                "id"
                 "cost_per_item"
                 "quantity"
                 "product_id"

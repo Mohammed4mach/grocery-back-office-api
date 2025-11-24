@@ -15,10 +15,10 @@ module WeekdayService =
 
         weekday
 
-    let store (weekday : Weekday) : unit =
+    let store (weekday : Weekday) : Weekday =
         WeekdayRepository.store weekday
 
-    let update (id : string) (updatedWeekday : Weekday) : unit =
+    let update (id : string) (updatedWeekday : Weekday) : Weekday =
         let weekday = WeekdayRepository.find id
 
         WeekdayRepository.update id updatedWeekday
