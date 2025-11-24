@@ -14,9 +14,9 @@ type UpdatePasswordRequest =
         member this.Rules (): IValidationRule seq =
             [
                 (* password validation *)
-                new Required("password", this.password)
+                new Required<string>("password", this.password)
                 (* password validation *)
-                new Required("new_password", this.new_password)
+                new Required<string>("new_password", this.new_password)
                 new Strings.Min("new_password", this.new_password, 8); new Strings.Max("new_password", this.new_password, 255)
             ]
 

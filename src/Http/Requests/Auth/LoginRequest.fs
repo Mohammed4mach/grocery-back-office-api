@@ -14,8 +14,8 @@ type LoginRequest =
         member this.Rules (): IValidationRule seq =
             [
                 (* username validation *)
-                new Required("username", this.username)
+                new Required<string>("username", this.username)
                 (* password validation *)
-                new Required("password", this.password)
+                new Required<string>("password", this.password)
             ]
 
