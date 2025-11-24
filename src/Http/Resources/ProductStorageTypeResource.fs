@@ -6,8 +6,15 @@ type ProductStorageTypeResourceData =
     {
         id: int
         name: string
-        delivery_time_rule_id: string
+        delivery_time_rule_id: int
     }
+
+    static member ofEntity (_type : ProductStorageType) : ProductStorageTypeResourceData =
+        {
+            id                    = _type.id
+            name                  = _type.name
+            delivery_time_rule_id = _type.delivery_time_rule_id
+        }
 
 type ProductStorageTypeResource =
     {
@@ -15,13 +22,5 @@ type ProductStorageTypeResource =
     }
 
     static member ofEntity (_type : ProductStorageType) : ProductStorageTypeResource =
-        let data : ProductStorageTypeResourceData = {
-            id                    = _type.id
-            name                  = _type.name
-            delivery_time_rule_id = _type.delivery_time_rule_id
-        }
-
-        let resource : ProductStorageTypeResource = { data = data }
-
-        resource
+        { data = ProductStorageTypeResourceData.ofEntity _type }
 

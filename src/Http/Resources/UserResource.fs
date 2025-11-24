@@ -10,20 +10,19 @@ type UserResourceData =
         is_super : bool
     }
 
-type UserResource =
-    {
-        data : UserResourceData
-    }
-
-    static member ofEntity (user : User) : UserResource =
-        let data : UserResourceData = {
+    static member ofEntity (user : User) : UserResourceData =
+        {
             id       = user.id
             fullname = user.fullname
             username = user.username
             is_super = user.is_super
         }
 
-        let resource : UserResource = { data = data }
+type UserResource =
+    {
+        data : UserResourceData
+    }
 
-        resource
+    static member ofEntity (user : User) : UserResource =
+        { data = UserResourceData.ofEntity user }
 

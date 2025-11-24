@@ -9,19 +9,19 @@ type CustomerResourceData =
         address: string
     }
 
+    static member ofEntity (customer : Customer) : CustomerResourceData =
+        {
+            id       = customer.id
+            fullname = customer.fullname
+            address  = customer.address
+        }
+
+
 type CustomerResource =
     {
         data : CustomerResourceData
     }
 
     static member ofEntity (customer : Customer) : CustomerResource =
-        let data : CustomerResourceData = {
-            id       = customer.id
-            fullname = customer.fullname
-            address  = customer.address
-        }
-
-        let resource : CustomerResource = { data = data }
-
-        resource
+        { data = CustomerResourceData.ofEntity customer }
 

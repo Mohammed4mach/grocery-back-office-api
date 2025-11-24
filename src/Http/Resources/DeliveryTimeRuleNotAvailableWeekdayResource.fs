@@ -9,19 +9,18 @@ type DeliveryTimeRuleNotAvailableWeekdayResourceData =
         weekday_id: int
     }
 
+    static member ofEntity (rule : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekdayResourceData =
+        {
+            id                    = rule.id
+            delivery_time_rule_id = rule.delivery_time_rule_id
+            weekday_id            = rule.weekday_id
+        }
+
 type DeliveryTimeRuleNotAvailableWeekdayResource =
     {
         data : DeliveryTimeRuleNotAvailableWeekdayResourceData
     }
 
     static member ofEntity (rule : DeliveryTimeRuleNotAvailableWeekday) : DeliveryTimeRuleNotAvailableWeekdayResource =
-        let data : DeliveryTimeRuleNotAvailableWeekdayResourceData = {
-            id                    = rule.id
-            delivery_time_rule_id = rule.delivery_time_rule_id
-            weekday_id            = rule.weekday_id
-        }
-
-        let resource : DeliveryTimeRuleNotAvailableWeekdayResource = { data = data }
-
-        resource
+        { data = DeliveryTimeRuleNotAvailableWeekdayResourceData.ofEntity rule }
 

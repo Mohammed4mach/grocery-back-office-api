@@ -9,19 +9,18 @@ type WeekdayResourceData =
         code: string
     }
 
+    static member ofEntity (weekday : Weekday) : WeekdayResourceData =
+        {
+            id   = weekday.id
+            name = weekday.name
+            code = weekday.code
+        }
+
 type WeekdayResource =
     {
         data : WeekdayResourceData
     }
 
     static member ofEntity (weekday : Weekday) : WeekdayResource =
-        let data : WeekdayResourceData = {
-            id   = weekday.id
-            name = weekday.name
-            code = weekday.code
-        }
-
-        let resource : WeekdayResource = { data = data }
-
-        resource
+        { data = WeekdayResourceData.ofEntity weekday }
 

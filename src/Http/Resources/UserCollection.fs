@@ -11,15 +11,8 @@ type UserCollection =
         let data : UserResourceData seq =
             seq {
                 for user in users do
-                    yield {
-                        id       = user.id
-                        fullname = user.fullname
-                        username = user.username
-                        is_super = user.is_super
-                    }
+                    yield UserResourceData.ofEntity user
             }
 
-        let resource : UserCollection = { data = data }
-
-        resource
+        { data = data }
 

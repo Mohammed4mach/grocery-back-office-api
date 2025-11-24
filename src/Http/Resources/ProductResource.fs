@@ -11,13 +11,8 @@ type ProductResourceData =
         product_storage_type_id: int
     }
 
-type ProductResource =
-    {
-        data : ProductResourceData
-    }
-
-    static member ofEntity (product : Product) : ProductResource =
-        let data : ProductResourceData = {
+    static member ofEntity (product : Product) : ProductResourceData =
+        {
             id                      = product.id
             name                    = product.name
             price                   = product.price
@@ -25,7 +20,11 @@ type ProductResource =
             product_storage_type_id = product.product_storage_type_id
         }
 
-        let resource : ProductResource = { data = data }
+type ProductResource =
+    {
+        data : ProductResourceData
+    }
 
-        resource
+    static member ofEntity (product : Product) : ProductResource =
+        { data = ProductResourceData.ofEntity product }
 

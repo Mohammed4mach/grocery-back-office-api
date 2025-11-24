@@ -11,13 +11,8 @@ type OrderItemResourceData =
         order_id: int
     }
 
-type OrderItemResource =
-    {
-        data : OrderItemResourceData
-    }
-
-    static member ofEntity (item : OrderItem) : OrderItemResource =
-        let data : OrderItemResourceData = {
+    static member ofEntity (item : OrderItem) : OrderItemResourceData =
+        {
             id            = item.id
             cost_per_item = item.cost_per_item
             quantity      = item.quantity
@@ -25,7 +20,11 @@ type OrderItemResource =
             order_id      = item.order_id
         }
 
-        let resource : OrderItemResource = { data = data }
+type OrderItemResource =
+    {
+        data : OrderItemResourceData
+    }
 
-        resource
+    static member ofEntity (item : OrderItem) : OrderItemResource =
+        { data = OrderItemResourceData.ofEntity item }
 

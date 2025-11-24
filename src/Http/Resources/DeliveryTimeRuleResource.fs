@@ -11,20 +11,19 @@ type DeliveryTimeRuleResourceData =
         same_day_deadline: DateTime
     }
 
-type DeliveryTimeRuleResource =
-    {
-        data : DeliveryTimeRuleResourceData
-    }
-
-    static member ofEntity (rule : DeliveryTimeRule) : DeliveryTimeRuleResource =
-        let data : DeliveryTimeRuleResourceData = {
+    static member ofEntity (rule : DeliveryTimeRule) : DeliveryTimeRuleResourceData =
+        {
             id                = rule.id
             name              = rule.name
             in_advance_days   = rule.in_advance_days
             same_day_deadline = rule.same_day_deadline
         }
 
-        let resource : DeliveryTimeRuleResource = { data = data }
+type DeliveryTimeRuleResource =
+    {
+        data : DeliveryTimeRuleResourceData
+    }
 
-        resource
+    static member ofEntity (rule : DeliveryTimeRule) : DeliveryTimeRuleResource =
+        { data = DeliveryTimeRuleResourceData.ofEntity rule }
 
