@@ -12,6 +12,9 @@ module Database =
     let where (column : string) (value : string option) =
         makeCondition column value (Some "=")
 
+    let whereNot (column : string) (value : string option) =
+        makeCondition column value (Some "<>")
+
     let whereIn (column : string) (values : string seq) =
         let valueStr = (values |> Seq.fold (fun (acc) (value) -> $"{acc} {value}, ") "").Trim ','
 

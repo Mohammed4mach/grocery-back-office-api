@@ -9,24 +9,34 @@ module UserService =
     let index (filters : Condition seq) : User seq =
         UserRepository.get filters
 
-    let show (id : string) : User =
-        UserRepository.find id
+    let show (id : int) : User =
+        UserRepository.find (id.ToString())
 
     let store (user : User) : unit =
-        let storedUser : User = { user with password = Helpers.Hash.hash(user.password) }
+        let storedUser : User = { user with password = Helpers.Hash.hash user.password }
 
         UserRepository.store storedUser
 
-    let update (id : string) (updatedUser : User) : unit =
-        let user = UserRepository.find id
+    let update (id : int) (updatedUser : User) : unit =
+        let user = UserRepository.find (id.ToString())
 
         if not(Helpers.Hash.verifyHashed updatedUser.password user.password) then
-            raise (AuthenticationException("Invalid Password"))
+            raise (AuthenticationException "Wrong Password")
 
-        let values = { updatedUser with password = Helpers.Hash.hash(updatedUser.password) }
+        let values = { updatedUser with password = Helpers.Hash.hash updatedUser.password }
 
-        UserRepository.update id values
+        UserRepository.update (id.ToString()) values
 
-    let delete (id : string) : unit =
-        UserRepository.delete id
+    let updatePassword (id : int) (password : string) (newPassword : string) =
+        let user = UserRepository.find (id.ToString())
+
+        if not(Helpers.Hash.verifyHashed password user.password) then
+            raise (AuthenticationException "Wrong Password")
+
+        let values = {| password = Helpers.Hash.hash newPassword |}
+
+        UserRepository.partialUpdate (id.ToString()) ["password"] values
+
+    let delete (id : int) : unit =
+        UserRepository.delete (id.ToString())
 

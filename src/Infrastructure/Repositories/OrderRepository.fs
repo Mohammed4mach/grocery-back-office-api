@@ -4,7 +4,7 @@ open Core.Entities
 
 [<AutoOpen>]
 module Order =
-    let OrderRepository : Repository<Order> = {
+    let OrderRepository : Repository<Order | null> = {
         Repository.Default with
             table = "orders"
             fillable = [

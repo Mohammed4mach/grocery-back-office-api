@@ -3,11 +3,20 @@ all: watch
 watch:
 	dotnet watch run
 
+run:
+	dotnet run
+
 build:
 	dotnet build
 
-run:
-	dotnet run
+build-debug:
+	dotnet build --configuration Debug
+
+build-release:
+	dotnet build --configuration release
+
+clean:
+	dotnet clean
 
 migrate:
 	dotnet fsi ./src/Infrastructure/Scripts/migrate.fsx

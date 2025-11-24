@@ -2,9 +2,10 @@ namespace Core.Entities
 
 [<CLIMutable>]
 type User = {
-    id: int
-    fullname: string
-    username: string
-    password: string
+    id       : int
+    fullname : string
+    username : string
+    password : string
+    is_super : bool
 }
 

@@ -1,6 +1,7 @@
-INSERT INTO users (fullname, username, password) VALUES (
+INSERT INTO users (fullname, username, password, is_super) VALUES (
     'Admin',
     'admin',
-    '$2a$12$ziKkjouWPk9AANpKn0dQ1.IEB4XtTq.Vx8bCubnOZ0eI3T4QaLU8u'
+    '$2a$12$zotlO6RNyhovYK8j0LG1MOEZmAqofXUf/YIgmA4Sy4mnzCQKg7Phu',/* admin123 */
+    true
 )
 

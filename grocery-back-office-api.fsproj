@@ -27,6 +27,7 @@
     <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
     <Compile Include="src/Infrastructure/Core/*.fs" />
 
+    <Compile Include="src/Core/Enums/**/*.fs" />
     <Compile Include="src/Core/Entities/**/*.fs" />
 
     <Compile Include="src/Core/ValidationRules/**/*.fs" />

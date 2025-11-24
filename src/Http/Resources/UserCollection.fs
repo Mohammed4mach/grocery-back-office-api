@@ -15,6 +15,7 @@ type UserCollection =
                         id       = user.id
                         fullname = user.fullname
                         username = user.username
+                        is_super = user.is_super
                     }
             }
 

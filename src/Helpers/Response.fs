@@ -1,7 +1,5 @@
 namespace Helpers
 
-open Core.Interfaces
-
 module Response =
     [<CLIMutable>]
     type ErrorResponseBody = {

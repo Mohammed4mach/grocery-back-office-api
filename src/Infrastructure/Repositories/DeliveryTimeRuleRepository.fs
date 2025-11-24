@@ -4,7 +4,7 @@ open Core.Entities
 
 [<AutoOpen>]
 module DeliveryTimeRule =
-    let DeliveryTimeRuleRepository : Repository<DeliveryTimeRule> = {
+    let DeliveryTimeRuleRepository : Repository<DeliveryTimeRule | null> = {
         Repository.Default with
             table = "delivery_time_rules"
             fillable = [

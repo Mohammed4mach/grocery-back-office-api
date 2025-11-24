@@ -4,7 +4,7 @@ open Core.Entities
 
 [<AutoOpen>]
 module DeliveryTimeRuleNotAvailableWeekday =
-    let DeliveryTimeRuleNotAvailableWeekdayRepository : Repository<DeliveryTimeRuleNotAvailableWeekday> = {
+    let DeliveryTimeRuleNotAvailableWeekdayRepository : Repository<DeliveryTimeRuleNotAvailableWeekday | null> = {
         Repository.Default with
             table = "delivery_time_rule_not_available_weekdays"
             fillable = [
