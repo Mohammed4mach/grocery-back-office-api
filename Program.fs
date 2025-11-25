@@ -29,6 +29,12 @@ let webApp =
                     Routes.Users.routes
                     Routes.Customers.routes
                     Routes.Weekdays.routes
+                    Routes.DeliveryTimeRules.routes
+                    Routes.DeliveryTimeRuleNotAvailableWeekdays.routes
+                    Routes.ProductStorageTypes.routes
+                    Routes.Products.routes
+                    Routes.Orders.routes
+                    Routes.OrderItems.routes
                 ]
             ])
         setStatusCode 404 >=> negotiate {| message = "Not Found" |}

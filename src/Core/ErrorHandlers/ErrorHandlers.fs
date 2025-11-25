@@ -20,6 +20,7 @@ module ErrorHandlers =
             | MinLengthError message
             | MinValueError message
             | NotUniqueValidationError message
+            | UnmatchedFormatError message
             | RequiredFieldError message -> RequestErrors.badRequest (negotiate (getErrorBody message (int HttpStatus.Bad_Request)))
             | AuthenticationException message -> RequestErrors.unauthorized "Cookie" Configs.Auth.realm (negotiate (getErrorBody message (int HttpStatus.Unauthorized)))
             | AuthorizationException message -> RequestErrors.forbidden (negotiate (getErrorBody message (int HttpStatus.Forbidden)))

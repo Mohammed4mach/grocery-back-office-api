@@ -9,12 +9,17 @@ type UpdateProductRequest =
         mutable id              : int
         name                    : string
         price                   : float
-        description             : string
+        description             : string option
         product_storage_type_id : int
     }
 
     interface IValidatable with
         member this.Rules (): IValidationRule seq =
+            let description =
+                match this.description with
+                | Some desc -> desc
+                | None -> ""
+
             [
                 (* Product exists *)
                 new Exists<int>("id", this.id, "products", "id")
@@ -25,8 +30,7 @@ type UpdateProductRequest =
                 new Required<float>("price", this.price)
                 new Numerics.Min<float>("price", this.price, 0.01); new Numerics.Max<float>("price", this.price, 9999999)
                 (* description validation *)
-                new Required<string>("description", this.description)
-                new Strings.Min("description", this.description, 8); new Strings.Max("description", this.description, 35500)
+                new Strings.Max("description", description, 35500)
                 (* ProductStorageType exists *)
                 new Exists<int>("product_storage_type_id", this.product_storage_type_id, "product_storage_types", "id")
             ]

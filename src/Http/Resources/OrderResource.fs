@@ -8,8 +8,8 @@ type OrderResourceData =
         id: int
         total_cost: float
         order_time: DateTime
-        delivery_date: DateTime
-        delivery_time: DateTime
+        delivery_date: DateOnly option
+        delivery_time: TimeOnly option
         is_green_delivery: bool
         user_id: int
         customer_id: int

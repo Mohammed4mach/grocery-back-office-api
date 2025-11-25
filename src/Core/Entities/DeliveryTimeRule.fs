@@ -7,6 +7,6 @@ type DeliveryTimeRule = {
     id: int
     name: string
     in_advance_days: int
-    same_day_deadline: DateTime
+    same_day_deadline: Nullable<TimeOnly>
 }
 

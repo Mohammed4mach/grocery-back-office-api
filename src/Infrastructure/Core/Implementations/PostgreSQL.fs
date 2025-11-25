@@ -9,6 +9,32 @@ open Infrastructure.Core.Types
 open Infrastructure.Core.Exceptions
 
 module PostgreSQL =
+    type private TimeOnlyHandler() =
+        inherit SqlMapper.TypeHandler<TimeOnly>()
+
+        override _.SetValue(param, value) =
+            (param :?> NpgsqlParameter).Value <- value
+
+        override _.Parse(value) =
+            match value with
+            | :? TimeSpan as ts -> TimeOnly(ts.Hours, ts.Minutes, ts.Seconds)
+            | :? DateTime as dt -> TimeOnly(dt.Hour, dt.Minute, dt.Second)
+            | :? TimeOnly as _to -> _to
+            | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
+
+    type private TimeOnlyOptionHandler() =
+        inherit SqlMapper.TypeHandler<TimeOnly option>()
+
+        override _.SetValue(param, _option) =
+            (param :?> NpgsqlParameter).Value <- _option
+
+        override _.Parse(value) =
+            match value with
+            | :? TimeSpan as ts -> Some(TimeOnly(ts.Hours, ts.Minutes, ts.Seconds))
+            | :? DateTime as dt -> Some(TimeOnly(dt.Hour, dt.Minute, dt.Second))
+            | :? TimeOnly as _to -> Some(_to)
+            | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
+
     let private getConnectionString () =
         let host     = Configs.Database.host
         let port     = Configs.Database.port
@@ -28,17 +54,20 @@ module PostgreSQL =
         if connection = null then
             raise (DatabaseConnectionError "Error connecting with PostgreSQL DBMS")
 
+        SqlMapper.AddTypeHandler(TimeOnlyHandler())
+        SqlMapper.AddTypeHandler(TimeOnlyOptionHandler())
         PostgreSQL.OptionTypes.register()
 
     let private useConnection (useCase : IDbConnection -> 'T) : 'T =
-        let connection = getConnection()
+        let dsBuilder  = new NpgsqlDataSourceBuilder(getConnectionString())
+        let datasource = dsBuilder.Build()
+        let connection = datasource.OpenConnection()
 
         if connection = null then
             raise (DatabaseConnectionError "Error connecting with PostgreSQL DBMS")
 
         try
             try
-                connection.Open()
                 connection |> useCase
             with __ -> reraise()
         finally

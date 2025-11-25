@@ -1,5 +1,3 @@
-2025-11-24 Weekdays endpoints timer:0h-20m-23s
-2025-11-24 DeliveryTimeRule endpoints
 2025-11-24 DeliveryTimeRuleNotAvailableWeekday endpoints
 2025-11-24 ProductStorgaTypes endpoints
 2025-11-24 Products endpoints
@@ -31,3 +29,5 @@ x 2025-11-23 2025-11-23 Authentication timer:2h-50m-2s
 x 2025-11-24 2025-11-22 Routes & Http handlers timer:8h-28m-39s
 x 2025-11-24 2025-11-23 Authentication
 x 2025-11-24 2025-11-24 Customers endpoints timer:4h-16m-3s
+x 2025-11-24 2025-11-24 Weekdays endpoints timer:0h-21m-33s
+x 2025-11-25 2025-11-24 DeliveryTimeRule endpoints timer:2h-53m-54s
