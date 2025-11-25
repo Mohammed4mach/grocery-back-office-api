@@ -8,8 +8,8 @@ open Dapper.FSharp
 open Infrastructure.Core.Types
 open Infrastructure.Core.Exceptions
 
-module PostgreSQL =
-    type private TimeOnlyHandler() =
+module private TypeHandlers =
+    type TimeOnlyHandler() =
         inherit SqlMapper.TypeHandler<TimeOnly>()
 
         override _.SetValue(param, value) =
@@ -22,7 +22,7 @@ module PostgreSQL =
             | :? TimeOnly as _to -> _to
             | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
 
-    type private TimeOnlyOptionHandler() =
+    type TimeOnlyOptionHandler() =
         inherit SqlMapper.TypeHandler<TimeOnly option>()
 
         override _.SetValue(param, _option) =
@@ -35,6 +35,47 @@ module PostgreSQL =
             | :? TimeOnly as _to -> Some(_to)
             | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
 
+
+module private Helpers =
+    let getFieldsStr (fields : string seq) : string =
+        String.Join (",", fields)
+
+    let getInsertValueStr (fields : string seq) : string =
+        (fields |> Seq.fold (fun acc field -> $"{acc} @{field},") "").Trim().Trim ','
+
+    let getUpdateValueStr (fields : string seq) : string =
+        let str     = fields |> Seq.fold (fun acc field -> $"{acc} {field} = @{field},") ""
+        let trimmed = str.Trim().Trim ','
+
+        trimmed
+
+    let getConditionValue (valueWrapper : string option) : string =
+        match valueWrapper with
+        | Some value -> value
+        | None -> "NULL"
+
+    let getConditionStr (condition : Condition) : string =
+        $"{condition.column}::VARCHAR {condition.operator} {getConditionValue condition.value}::VARCHAR"
+
+    let getConditionsStr (conditions : Condition seq) : string =
+        conditions |> Seq.fold (fun acc condition -> $"{acc} AND {getConditionStr condition}") "TRUE"
+
+    let getParamConditionStr (conditions : Condition seq) : string * obj =
+        let columnValue = seq { for condition in conditions -> condition.column, getConditionValue condition.value } |> Map.ofSeq |> Helpers.DynamicObject.ofMap
+
+        let conditionsStr = conditions |> Seq.fold (fun acc condition -> $"{acc} AND {condition.column}::VARCHAR {condition.operator} @{condition.column}") "TRUE"
+
+        conditionsStr, columnValue
+
+    let getFieldFromAggregateOperation (operation : AggregateOperation) : string =
+        match operation with
+            | AggregateOperation.Count param -> $"COUNT({param})"
+            | AggregateOperation.Avg param -> $"AVG({param})"
+            | AggregateOperation.Sum param -> $"SUM({param})"
+            | AggregateOperation.Max param -> $"MAX({param})"
+            | AggregateOperation.Min param -> $"MIN({param})"
+
+module PostgreSQL =
     let private getConnectionString () =
         let host     = Configs.Database.host
         let port     = Configs.Database.port
@@ -54,8 +95,8 @@ module PostgreSQL =
         if connection = null then
             raise (DatabaseConnectionError "Error connecting with PostgreSQL DBMS")
 
-        SqlMapper.AddTypeHandler(TimeOnlyHandler())
-        SqlMapper.AddTypeHandler(TimeOnlyOptionHandler())
+        SqlMapper.AddTypeHandler(TypeHandlers.TimeOnlyHandler())
+        SqlMapper.AddTypeHandler(TypeHandlers.TimeOnlyOptionHandler())
         PostgreSQL.OptionTypes.register()
 
     let private useConnection (useCase : IDbConnection -> 'T) : 'T =
@@ -73,35 +114,6 @@ module PostgreSQL =
         finally
             connection.Close()
 
-    let private getFieldsStr (fields : string seq) =
-        String.Join (",", fields)
-
-    let private getInsertValueStr (fields : string seq) : string =
-        (fields |> Seq.fold (fun acc field -> $"{acc} @{field},") "").Trim().Trim ','
-
-    let private getUpdateValueStr (fields : string seq) : string =
-        let str     = fields |> Seq.fold (fun acc field -> $"{acc} {field} = @{field},") ""
-        let trimmed = str.Trim().Trim ','
-
-        trimmed
-
-    let private getConditionValue (valueWrapper : string option) =
-        match valueWrapper with
-        | Some value -> value
-        | None -> "NULL"
-
-    let private getConditionStr (condition : Condition) =
-        $"{condition.column}::VARCHAR {condition.operator} {getConditionValue condition.value}::VARCHAR"
-
-    let private getConditionsStr (conditions : Condition seq) : string =
-        conditions |> Seq.fold (fun acc condition -> $"{acc} AND {getConditionStr condition}") "TRUE"
-
-    let private getParamConditionStr (conditions : Condition seq) : string * obj =
-        let columnValue = seq { for condition in conditions -> condition.column, getConditionValue condition.value } |> Map.ofSeq |> Helpers.DynamicObject.ofMap
-
-        let conditionsStr = conditions |> Seq.fold (fun acc condition -> $"{acc} AND {condition.column}::VARCHAR {condition.operator} @{condition.column}") "TRUE"
-
-        conditionsStr, columnValue
 
     let private execute (_param : ExecuteParameter) : int =
         useConnection (
@@ -117,8 +129,8 @@ module PostgreSQL =
     let private insert<'T> (table : string) (fields : string seq) (value : 'T) : 'T =
         useConnection (
             fun connection ->
-                let fieldsStr     = getFieldsStr fields
-                let valueStr      = getInsertValueStr fields
+                let fieldsStr     = Helpers.getFieldsStr fields
+                let valueStr      = Helpers.getInsertValueStr fields
 
                 let sql  = $"INSERT INTO {table} ({fieldsStr}) VALUES ({valueStr}) RETURNING *"
 
@@ -128,8 +140,8 @@ module PostgreSQL =
     let private update<'T> (table : string) (fields : string seq) (value : 'T) (conditions : Condition seq) : 'T =
         useConnection (
             fun connection ->
-                let valueStr      = getUpdateValueStr fields
-                let conditionsStr = getConditionsStr conditions
+                let valueStr      = Helpers.getUpdateValueStr fields
+                let conditionsStr = Helpers.getConditionsStr conditions
 
                 let sql  = $"UPDATE {table} SET {valueStr} WHERE {conditionsStr} RETURNING *"
 
@@ -139,7 +151,7 @@ module PostgreSQL =
     let private delete<'T> (table : string) (conditions : Condition seq) : int =
         useConnection (
             fun connection ->
-                let conditionsStr = getConditionsStr conditions
+                let conditionsStr = Helpers.getConditionsStr conditions
 
                 let sql  = $"DELETE FROM {table} WHERE {conditionsStr}"
 
@@ -149,23 +161,36 @@ module PostgreSQL =
     let private select<'T> (table : string) (conditions : Condition seq) : 'T list =
         useConnection (
             fun connection ->
-                let conditionsStr, columnValue = getParamConditionStr conditions
+                let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
 
                 let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
 
+                // connection.QueryMultipleAsync
                 connection.Query<'T> (sql, columnValue) |> List.ofSeq
         )
 
     let private selectSingle<'T> (table : string) (conditions : Condition seq) : 'T =
         useConnection (
             fun connection ->
-                let conditionsStr, columnValue = getParamConditionStr conditions
+                let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
 
                 let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
+
                 connection.QuerySingleOrDefault<'T> (sql, columnValue)
         )
 
-    let operations : Operations<'T> =
+    let private selectScalar<'U> (table : string) (operation : AggregateOperation) (conditions : Condition seq) : 'U =
+        useConnection (
+            fun connection ->
+                let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
+                let field = Helpers.getFieldFromAggregateOperation operation
+
+                let sql  = $"SELECT {field} FROM {table} WHERE {conditionsStr}"
+
+                connection.ExecuteScalar<'U> (sql, columnValue)
+        )
+
+    let operations : Operations<'T, 'U> =
         {
             insert            = insert
             update            = update
@@ -173,6 +198,7 @@ module PostgreSQL =
             select            = select
             execute           = execute
             selectSingle      = selectSingle
+            selectScalar      = selectScalar
             configureDatabase = configurePostgresDatabase
         }
 

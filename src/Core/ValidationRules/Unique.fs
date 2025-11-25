@@ -8,9 +8,9 @@ type Unique<'T> (attributeName : string, value : 'T, table : string, column : st
     interface IValidationRule with
         member _.Validate() : unit =
             let conditions = [ Helpers.Database.where column (Some (value.ToString())) ]
-            let records    = Database.operations.select table conditions
+            let records    = Database.operations<'T, int>.selectScalar table (Helpers.Database.count "*") conditions
 
-            if records.Length > 0 then
+            if records > 0 then
                 raise (NotUniqueValidationError($"{attributeName} must be unique"))
             ()
 

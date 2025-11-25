@@ -8,9 +8,9 @@ type Exists<'T> (attributeName: string, value : 'T, table : string, column : str
     interface IValidationRule with
         member _.Validate() : unit =
             let conditions = [ Helpers.Database.where column (Some (value.ToString())) ]
-            let records    = Database.operations.select table conditions
+            let records    = Database.operations<'T, int>.selectScalar table (Helpers.Database.count "*") conditions
 
-            if records.Length < 1 then
+            if records < 1 then
                 raise (EntityNotFoundError $"Entity {table} of {attributeName} = {value} not found")
             ()
 

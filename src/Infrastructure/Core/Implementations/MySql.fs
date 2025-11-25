@@ -136,7 +136,17 @@ module MySql =
                 connection.QuerySingleOrDefault<'T> (sql, columnValue)
         )
 
-    let operations : Operations<'T> =
+    let private selectScalar<'U> (table : string) (operation : AggregateOperation) (conditions : Condition seq) : 'U =
+        useConnection (
+            fun connection ->
+                let conditionsStr, columnValue = getParamConditionStr conditions
+
+                let sql  = $"SELECT COUNT(*) FROM {table} WHERE {conditionsStr}"
+
+                connection.ExecuteScalar<'U> (sql, columnValue)
+        )
+
+    let operations : Operations<'T, 'U> =
         {
             insert            = insert
             update            = update
@@ -144,5 +154,7 @@ module MySql =
             select            = select
             execute           = execute
             selectSingle      = selectSingle
+            selectScalar      = selectScalar
             configureDatabase = configurePostgresDatabase
         }
+

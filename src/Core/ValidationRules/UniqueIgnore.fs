@@ -12,9 +12,9 @@ type UniqueIgnore<'T, 'U> (attributeName : string, value : 'T, table : string, c
                 Helpers.Database.whereNot ignoreColumn (Some (ignoreValue.ToString()))
             ]
 
-            let records = Database.operations.select table conditions
+            let records = Database.operations<'T, int>.selectScalar table (Helpers.Database.count "*") conditions
 
-            if records.Length > 0 then
+            if records > 0 then
                 raise (NotUniqueValidationError($"{attributeName} must be unique"))
             ()
 
