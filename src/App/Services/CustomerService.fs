@@ -6,12 +6,12 @@ open Infrastructure.Core.Types
 
 module CustomerService =
     let index (filters : Condition seq) : Customer seq =
-        let customers = CustomerRepository.get filters
+        let customers = CustomerRepository.get [] filters
 
         customers
 
     let show (id : int) : Customer =
-        let customer = CustomerRepository.find (id.ToString())
+        let customer = CustomerRepository.find (id.ToString()) []
 
         customer
 

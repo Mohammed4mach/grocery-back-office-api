@@ -6,12 +6,12 @@ open Infrastructure.Core.Types
 
 module OrderService =
     let index (filters : Condition seq) : Order seq =
-        let orders = OrderRepository.get filters
+        let orders = OrderRepository.get [] filters
 
         orders
 
     let show (id : int) : Order =
-        let order = OrderRepository.find (id.ToString())
+        let order = OrderRepository.find (id.ToString()) []
 
         order
 

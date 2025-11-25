@@ -30,7 +30,6 @@ let webApp =
                     Routes.Customers.routes
                     Routes.Weekdays.routes
                     Routes.DeliveryTimeRules.routes
-                    Routes.DeliveryTimeRuleNotAvailableWeekdays.routes
                     Routes.ProductStorageTypes.routes
                     Routes.Products.routes
                     Routes.Orders.routes

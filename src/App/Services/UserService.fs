@@ -7,10 +7,10 @@ open Infrastructure.Core.Types
 
 module UserService =
     let index (filters : Condition seq) : User seq =
-        UserRepository.get filters
+        UserRepository.get [] filters
 
     let show (id : int) : User =
-        UserRepository.find (id.ToString())
+        UserRepository.find (id.ToString()) []
 
     let store (user : User) : User =
         let storedUser : User = { user with password = Helpers.Hash.hash user.password }
@@ -18,7 +18,7 @@ module UserService =
         UserRepository.store storedUser
 
     let update (id : int) (updatedUser : User) : User =
-        let user = UserRepository.find (id.ToString())
+        let user = UserRepository.find (id.ToString()) []
 
         if not(Helpers.Hash.verifyHashed updatedUser.password user.password) then
             raise (AuthenticationException "Wrong Password")
@@ -28,7 +28,7 @@ module UserService =
         UserRepository.update (id.ToString()) values
 
     let updatePassword (id : int) (password : string) (newPassword : string) : User =
-        let user = UserRepository.find (id.ToString())
+        let user = UserRepository.find (id.ToString()) []
 
         if not(Helpers.Hash.verifyHashed password user.password) then
             raise (AuthenticationException "Wrong Password")

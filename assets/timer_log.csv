@@ -141,3 +141,13 @@ list name,task description,run time,timer started,timer stopped
 "grocery-back-office-api","DeliveryTimeRule endpoints",757,2025-11-25T01:20:04+0200,2025-11-25T01:32:42+0200
 "grocery-back-office-api","DeliveryTimeRule endpoints",1500,2025-11-25T01:45:03+0200,2025-11-25T02:10:03+0200
 "grocery-back-office-api","DeliveryTimeRule endpoints",1072,2025-11-25T02:34:16+0200,2025-11-25T02:52:09+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",4,2025-11-25T03:04:17+0200,2025-11-25T03:04:21+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",420,2025-11-25T03:04:24+0200,2025-11-25T03:11:25+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",1116,2025-11-25T03:47:52+0200,2025-11-25T04:06:28+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",1349,2025-11-25T13:47:56+0200,2025-11-25T14:10:25+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",1500,2025-11-25T14:21:17+0200,2025-11-25T14:46:17+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",380,2025-11-25T15:13:45+0200,2025-11-25T15:20:05+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",946,2025-11-25T15:23:01+0200,2025-11-25T15:38:47+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",751,2025-11-25T15:45:28+0200,2025-11-25T15:57:58+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",749,2025-11-25T16:01:56+0200,2025-11-25T16:14:25+0200
+"grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",1286,2025-11-25T16:59:22+0200,2025-11-25T17:20:48+0200

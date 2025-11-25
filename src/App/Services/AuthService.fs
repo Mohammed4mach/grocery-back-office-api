@@ -12,7 +12,7 @@ module AuthService =
         let authException = AuthenticationException "Invalid credentials"
 
         try
-            let user = UserRepository.findWhere conditions
+            let user = UserRepository.findWhere [] conditions
 
             if not (Helpers.Hash.verifyHashed password user.password) then
                 raise authException

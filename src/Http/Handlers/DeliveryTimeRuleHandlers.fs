@@ -16,13 +16,13 @@ module DeliveryTimeRuleHandlers =
             let filters : Condition seq = []
             let rules  = DeliveryTimeRuleService.index filters
             let collection = DeliveryTimeRuleCollection.ofEntity rules
-            printfn "jweljdklj"
+
             negotiate collection next ctx
 
     let show (id : int) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let rule = DeliveryTimeRuleService.show id
-            let resource = DeliveryTimeRuleResource.ofEntity rule
+            let rule, offdays = DeliveryTimeRuleService.show id
+            let resource      = DeliveryTimeRuleWithRelationsResource.ofEntity rule offdays
 
             negotiate resource next ctx
 
@@ -78,6 +78,27 @@ module DeliveryTimeRuleHandlers =
     let delete (id : int) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
             DeliveryTimeRuleService.delete id
+
+            Successful.NO_CONTENT next ctx
+
+    let addOffday (id : int) : HttpHandler =
+        fun (next : HttpFunc) (ctx : HttpContext) ->
+            bindModel<StoreDeliveryTimeRuleNotAvailableWeekdayRequest> None (
+                fun request ->
+                    request.delivery_time_rule_id <- id
+
+                    validate request
+
+                    let resource =
+                        DeliveryTimeRuleService.addOffday request.delivery_time_rule_id request.weekday_id |>
+                        DeliveryTimeRuleNotAvailableWeekdayResource.ofEntity
+
+                    negotiate resource
+            ) next ctx
+
+    let removeOffday (id : int) : HttpHandler =
+        fun (next : HttpFunc) (ctx : HttpContext) ->
+            DeliveryTimeRuleService.removeOffday id
 
             Successful.NO_CONTENT next ctx
 

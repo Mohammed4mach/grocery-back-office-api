@@ -6,12 +6,12 @@ open Infrastructure.Core.Types
 
 module WeekdayService =
     let index (filters : Condition seq) : Weekday seq =
-        let weekdays = WeekdayRepository.get filters
+        let weekdays = WeekdayRepository.get [] filters
 
         weekdays
 
     let show (id : int) : Weekday =
-        let weekday = WeekdayRepository.find (id.ToString())
+        let weekday = WeekdayRepository.find (id.ToString()) []
 
         weekday
 
@@ -19,7 +19,7 @@ module WeekdayService =
         WeekdayRepository.store weekday
 
     let update (id : int) (updatedWeekday : Weekday) : Weekday =
-        let weekday = WeekdayRepository.find (id.ToString())
+        let weekday = WeekdayRepository.find (id.ToString()) []
 
         WeekdayRepository.update (id.ToString()) updatedWeekday
 

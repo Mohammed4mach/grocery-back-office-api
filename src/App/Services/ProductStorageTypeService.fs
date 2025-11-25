@@ -6,12 +6,12 @@ open Infrastructure.Core.Types
 
 module ProductStorageTypeService =
     let index (filters : Condition seq) : ProductStorageType seq =
-        let productTypes = ProductStorageTypeRepository.get filters
+        let productTypes = ProductStorageTypeRepository.get [] filters
 
         productTypes
 
     let show (id : int) : ProductStorageType =
-        let productType = ProductStorageTypeRepository.find (id.ToString())
+        let productType = ProductStorageTypeRepository.find (id.ToString()) []
 
         productType
 

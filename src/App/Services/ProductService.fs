@@ -6,12 +6,12 @@ open Infrastructure.Core.Types
 
 module ProductService =
     let index (filters : Condition seq) : Product seq =
-        let products = ProductRepository.get filters
+        let products = ProductRepository.get [] filters
 
         products
 
     let show (id : int) : Product =
-        let product = ProductRepository.find (id.ToString())
+        let product = ProductRepository.find (id.ToString()) []
 
         product
 
