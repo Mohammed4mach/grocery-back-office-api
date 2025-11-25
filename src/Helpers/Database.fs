@@ -64,3 +64,22 @@ module Database =
     let min (_param : string | null) : AggregateOperation =
         makeAggregate "min" _param
 
+    let private joinAux (_type : string) (table : string) (condition : Condition) : Join =
+        {
+            _type     = _type
+            table     = table
+            condition = condition
+        }
+
+    let join (table : string) (condition : Condition) : Join =
+        joinAux "" table condition
+
+    let innerJoin (table : string) (condition : Condition) : Join =
+        joinAux "INNER" table condition
+
+    let leftJoin (table : string) (condition : Condition) : Join =
+        joinAux "LEFT" table condition
+
+    let rightJoin (table : string) (condition : Condition) : Join =
+        joinAux "RIGHT" table condition
+

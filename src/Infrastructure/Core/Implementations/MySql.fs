@@ -117,7 +117,7 @@ module MySql =
                 connection.Execute (CommandDefinition sql)
         )
 
-    let private select<'T> (table : string) (conditions : Condition seq) : 'T list =
+    let private select<'T> (table : string) (joins : Join seq) (conditions : Condition seq) : 'T list =
         useConnection (
             fun connection ->
                 let conditionsStr, columnValue = getParamConditionStr conditions
@@ -127,7 +127,7 @@ module MySql =
                 connection.Query<'T> (sql, columnValue) |> List.ofSeq
         )
 
-    let private selectSingle<'T> (table : string) (conditions : Condition seq) : 'T =
+    let private selectSingle<'T> (table : string) (joins : Join seq) (conditions : Condition seq) : 'T =
         useConnection (
             fun connection ->
                 let conditionsStr, columnValue = getParamConditionStr conditions

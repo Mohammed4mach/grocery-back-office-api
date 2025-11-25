@@ -12,6 +12,13 @@ module Types =
             value : string option
         }
 
+    type Join =
+        {
+            _type : string
+            table : string
+            condition : Condition
+        }
+
     type AggregateOperation =
         | Count of string
         | Sum of string
@@ -24,9 +31,9 @@ module Types =
             insert : string -> string seq -> 'T -> 'T
             update : string -> string seq -> 'T -> Condition seq -> 'T
             delete : string -> Condition seq -> int
-            select : string -> Condition seq -> 'T list
+            select : string -> Join seq -> Condition seq -> 'T list
             execute : ExecuteParameter -> int
-            selectSingle : string -> Condition seq -> 'T
+            selectSingle : string -> Join seq -> Condition seq -> 'T
             selectScalar : string -> AggregateOperation -> Condition seq -> 'U
             configureDatabase : unit -> unit
         }

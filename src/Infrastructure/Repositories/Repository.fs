@@ -18,26 +18,29 @@ type Repository<'T when 'T : equality and 'T : null> =
             identifier = "id"
         }
 
-    member this.get (conditions : Condition seq) :  'T list =
-        Database.operations.select this.table conditions
+    member this.get (joins : Join seq) (conditions : Condition seq) :  'T list =
+        Database.operations.select this.table joins conditions
 
-    member this.find (id : string) : 'T =
+    member this.find (id : string) (joins : Join seq) : 'T =
         let conditions = [ Helpers.Database.where this.identifier (Some id) ]
 
-        let entity = Database.operations.selectSingle this.table conditions
+        let entity = Database.operations.selectSingle this.table joins conditions
 
         if entity = null then
             raise (EntityNotFoundError $"Entity {this.table} of id = {id} not found")
 
         entity
 
-    member this.findWhere (conditions : Condition seq) : 'T =
-        let entity = Database.operations.selectSingle this.table conditions
+    member this.findWhere (joins : Join seq) (conditions : Condition seq) : 'T =
+        let entity = Database.operations.selectSingle this.table joins conditions
 
         if entity = null then
             raise (EntityNotFoundError $"Entity {this.table} of id = {id} not found")
 
         entity
+
+    member this.count (conditions : Condition seq) : int =
+        Database.operations<'T, int>.selectScalar this.table (Helpers.Database.count "*") conditions
 
     member this.store (value : 'T) : 'T =
         Database.operations.insert this.table this.fillable value

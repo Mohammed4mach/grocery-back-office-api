@@ -75,6 +75,12 @@ module private Helpers =
             | AggregateOperation.Max param -> $"MAX({param})"
             | AggregateOperation.Min param -> $"MIN({param})"
 
+    let getJoinStr (join : Join) : string =
+        let { _type = _type; table = table; condition = condition } = join
+        let conditionStr = getConditionStr condition
+
+        $"{_type} JOIN {table} ON {conditionStr}"
+
 module PostgreSQL =
     let private getConnectionString () =
         let host     = Configs.Database.host
@@ -158,23 +164,27 @@ module PostgreSQL =
                 connection.Execute (CommandDefinition sql)
         )
 
-    let private select<'T> (table : string) (conditions : Condition seq) : 'T list =
+    let private prepareSelectParams (table : string) (joins : Join seq) (conditions : Condition seq) : string * obj =
+        let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
+        let joinStr = Seq.fold (fun (acc : string) (join : Join) -> $"{acc} {Helpers.getJoinStr join}") "" joins
+
+        let sql  = $"SELECT * FROM {table} {joinStr} WHERE {conditionsStr}"
+
+        sql, columnValue
+
+    let private select<'T> (table : string) (joins : Join seq) (conditions : Condition seq) : 'T list =
         useConnection (
             fun connection ->
-                let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
-
-                let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
+                let sql, columnValue = prepareSelectParams table joins conditions
 
                 // connection.QueryMultipleAsync
                 connection.Query<'T> (sql, columnValue) |> List.ofSeq
         )
 
-    let private selectSingle<'T> (table : string) (conditions : Condition seq) : 'T =
+    let private selectSingle<'T> (table : string) (joins : Join seq) (conditions : Condition seq) : 'T =
         useConnection (
             fun connection ->
-                let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
-
-                let sql  = $"SELECT * FROM {table} WHERE {conditionsStr}"
+                let sql, columnValue = prepareSelectParams table joins conditions
 
                 connection.QuerySingleOrDefault<'T> (sql, columnValue)
         )
