@@ -151,3 +151,6 @@ list name,task description,run time,timer started,timer stopped
 "grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",751,2025-11-25T15:45:28+0200,2025-11-25T15:57:58+0200
 "grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",749,2025-11-25T16:01:56+0200,2025-11-25T16:14:25+0200
 "grocery-back-office-api","DeliveryTimeRuleNotAvailableWeekday endpoints",1286,2025-11-25T16:59:22+0200,2025-11-25T17:20:48+0200
+"grocery-back-office-api","ProductStorgeTypes endpoints",126,2025-11-26T02:01:23+0200,2025-11-26T02:03:29+0200
+"grocery-back-office-api","ProductStorgeTypes endpoints",700,2025-11-26T02:07:07+0200,2025-11-26T02:18:47+0200
+"grocery-back-office-api","ProductStorgeTypes endpoints",25,2025-11-26T02:21:16+0200,2025-11-26T02:21:41+0200
