@@ -1,5 +1,6 @@
 namespace Http.Requests
 
+open System
 open Core.Interfaces
 open Core.ValidationRules
 
@@ -8,16 +9,21 @@ type StoreProductRequest =
     {
         name                    : string
         price                   : float
-        description             : string option
-        product_storage_type_id : int
+        description             : string | null
+        product_storage_type_id : Nullable<int>
     }
 
     interface IValidatable with
         member this.Rules (): IValidationRule seq =
             let description =
                 match this.description with
-                | Some desc -> desc
-                | None -> ""
+                | null -> ""
+                | desc -> desc
+
+            let typeId =
+                match this.product_storage_type_id.HasValue with
+                | false -> ""
+                | true -> this.product_storage_type_id.Value.ToString()
 
             [
                 (* name validation *)
@@ -29,6 +35,7 @@ type StoreProductRequest =
                 (* description validation *)
                 new Strings.Max("description", description, 35500)
                 (* ProductStorageType exists *)
-                new Exists<int>("product_storage_type_id", this.product_storage_type_id, "product_storage_types", "id")
+                new Required<string>("product_storage_type_id", typeId)
+                new Exists<string>("product_storage_type_id", typeId, "product_storage_types", "id")
             ]
 

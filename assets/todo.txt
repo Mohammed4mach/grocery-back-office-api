@@ -1,5 +1,3 @@
-2025-11-24 ProductStorgeTypes endpoints timer:0h-30m-13s
-2025-11-24 Products endpoints
 2025-11-24 Order endpoints
 2025-11-24 OrderItems endpoints
 2025-11-26 Order Update endpoint
@@ -32,3 +30,5 @@ x 2025-11-24 2025-11-24 Customers endpoints timer:4h-16m-3s
 x 2025-11-24 2025-11-24 Weekdays endpoints timer:0h-21m-33s
 x 2025-11-25 2025-11-24 DeliveryTimeRule endpoints timer:2h-53m-54s
 x 2025-11-25 2025-11-24 DeliveryTimeRuleNotAvailableWeekday endpoints timer:3h-5m-49s
+x 2025-11-26 2025-11-24 ProductStorgeTypes endpoints timer:0h-32m-11s
+x 2025-11-26 2025-11-24 Products endpoints timer:1h-11m-8s

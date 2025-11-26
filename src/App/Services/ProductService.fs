@@ -10,10 +10,13 @@ module ProductService =
 
         products
 
-    let show (id : int) : Product =
+    let show (id : int) : Product * ProductStorageType =
         let product = ProductRepository.find (id.ToString()) []
 
-        product
+        // Get storage type
+        let storageType = ProductStorageTypeRepository.find (product.product_storage_type_id.ToString()) []
+
+        product, storageType
 
     let store (product : Product) : Product =
         ProductRepository.store product
