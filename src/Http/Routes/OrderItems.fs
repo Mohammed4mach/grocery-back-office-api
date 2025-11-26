@@ -5,8 +5,11 @@ open Http.Handlers
 
 module OrderItems =
     let routes<'T> =
-        subRoute "/order-items"
-            (choose [
-                GET  >=> route "" >=> CustomerHandlers.index
-            ])
+        choose [
+            GET >=> routef "/orders/%i/items" OrderItemHandlers.index
+            GET >=> routef "/order-items/%i" OrderItemHandlers.show
+            POST >=> routef "/orders/%i/items" OrderItemHandlers.store
+            PUT >=> routef "/order-items/%i" OrderItemHandlers.update
+            DELETE >=> routef "/order-items/%i" OrderItemHandlers.delete
+        ]
 

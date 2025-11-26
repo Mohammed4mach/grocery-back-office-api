@@ -3,16 +3,19 @@ namespace App.Services
 open Core.Entities
 open Core.Exceptions
 open Core.Exceptions.Authentication
-open Infrastructure.Repositories
+open App.Repositories
+open App.Interfaces
 open Infrastructure.Core.Types
 
 module AuthService =
+    let private repo = UserRepository :> IRepository<User | null>
+
     let authenticateUser (username : string) (password : string) : User =
         let conditions : Condition seq = [ Helpers.Database.where "username" (Some username) ]
         let authException = AuthenticationException "Invalid credentials"
 
         try
-            let user = UserRepository.findWhere [] conditions
+            let user = repo.findWhere [] conditions
 
             if not (Helpers.Hash.verifyHashed password user.password) then
                 raise authException

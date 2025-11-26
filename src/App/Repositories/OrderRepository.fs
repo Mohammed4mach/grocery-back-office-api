@@ -1,6 +1,7 @@
-namespace Infrastructure.Repositories
+namespace App.Repositories
 
 open Core.Entities
+open Infrastructure.Repositories
 
 [<AutoOpen>]
 module Order =
@@ -12,6 +13,9 @@ module Order =
                 "order_time"
                 "delivery_date"
                 "delivery_time"
+                "is_green_delivery"
+                "user_id"
+                "customer_id"
             ]
     }
 

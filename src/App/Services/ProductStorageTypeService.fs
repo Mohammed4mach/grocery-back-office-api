@@ -1,28 +1,31 @@
 namespace App.Services
 
 open Core.Entities
-open Infrastructure.Repositories
+open App.Repositories
+open App.Interfaces
 open Infrastructure.Core.Types
 
 module ProductStorageTypeService =
+    let private repo = ProductStorageTypeRepository :> IRepository<ProductStorageType | null>
+
     let index (filters : Condition seq) : ProductStorageType seq =
-        let productTypes = ProductStorageTypeRepository.get [] filters
+        let productTypes = repo.get [] filters
 
         productTypes
 
     let show (id : int) : ProductStorageType =
-        let productType = ProductStorageTypeRepository.find (id.ToString()) []
+        let productType = repo.find (id.ToString()) []
 
         productType
 
     let store (productType : ProductStorageType) : ProductStorageType =
-        ProductStorageTypeRepository.store productType
+        repo.store productType
 
     let update (id : int) (updatedProductStorageType : ProductStorageType) : ProductStorageType =
-        let productType = ProductStorageTypeRepository.find (id.ToString())
+        let productType = repo.find (id.ToString())
 
-        ProductStorageTypeRepository.update (id.ToString()) updatedProductStorageType
+        repo.update (id.ToString()) updatedProductStorageType
 
     let delete (id : int) : unit =
-        ProductStorageTypeRepository.delete (id.ToString())
+        repo.delete (id.ToString())
 

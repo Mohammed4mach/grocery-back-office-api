@@ -1,28 +1,56 @@
 namespace App.Services
 
+open System
 open Core.Entities
-open Infrastructure.Repositories
+open App.Repositories
+open App.Interfaces
 open Infrastructure.Core.Types
 
 module OrderService =
+    let private repo = OrderRepository :> IRepository<Order | null>
+
     let index (filters : Condition seq) : Order seq =
-        let orders = OrderRepository.get [] filters
+        let orders = repo.get [] filters
 
         orders
 
     let show (id : int) : Order =
-        let order = OrderRepository.find (id.ToString()) []
+        let order = repo.find (id.ToString()) []
 
         order
 
-    let store (order : Order) : Order =
-        OrderRepository.store order
+    let updateOrderTotalCost (id : int) : Order =
+        let items = OrderItemService.index id []
+
+        let totalCost = items |> Seq.fold<OrderItem, float> (fun acc item -> acc + (item.cost_per_item * (float item.quantity))) 0.00
+
+        let order = {
+            Order.Default with
+                total_cost = totalCost
+        }
+
+        repo.partialUpdate (id.ToString()) [ "total_cost" ] order
+
+    let store (order : Order) (items : OrderItem seq) : Order =
+        let order : Order =
+            {
+                order with
+                    order_time = DateTime.Now
+            }
+
+        let order = repo.store order
+
+        items |> Seq.iter<OrderItem> (fun item -> (OrderItemService.store order.id item true) |> ignore)
+
+        let updatedOrder = order.id |> updateOrderTotalCost
+
+        updatedOrder
 
     let update (id : int) (updatedOrder : Order) : Order =
-        let order = OrderRepository.find (id.ToString())
+        let order = repo.find (id.ToString())
 
-        OrderRepository.update (id.ToString()) updatedOrder
+        repo.update (id.ToString()) updatedOrder
 
     let delete (id : int) : unit =
-        OrderRepository.delete (id.ToString())
+        repo.delete (id.ToString())
 

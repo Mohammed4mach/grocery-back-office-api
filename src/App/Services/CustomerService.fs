@@ -1,26 +1,29 @@
 namespace App.Services
 
 open Core.Entities
-open Infrastructure.Repositories
+open App.Repositories
+open App.Interfaces
 open Infrastructure.Core.Types
 
 module CustomerService =
+    let private repo = CustomerRepository :> IRepository<Customer | null>
+
     let index (filters : Condition seq) : Customer seq =
-        let customers = CustomerRepository.get [] filters
+        let customers = repo.get [] filters
 
         customers
 
     let show (id : int) : Customer =
-        let customer = CustomerRepository.find (id.ToString()) []
+        let customer = repo.find (id.ToString()) []
 
         customer
 
     let store (customer : Customer) : Customer =
-        CustomerRepository.store customer
+        repo.store customer
 
     let update (id : int) (updatedCustomer : Customer) : Customer =
-        CustomerRepository.update (id.ToString()) updatedCustomer
+        repo.update (id.ToString()) updatedCustomer
 
     let delete (id : int) : unit =
-        CustomerRepository.delete (id.ToString())
+        repo.delete (id.ToString())
 

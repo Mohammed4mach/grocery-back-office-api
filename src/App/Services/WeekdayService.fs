@@ -1,28 +1,31 @@
 namespace App.Services
 
 open Core.Entities
-open Infrastructure.Repositories
+open App.Repositories
+open App.Interfaces
 open Infrastructure.Core.Types
 
 module WeekdayService =
+    let private repo = WeekdayRepository :> IRepository<Weekday | null>
+
     let index (filters : Condition seq) : Weekday seq =
-        let weekdays = WeekdayRepository.get [] filters
+        let weekdays = repo.get [] filters
 
         weekdays
 
     let show (id : int) : Weekday =
-        let weekday = WeekdayRepository.find (id.ToString()) []
+        let weekday = repo.find (id.ToString()) []
 
         weekday
 
     let store (weekday : Weekday) : Weekday =
-        WeekdayRepository.store weekday
+        repo.store weekday
 
     let update (id : int) (updatedWeekday : Weekday) : Weekday =
-        let weekday = WeekdayRepository.find (id.ToString()) []
+        let weekday = repo.find (id.ToString()) []
 
-        WeekdayRepository.update (id.ToString()) updatedWeekday
+        repo.update (id.ToString()) updatedWeekday
 
     let delete (id : int) : unit =
-        WeekdayRepository.delete (id.ToString())
+        repo.delete (id.ToString())
 

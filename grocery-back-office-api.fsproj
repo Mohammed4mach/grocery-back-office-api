@@ -34,10 +34,11 @@
     <Compile Include="src/Core/Jobs/**/*.fs" />
     <Compile Include="src/Core/Events/**/*.fs" />
 
-    <Compile Include="src/Infrastructure/Repositories/Repository.fs" />
-    <Compile Include="src/Infrastructure/Repositories/**/*.fs" Exclude="src/Infrastructure/Repositories/Repository.fs" />
+    <Compile Include="src/App/Interfaces/**/*.fs" />
+    <Compile Include="src/Infrastructure/Repositories/**/*.fs" />
+    <Compile Include="src/App/Repositories/**/*.fs" />
 
-    <Compile Include="src/App/**/*.fs" />
+    <Compile Include="src/App/Services/**/*.fs" />
 
     <Compile Include="src/Http/Resources/**/*Resource.fs" />
     <Compile Include="src/Http/Resources/**/*Collection.fs" />

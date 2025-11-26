@@ -33,7 +33,20 @@ module private TypeHandlers =
             | :? TimeSpan as ts -> Some(TimeOnly(ts.Hours, ts.Minutes, ts.Seconds))
             | :? DateTime as dt -> Some(TimeOnly(dt.Hour, dt.Minute, dt.Second))
             | :? TimeOnly as _to -> Some(_to)
-            | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
+            | _ -> failwith $"Unexpected value type for TimeOnly option: {value.GetType()}"
+
+    type DateOnlyHandler() =
+        inherit SqlMapper.TypeHandler<DateOnly>()
+
+        override _.SetValue(param, value) =
+            (param :?> NpgsqlParameter).Value <- value
+
+        override _.Parse(value) =
+            match value with
+            | :? DateTime as dt -> DateOnly.FromDateTime dt
+            | :? DateOnly as _to -> _to
+            | _ -> failwith $"Unexpected value type for DateOnly: {value.GetType()}"
+
 
 
 module private Helpers =
@@ -101,6 +114,7 @@ module PostgreSQL =
         if connection = null then
             raise (DatabaseConnectionError "Error connecting with PostgreSQL DBMS")
 
+        SqlMapper.AddTypeHandler(TypeHandlers.DateOnlyHandler())
         SqlMapper.AddTypeHandler(TypeHandlers.TimeOnlyHandler())
         SqlMapper.AddTypeHandler(TypeHandlers.TimeOnlyOptionHandler())
         PostgreSQL.OptionTypes.register()

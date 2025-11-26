@@ -7,6 +7,10 @@ module Orders =
     let routes<'T> =
         subRoute "/orders"
             (choose [
-                GET  >=> route "" >=> CustomerHandlers.index
+                GET  >=> route "" >=> OrderHandlers.index
+                GET  >=> routef "/%i" OrderHandlers.show
+                POST >=> route "" >=> OrderHandlers.store
+                PUT >=> routef "/%i" OrderHandlers.update
+                DELETE >=> routef "/%i" OrderHandlers.delete
             ])
 

@@ -1,6 +1,7 @@
-namespace Infrastructure.Repositories
+namespace App.Repositories
 
 open Core.Entities
+open Infrastructure.Repositories
 
 [<AutoOpen>]
 module OrderItem =
