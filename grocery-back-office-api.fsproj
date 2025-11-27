@@ -28,7 +28,8 @@
     <Compile Include="src/Infrastructure/Core/*.fs" />
 
     <Compile Include="src/Core/Enums/**/*.fs" />
-    <Compile Include="src/Core/Entities/**/*.fs" />
+    <Compile Include="src/Core/Entities/TimeSlot.fs" />
+    <Compile Include="src/Core/Entities/**/*.fs" Exclude="src/Core/Entities/TimeSlot.fs" />
 
     <Compile Include="src/Core/ValidationRules/**/*.fs" />
     <Compile Include="src/Core/Jobs/**/*.fs" />
@@ -38,7 +39,16 @@
     <Compile Include="src/Infrastructure/Repositories/**/*.fs" />
     <Compile Include="src/App/Repositories/**/*.fs" />
 
-    <Compile Include="src/App/Services/**/*.fs" />
+    <Compile Include="src/App/Services/AuthService.fs" />
+    <Compile Include="src/App/Services/UserService.fs" />
+    <Compile Include="src/App/Services/CustomerService.fs" />
+    <Compile Include="src/App/Services/WeekdayService.fs" />
+    <Compile Include="src/App/Services/DeliveryTimeRuleService.fs" />
+    <Compile Include="src/App/Services/ProductStorageTypeService.fs" />
+    <Compile Include="src/App/Services/ProductService.fs" />
+    <Compile Include="src/App/Services/OrderItemService.fs" />
+    <Compile Include="src/App/Services/OrderService.fs" />
+    <Compile Include="src/App/Services/DeliveryTimeService.fs" />
 
     <Compile Include="src/Http/Resources/**/*Resource.fs" />
     <Compile Include="src/Http/Resources/**/*Collection.fs" />
@@ -55,6 +65,11 @@
     <Compile Remove="./assets/*" />
     <Compile Remove="./src/Infrastructure/Scripts/*.fs" />
     <Compile Remove="./src/Infrastructure/Scripts/*.fsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="./assets/*" />
+    <Content Include="./assets/*" Watch="false" />
   </ItemGroup>
 
   <ItemGroup>

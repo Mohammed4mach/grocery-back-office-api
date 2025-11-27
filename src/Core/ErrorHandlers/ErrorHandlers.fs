@@ -26,6 +26,7 @@ module ErrorHandlers =
             | AuthenticationException message -> RequestErrors.unauthorized "Cookie" Configs.Auth.realm (negotiate (getErrorBody message (int HttpStatus.Unauthorized)))
             | AuthorizationException message -> RequestErrors.forbidden (negotiate (getErrorBody message (int HttpStatus.Forbidden)))
             | EntityNotFoundError message -> RequestErrors.notFound (negotiate (getErrorBody message (int HttpStatus.Not_Found)))
+            | DumbAndDie data -> ServerErrors.internalError (negotiate {| data = data |})
             |_ ->
                 logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
                 setStatusCode 500

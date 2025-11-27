@@ -26,6 +26,16 @@ module OrderHandlers =
 
             negotiate resource next ctx
 
+    let getDeliveryTimes (id : int) : HttpHandler =
+        fun (next : HttpFunc) (ctx : HttpContext) ->
+            let order = OrderService.show id
+
+            // Get delivery time
+            let times : DeliveryTime seq          = DeliveryTimeService.getDeliveryTimes order
+            let resource : DeliveryTimeCollection = DeliveryTimeCollection.ofEntity times
+
+            negotiate resource next ctx
+
     let store : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
             bindModel<StoreOrderRequest> None (

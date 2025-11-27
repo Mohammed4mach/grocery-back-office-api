@@ -29,3 +29,14 @@ module ProductStorageTypeService =
     let delete (id : int) : unit =
         repo.delete (id.ToString())
 
+    // Get product storage types for all products included in an order
+    let getStorageTypesOfOrder (order : Order) : ProductStorageType seq =
+        let joins : Join<string> seq = [
+            Helpers.Database.innerJoin "products" (Helpers.Database.where "product_storage_types.id" (Some "products.product_storage_type_id"))
+            Helpers.Database.innerJoin "order_items" (Helpers.Database.where "products.id" (Some "order_items.product_id"))
+        ]
+        let conditions : Condition<string> seq = [ Helpers.Database.where "order_id" (Some (order.id.ToString())) ]
+
+        repo.get joins conditions
+
+

@@ -1,5 +1,6 @@
 namespace App.Services
 
+open System
 open Core.Entities
 open Core.Exceptions.Validation
 open App.Repositories
@@ -66,4 +67,42 @@ module DeliveryTimeRuleService =
 
     let removeOffday (id : int) : unit =
         offdayRepo.delete (id.ToString())
+
+    // Get delivery time rules of the storage types
+    let getDeliveryRulesOfStorageTypes (storageTypes : ProductStorageType seq) : DeliveryTimeRule seq =
+        let rulesIds : string array = storageTypes |> Seq.map (fun _type -> _type.delivery_time_rule_id.ToString()) |> Seq.distinct |> Array.ofSeq
+
+        repo.get [] [ Helpers.Database.whereIn "id" rulesIds ]
+
+    // Some helpers funs to combine delivery rules into one rule field
+    let private toSameDayDeadline = fun (rule : DeliveryTimeRule) -> rule.same_day_deadline
+    let private forHavingValue    = fun (deadline : Nullable<TimeOnly>) -> deadline.HasValue
+    let private toTimeValue       = fun (deadline : Nullable<TimeOnly>) -> deadline.Value
+
+    // Combine the rules into one rule, and return all offdays for the rules
+    let combineRules (rules : DeliveryTimeRule seq) : DeliveryTimeRule * Weekday seq =
+        let offdays : Weekday seq      = rules |> WeekdayService.getOffdaysOfDeliveryRule
+        let inAdvanceDays : int        = rules |> Seq.map (fun rule -> rule.in_advance_days) |> Seq.max
+        let sameDayDeadlines : TimeOnly seq =
+            rules |>
+            Seq.map toSameDayDeadline |>
+            Seq.filter forHavingValue |>
+            Seq.map toTimeValue
+
+        let sameDayDeadline : TimeOnly option =
+            match Seq.isEmpty sameDayDeadlines with
+            | true -> None
+            | false -> Some (Seq.min sameDayDeadlines)
+
+        let rule : DeliveryTimeRule = {
+            DeliveryTimeRule.Default with
+                in_advance_days   = inAdvanceDays
+                same_day_deadline =
+                    match sameDayDeadline with
+                    | Some deadline -> Nullable(deadline)
+                    | None -> Nullable()
+        }
+
+        rule, offdays
+
 

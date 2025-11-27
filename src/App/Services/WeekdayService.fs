@@ -29,3 +29,13 @@ module WeekdayService =
     let delete (id : int) : unit =
         repo.delete (id.ToString())
 
+    // Get weekdays not available for delivery for the delivery time rules
+    let getOffdaysOfDeliveryRule (rules : DeliveryTimeRule seq) : Weekday seq =
+        let rulesIds : string array = rules |> Seq.map (fun (rule : DeliveryTimeRule) -> rule.id.ToString()) |> Array.ofSeq
+        let condition : Condition<string array> = Helpers.Database.whereIn "delivery_time_rule_id" rulesIds
+        let join : Join<string> =
+            Helpers.Database.where "weekdays.id" (Some "weekday_id") |>
+            Helpers.Database.innerJoin "delivery_time_rule_not_available_weekdays"
+
+        repo.get [ join ] [ condition ]
+

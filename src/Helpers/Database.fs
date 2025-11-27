@@ -15,7 +15,7 @@ module Database =
     let whereNot<'T> (column : string) (value : 'T option) : Condition<'T> =
         makeCondition column value (Some "<>")
 
-    let whereIn<'T> (column : string) (values : 'T seq) : Condition<'T seq> =
+    let whereIn<'T> (column : string) (values : 'T array) : Condition<'T array> =
         makeCondition column (Some values) (Some "IN")
 
     let whereLike (column : string) (value : 'T option) : Condition<'T> =
