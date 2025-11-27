@@ -12,7 +12,7 @@ open Http.Requests
 module WeekdayHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition seq = []
+            let filters : Condition<string> seq = []
             let weekdays  = WeekdayService.index filters
             let collection = WeekdayCollection.ofEntity weekdays
 

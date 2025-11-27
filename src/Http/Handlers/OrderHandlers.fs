@@ -13,7 +13,7 @@ open Http.Requests
 module OrderHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition seq = []
+            let filters : Condition<string> seq = []
             let orders  = OrderService.index filters
             let collection = OrderCollection.ofEntity orders
 

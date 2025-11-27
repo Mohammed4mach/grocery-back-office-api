@@ -12,7 +12,7 @@ open Http.Requests
 module ProductStorageTypeHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition seq = []
+            let filters : Condition<string> seq = []
             let productTypes = ProductStorageTypeService.index filters
             let collection   = ProductStorageTypeCollection.ofEntity productTypes
 

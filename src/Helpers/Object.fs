@@ -1,9 +1,12 @@
 namespace Helpers
 
+open System.Dynamic
+open System.Collections.Generic
+
 module DynamicObject =
-    let ofMap (_map : Map<string, 'obj>) : System.Dynamic.ExpandoObject =
-        let expando     = new System.Dynamic.ExpandoObject()
-        let expandoDict = expando :> System.Collections.Generic.IDictionary<string, obj>
+    let ofMap (_map : Map<string, 'obj>) : ExpandoObject =
+        let expando     = new ExpandoObject()
+        let expandoDict = expando :> IDictionary<string, obj>
 
         for KeyValue(key, value) in _map do
             expandoDict.Add (key, value)

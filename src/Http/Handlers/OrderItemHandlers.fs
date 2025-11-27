@@ -15,7 +15,7 @@ open Http.Requests
 module OrderItemHandlers =
     let index (orderId : int) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition seq = []
+            let filters : Condition<string> seq = []
             let items      = OrderItemService.index orderId filters
             let collection = OrderItemCollection.ofEntity items
 

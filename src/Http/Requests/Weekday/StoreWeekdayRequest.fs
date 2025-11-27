@@ -1,5 +1,6 @@
 namespace Http.Requests
 
+open System
 open Core.Interfaces
 open Core.ValidationRules
 

@@ -13,7 +13,7 @@ open Http.Requests
 module UserHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition seq = []
+            let filters : Condition<string> seq = []
             let users      = UserService.index filters
             let collection = UserCollection.ofEntity users
 

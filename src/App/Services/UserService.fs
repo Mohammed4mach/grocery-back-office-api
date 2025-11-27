@@ -9,7 +9,7 @@ open Infrastructure.Core.Types
 module UserService =
     let private repo = UserRepository :> IRepository<User | null>
 
-    let index (filters : Condition seq) : User seq =
+    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : User seq =
         repo.get [] filters
 
     let show (id : int) : User =

@@ -26,6 +26,6 @@ type DeliveryTimeRuleWithRelationsResource =
         data : DeliveryTimeRuleResourceWithRelaitonsData
     }
 
-    static member ofEntity (rule : DeliveryTimeRule) (offdays) : DeliveryTimeRuleWithRelationsResource =
+    static member ofEntity (rule : DeliveryTimeRule) (offdays : Weekday seq) : DeliveryTimeRuleWithRelationsResource =
         { data = DeliveryTimeRuleResourceWithRelaitonsData.ofEntity rule offdays }
 

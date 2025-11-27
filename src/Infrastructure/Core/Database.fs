@@ -17,7 +17,7 @@ module Database =
     let private mysqlKey = Connections.MySql.ToString().ToLower()
     let private mssqlKey = Connections.MsSql.ToString().ToLower()
 
-    let operations<'T, 'U> : Operations<'T, 'U> =
+    let operations<'T, 'U, 'P, 'Y, 'Z when 'Y : null and 'Z : null> : Operations<'T, 'U, 'P, 'Y, 'Z> =
         match Configs.Database.connection with
             | connection when connection = pgsqlKey -> pgsqlOperations
             | connection when connection = mysqlKey -> mysqlOperations

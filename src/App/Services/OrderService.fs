@@ -9,7 +9,7 @@ open Infrastructure.Core.Types
 module OrderService =
     let private repo = OrderRepository :> IRepository<Order | null>
 
-    let index (filters : Condition seq) : Order seq =
+    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : Order seq =
         let orders = repo.get [] filters
 
         orders
@@ -22,7 +22,7 @@ module OrderService =
     let updateOrderTotalCost (id : int) : Order =
         let items = OrderItemService.index id []
 
-        let totalCost = items |> Seq.fold<OrderItem, float> (fun acc item -> acc + (item.cost_per_item * (float item.quantity))) 0.00
+        let totalCost = items |> Seq.fold<OrderItem, float> (fun acc item -> acc + item.cost_per_item * float item.quantity) 0.00
 
         let order = {
             Order.Default with
@@ -40,7 +40,7 @@ module OrderService =
 
         let order = repo.store order
 
-        items |> Seq.iter<OrderItem> (fun item -> (OrderItemService.store order.id item true) |> ignore)
+        items |> Seq.iter<OrderItem> (fun item -> OrderItemService.store order.id item true |> ignore)
 
         let updatedOrder = order.id |> updateOrderTotalCost
 

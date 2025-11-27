@@ -8,7 +8,7 @@ open Infrastructure.Core.Types
 module ProductStorageTypeService =
     let private repo = ProductStorageTypeRepository :> IRepository<ProductStorageType | null>
 
-    let index (filters : Condition seq) : ProductStorageType seq =
+    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : ProductStorageType seq =
         let productTypes = repo.get [] filters
 
         productTypes

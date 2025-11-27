@@ -11,7 +11,7 @@ module OrderItemService =
     let private orderRepo   = OrderRepository :> IRepository<Order | null>
     let private productRepo = ProductRepository :> IRepository<Product | null>
 
-    let index (orderId : int) (filters : Condition seq) : OrderItem seq =
+    let index (orderId : int) (filters : Condition<string> seq) : OrderItem seq =
         // Check if order exists
         let order : Order = orderRepo.find (orderId.ToString()) []
 
@@ -29,7 +29,7 @@ module OrderItemService =
     let store (orderId : int) (item : OrderItem) (escapeUniqueCheck : bool) : OrderItem =
         if not escapeUniqueCheck then
             // Check for unique (order_id - product_id)
-            let conditions    : Condition seq = [
+            let conditions    : Condition<string> seq = [
                 Helpers.Database.where "order_id" (Some (orderId.ToString()))
                 Helpers.Database.where "product_id" (Some (item.product_id.ToString()))
             ]

@@ -8,7 +8,7 @@ open Infrastructure.Core.Types
 module CustomerService =
     let private repo = CustomerRepository :> IRepository<Customer | null>
 
-    let index (filters : Condition seq) : Customer seq =
+    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : Customer seq =
         let customers = repo.get [] filters
 
         customers

@@ -1,22 +1,24 @@
 namespace Infrastructure.Core
 
+open System
+
 module Types =
     type ExecuteParameter =
         | QueryOnly of string
         | WithParam of string * obj
 
-    type Condition =
+    type Condition<'T> =
         {
             column : string
             operator : string
-            value : string option
+            value : 'T option
         }
 
-    type Join =
+    type Join<'T>=
         {
             _type : string
             table : string
-            condition : Condition
+            condition : Condition<'T>
         }
 
     type AggregateOperation =
@@ -26,15 +28,16 @@ module Types =
         | Min of string
         | Max of string
 
-    type Operations<'T, 'U> =
+    type Operations<'T, 'U, 'P, 'Y, 'Z> =
         {
             insert : string -> string seq -> 'T -> 'T
-            update : string -> string seq -> 'T -> Condition seq -> 'T
-            delete : string -> Condition seq -> int
-            select : string -> Join seq -> Condition seq -> 'T list
+            update : string -> string seq -> 'T -> Condition<'Y> seq -> 'T
+            delete : string -> Condition<'Y> seq -> int
+            select : string -> Join<'Z> seq -> Condition<'Y> seq -> 'T list
             execute : ExecuteParameter -> int
-            selectSingle : string -> Join seq -> Condition seq -> 'T
-            selectScalar : string -> AggregateOperation -> Condition seq -> 'U
+            selectSingle : string -> Join<'Z> seq -> Condition<'Y> seq -> 'T
+            selectScalar : string -> AggregateOperation -> Condition<'Y> seq -> 'U
+            selectWithRelation : string -> Join<'Z> seq -> Condition<'Y> seq -> Func<'T, 'U, 'P> -> 'P list
             configureDatabase : unit -> unit
         }
 

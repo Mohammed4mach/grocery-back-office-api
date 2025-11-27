@@ -19,7 +19,7 @@ type UpdateOrderRequest =
                 | false -> "", new DateOnly()
                 | true ->
                     let dDate = this.delivery_date.Value.ToString()
-                    let dateObj = DateOnly.Parse(dDate)
+                    let dateObj = DateOnly.Parse dDate
 
                     dDate, dateObj
 
@@ -28,7 +28,7 @@ type UpdateOrderRequest =
                 | false -> ""
                 | true -> this.delivery_time.Value.ToString()
 
-            let today = DateOnly.FromDateTime(DateTime.Now)
+            let today = DateOnly.FromDateTime DateTime.Now
 
             [
                 (* Order exists *)

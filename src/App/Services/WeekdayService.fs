@@ -8,7 +8,7 @@ open Infrastructure.Core.Types
 module WeekdayService =
     let private repo = WeekdayRepository :> IRepository<Weekday | null>
 
-    let index (filters : Condition seq) : Weekday seq =
+    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : Weekday seq =
         let weekdays = repo.get [] filters
 
         weekdays

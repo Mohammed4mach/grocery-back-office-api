@@ -55,7 +55,7 @@ type StoreOrderRequest =
             ]
 
             let itemsRules : IValidationRule list =
-                items |> List.fold (fun validations item -> validations @ (StoreOrderRequest.getItemValidationRules item)) []
+                items |> List.fold (fun validations item -> validations @ StoreOrderRequest.getItemValidationRules item) []
 
             orderRules @ itemsRules
 

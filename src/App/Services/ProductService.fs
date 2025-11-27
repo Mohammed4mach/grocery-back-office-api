@@ -9,7 +9,7 @@ module ProductService =
     let private repo     = ProductRepository :> IRepository<Product | null>
     let private typeRepo = ProductStorageTypeRepository :> IRepository<ProductStorageType | null>
 
-    let index (filters : Condition seq) : Product seq =
+    let index<'Y when 'Y : null> (filters : Condition<'Y > seq) : Product seq =
         let products = repo.get [] filters
 
         products

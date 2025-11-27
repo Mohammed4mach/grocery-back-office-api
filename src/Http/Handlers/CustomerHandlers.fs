@@ -12,7 +12,7 @@ open Http.Requests
 module CustomerHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition seq = []
+            let filters : Condition<string> seq = []
             let customers  = CustomerService.index filters
             let collection = CustomerCollection.ofEntity customers
 

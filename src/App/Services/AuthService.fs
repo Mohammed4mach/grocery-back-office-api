@@ -11,7 +11,7 @@ module AuthService =
     let private repo = UserRepository :> IRepository<User | null>
 
     let authenticateUser (username : string) (password : string) : User =
-        let conditions : Condition seq = [ Helpers.Database.where "username" (Some username) ]
+        let conditions : Condition<string> seq = [ Helpers.Database.where "username" (Some username) ]
         let authException = AuthenticationException "Invalid credentials"
 
         try

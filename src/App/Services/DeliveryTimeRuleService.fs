@@ -11,7 +11,7 @@ module DeliveryTimeRuleService =
     let private weekdayRepo = WeekdayRepository :> IRepository<Weekday | null>
     let private offdayRepo  = DeliveryTimeRuleNotAvailableWeekdayRepository :> IRepository<DeliveryTimeRuleNotAvailableWeekday | null>
 
-    let index (filters : Condition seq) : DeliveryTimeRule seq =
+    let index (filters : Condition<'P> seq) : DeliveryTimeRule seq =
         let rules = repo.get [] filters
 
         rules
@@ -20,9 +20,9 @@ module DeliveryTimeRuleService =
         let rule = repo.find (id.ToString()) []
 
         // Get weekdays
-        let condition : Condition = Helpers.Database.where "delivery_time_rule_not_available_weekdays.delivery_time_rule_id" (Some (rule.id.ToString()))
-        let joinCondition : Condition  = Helpers.Database.where "weekdays.id" (Some "delivery_time_rule_not_available_weekdays.weekday_id")
-        let join : Join = Helpers.Database.innerJoin "delivery_time_rule_not_available_weekdays" joinCondition
+        let condition : Condition<string> = Helpers.Database.where "delivery_time_rule_not_available_weekdays.delivery_time_rule_id" (Some (rule.id.ToString()))
+        let joinCondition : Condition<string>  = Helpers.Database.where "weekdays.id" (Some "delivery_time_rule_not_available_weekdays.weekday_id")
+        let join : Join<string> = Helpers.Database.innerJoin "delivery_time_rule_not_available_weekdays" joinCondition
 
         let weekdays = weekdayRepo.get [join] [condition]
 
@@ -44,7 +44,7 @@ module DeliveryTimeRuleService =
         let weekday = weekdayRepo.find (weekdayId.ToString()) []
 
         // Check if the bond exists
-        let conditions : Condition seq = [
+        let conditions : Condition<string> seq = [
             Helpers.Database.where "delivery_time_rule_id" (Some (rule.id.ToString()))
             Helpers.Database.where "weekday_id" (Some (weekday.id.ToString()))
         ]

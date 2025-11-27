@@ -8,93 +8,110 @@ open Dapper.FSharp
 open Infrastructure.Core.Types
 open Infrastructure.Core.Exceptions
 
-module private TypeHandlers =
-    type TimeOnlyHandler() =
-        inherit SqlMapper.TypeHandler<TimeOnly>()
-
-        override _.SetValue(param, value) =
-            (param :?> NpgsqlParameter).Value <- value
-
-        override _.Parse(value) =
-            match value with
-            | :? TimeSpan as ts -> TimeOnly(ts.Hours, ts.Minutes, ts.Seconds)
-            | :? DateTime as dt -> TimeOnly(dt.Hour, dt.Minute, dt.Second)
-            | :? TimeOnly as _to -> _to
-            | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
-
-    type TimeOnlyOptionHandler() =
-        inherit SqlMapper.TypeHandler<TimeOnly option>()
-
-        override _.SetValue(param, _option) =
-            (param :?> NpgsqlParameter).Value <- _option
-
-        override _.Parse(value) =
-            match value with
-            | :? TimeSpan as ts -> Some(TimeOnly(ts.Hours, ts.Minutes, ts.Seconds))
-            | :? DateTime as dt -> Some(TimeOnly(dt.Hour, dt.Minute, dt.Second))
-            | :? TimeOnly as _to -> Some(_to)
-            | _ -> failwith $"Unexpected value type for TimeOnly option: {value.GetType()}"
-
-    type DateOnlyHandler() =
-        inherit SqlMapper.TypeHandler<DateOnly>()
-
-        override _.SetValue(param, value) =
-            (param :?> NpgsqlParameter).Value <- value
-
-        override _.Parse(value) =
-            match value with
-            | :? DateTime as dt -> DateOnly.FromDateTime dt
-            | :? DateOnly as _to -> _to
-            | _ -> failwith $"Unexpected value type for DateOnly: {value.GetType()}"
-
-
-
-module private Helpers =
-    let getFieldsStr (fields : string seq) : string =
-        String.Join (",", fields)
-
-    let getInsertValueStr (fields : string seq) : string =
-        (fields |> Seq.fold (fun acc field -> $"{acc} @{field},") "").Trim().Trim ','
-
-    let getUpdateValueStr (fields : string seq) : string =
-        let str     = fields |> Seq.fold (fun acc field -> $"{acc} {field} = @{field},") ""
-        let trimmed = str.Trim().Trim ','
-
-        trimmed
-
-    let getConditionValue (valueWrapper : string option) : string =
-        match valueWrapper with
-        | Some value -> value
-        | None -> "NULL"
-
-    let getConditionStr (condition : Condition) : string =
-        $"{condition.column}::VARCHAR {condition.operator} {getConditionValue condition.value}::VARCHAR"
-
-    let getConditionsStr (conditions : Condition seq) : string =
-        conditions |> Seq.fold (fun acc condition -> $"{acc} AND {getConditionStr condition}") "TRUE"
-
-    let getParamConditionStr (conditions : Condition seq) : string * obj =
-        let columnValue = seq { for condition in conditions -> condition.column, getConditionValue condition.value } |> Map.ofSeq |> Helpers.DynamicObject.ofMap
-
-        let conditionsStr = conditions |> Seq.fold (fun acc condition -> $"{acc} AND {condition.column}::VARCHAR {condition.operator} @{condition.column}") "TRUE"
-
-        conditionsStr, columnValue
-
-    let getFieldFromAggregateOperation (operation : AggregateOperation) : string =
-        match operation with
-            | AggregateOperation.Count param -> $"COUNT({param})"
-            | AggregateOperation.Avg param -> $"AVG({param})"
-            | AggregateOperation.Sum param -> $"SUM({param})"
-            | AggregateOperation.Max param -> $"MAX({param})"
-            | AggregateOperation.Min param -> $"MIN({param})"
-
-    let getJoinStr (join : Join) : string =
-        let { _type = _type; table = table; condition = condition } = join
-        let conditionStr = getConditionStr condition
-
-        $"{_type} JOIN {table} ON {conditionStr}"
-
 module PostgreSQL =
+    module private TypeHandlers =
+        type TimeOnlyHandler() =
+            inherit SqlMapper.TypeHandler<TimeOnly>()
+
+            override _.SetValue(param, value) =
+                (param :?> NpgsqlParameter).Value <- value
+
+            override _.Parse(value) =
+                match value with
+                | :? TimeSpan as ts -> TimeOnly(ts.Hours, ts.Minutes, ts.Seconds)
+                | :? DateTime as dt -> TimeOnly(dt.Hour, dt.Minute, dt.Second)
+                | :? TimeOnly as _to -> _to
+                | _ -> failwith $"Unexpected value type for TimeOnly: {value.GetType()}"
+
+        type TimeOnlyOptionHandler() =
+            inherit SqlMapper.TypeHandler<TimeOnly option>()
+
+            override _.SetValue(param, _option) =
+                (param :?> NpgsqlParameter).Value <- _option
+
+            override _.Parse(value) =
+                match value with
+                | :? TimeSpan as ts -> Some(TimeOnly(ts.Hours, ts.Minutes, ts.Seconds))
+                | :? DateTime as dt -> Some(TimeOnly(dt.Hour, dt.Minute, dt.Second))
+                | :? TimeOnly as _to -> Some(_to)
+                | _ -> failwith $"Unexpected value type for TimeOnly option: {value.GetType()}"
+
+        type DateOnlyHandler() =
+            inherit SqlMapper.TypeHandler<DateOnly>()
+
+            override _.SetValue(param, value) =
+                (param :?> NpgsqlParameter).Value <- value
+
+            override _.Parse(value) =
+                match value with
+                | :? DateTime as dt -> DateOnly.FromDateTime dt
+                | :? DateOnly as _to -> _to
+                | _ -> failwith $"Unexpected value type for DateOnly: {value.GetType()}"
+        // End TypeHandlers Module
+
+    module private Helpers =
+        let getFieldsStr (fields : string seq) : string =
+            String.Join (",", fields)
+
+        let getInsertValueStr (fields : string seq) : string =
+            (fields |> Seq.fold (fun acc field -> $"{acc} @{field},") "").Trim().Trim ','
+
+        let getUpdateValueStr (fields : string seq) : string =
+            let str     = fields |> Seq.fold (fun acc field -> $"{acc} {field} = @{field},") ""
+            let trimmed = str.Trim().Trim ','
+
+            trimmed
+
+        let getConditionStr<'Y> (condition : Condition<'Y>) : string =
+            let value =
+                match condition.value with
+                | Some value -> value.ToString()
+                | None -> "NULL"
+
+            $"{condition.column}::VARCHAR {condition.operator} {value}::VARCHAR"
+
+        let getConditionsStr<'Y> (conditions : Condition<'Y> seq) : string =
+            conditions |> Seq.fold (fun acc condition -> $"{acc} AND {getConditionStr condition}") "TRUE"
+
+        let getParamConditionStr<'P when 'P : null> (conditions : Condition<'P> seq) : string * obj =
+            let columnValue =
+                seq {
+                    for condition in conditions ->
+                        let value =
+                            match condition.value with
+                            | Some value -> value
+                            | None -> null
+
+                        condition.column, value
+                } |> Map.ofSeq |> Helpers.DynamicObject.ofMap
+
+            let folder = fun acc condition ->
+                let operatorWithRHS : string =
+                    match condition.operator.ToLower() = "IN".ToLower() with
+                    | true -> $"= ANY(@{condition.column})"
+                    | false -> $"{condition.operator} @{condition.column}"
+
+                $"{acc} AND {condition.column}::VARCHAR {operatorWithRHS}"
+
+            let conditionsStr = conditions |> Seq.fold folder "TRUE"
+
+            conditionsStr, columnValue
+
+        let getFieldFromAggregateOperation (operation : AggregateOperation) : string =
+            match operation with
+                | AggregateOperation.Count param -> $"COUNT({param})"
+                | AggregateOperation.Avg param -> $"AVG({param})"
+                | AggregateOperation.Sum param -> $"SUM({param})"
+                | AggregateOperation.Max param -> $"MAX({param})"
+                | AggregateOperation.Min param -> $"MIN({param})"
+
+        let getJoinStr<'Z> (join : Join<'Z>) : string =
+            let { _type = _type; table = table; condition = condition } = join
+            let conditionStr = getConditionStr condition
+
+            $"{_type} JOIN {table} ON {conditionStr}"
+        // End Helpers Module
+
     let private getConnectionString () =
         let host     = Configs.Database.host
         let port     = Configs.Database.port
@@ -157,7 +174,7 @@ module PostgreSQL =
                 connection.QuerySingle<'T> (CommandDefinition (sql, value))
         )
 
-    let private update<'T> (table : string) (fields : string seq) (value : 'T) (conditions : Condition seq) : 'T =
+    let private update<'T, 'P> (table : string) (fields : string seq) (value : 'T) (conditions : Condition<'P> seq) : 'T =
         useConnection (
             fun connection ->
                 let valueStr      = Helpers.getUpdateValueStr fields
@@ -168,7 +185,7 @@ module PostgreSQL =
                 connection.QuerySingle<'T> (CommandDefinition (sql, value :> obj))
         )
 
-    let private delete<'T> (table : string) (conditions : Condition seq) : int =
+    let private delete<'T, 'P> (table : string) (conditions : Condition<'P> seq) : int =
         useConnection (
             fun connection ->
                 let conditionsStr = Helpers.getConditionsStr conditions
@@ -178,24 +195,34 @@ module PostgreSQL =
                 connection.Execute (CommandDefinition sql)
         )
 
-    let private prepareSelectParams (table : string) (joins : Join seq) (conditions : Condition seq) : string * obj =
+    let private prepareSelectParams<'Y, 'Z when 'Y : null and 'Z : null> (table : string) (joins : Join<'Z> seq) (conditions : Condition<'Y> seq) : string * obj =
         let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
-        let joinStr = Seq.fold (fun (acc : string) (join : Join) -> $"{acc} {Helpers.getJoinStr join}") "" joins
+        let joinStr = Seq.fold (fun (acc : string) (join : Join<'Z>) -> $"{acc} {Helpers.getJoinStr join}") "" joins
 
         let sql  = $"SELECT * FROM {table} {joinStr} WHERE {conditionsStr}"
 
         sql, columnValue
 
-    let private select<'T> (table : string) (joins : Join seq) (conditions : Condition seq) : 'T list =
+    let private select<'T, 'Y, 'Z when 'Y : null and 'Z : null> (table : string) (joins : Join<'Z> seq) (conditions : Condition<'Y> seq) : 'T list =
+        useConnection (
+            fun connection ->
+                let sql, columnValue = prepareSelectParams table joins conditions
+                let objStr = sprintf "%A" columnValue
+
+                try
+                    connection.Query<'T> (sql, columnValue) |> List.ofSeq
+                with ex -> raise (new Exception $"{sql} __ {ex.Message} __ {objStr}")
+        )
+
+    let private selectWithRelation<'T, 'U, 'P,'Y, 'Z when 'Y : null and 'Z : null> (table : string) (joins : Join<'Z> seq) (conditions : Condition<'Y> seq) (splitOn : Func<'T, 'U, 'P>) : 'P list =
         useConnection (
             fun connection ->
                 let sql, columnValue = prepareSelectParams table joins conditions
 
-                // connection.QueryMultipleAsync
-                connection.Query<'T> (sql, columnValue) |> List.ofSeq
+                connection.Query<'T, 'U, 'P> (sql, splitOn, columnValue) |> List.ofSeq
         )
 
-    let private selectSingle<'T> (table : string) (joins : Join seq) (conditions : Condition seq) : 'T =
+    let private selectSingle<'T, 'Y, 'Z when 'Y : null and 'Z : null> (table : string) (joins : Join<'Z> seq) (conditions : Condition<'Y> seq) : 'T =
         useConnection (
             fun connection ->
                 let sql, columnValue = prepareSelectParams table joins conditions
@@ -203,7 +230,7 @@ module PostgreSQL =
                 connection.QuerySingleOrDefault<'T> (sql, columnValue)
         )
 
-    let private selectScalar<'U> (table : string) (operation : AggregateOperation) (conditions : Condition seq) : 'U =
+    let private selectScalar<'U, 'P when 'P : null> (table : string) (operation : AggregateOperation) (conditions : Condition<'P> seq) : 'U =
         useConnection (
             fun connection ->
                 let conditionsStr, columnValue = Helpers.getParamConditionStr conditions
@@ -214,15 +241,16 @@ module PostgreSQL =
                 connection.ExecuteScalar<'U> (sql, columnValue)
         )
 
-    let operations : Operations<'T, 'U> =
+    let operations : Operations<'T, 'U, 'P, 'Y, 'Z> =
         {
-            insert            = insert
-            update            = update
-            delete            = delete
-            select            = select
-            execute           = execute
-            selectSingle      = selectSingle
-            selectScalar      = selectScalar
-            configureDatabase = configurePostgresDatabase
+            insert             = insert
+            update             = update
+            delete             = delete
+            select             = select
+            execute            = execute
+            selectSingle       = selectSingle
+            selectScalar       = selectScalar
+            selectWithRelation = selectWithRelation
+            configureDatabase  = configurePostgresDatabase
         }
 
