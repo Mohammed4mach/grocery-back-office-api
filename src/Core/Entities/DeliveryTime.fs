@@ -2,6 +2,9 @@ namespace Core.Entities
 
 open System
 
+/// <summary>
+/// Entity that model a delivery time slot
+/// </summary>
 [<CLIMutable>]
 [<CustomEquality; CustomComparison>]
 type DeliveryTime =

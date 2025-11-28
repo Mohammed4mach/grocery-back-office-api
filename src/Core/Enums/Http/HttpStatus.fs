@@ -1,5 +1,8 @@
 namespace Core.Enums.Http
 
+/// <summary>
+/// Http status codes
+/// </summary>
 type HttpStatus =
     | Continue = 100
     | Switching_Protocols = 101

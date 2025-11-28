@@ -3,6 +3,9 @@ namespace Http.Requests
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate user store data
+/// </summary>
 [<CLIMutable>]
 type StoreUserRequest =
     {

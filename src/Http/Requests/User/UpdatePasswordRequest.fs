@@ -3,6 +3,9 @@ namespace Http.Requests
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate password update fields
+/// </summary>
 [<CLIMutable>]
 type UpdatePasswordRequest =
     {

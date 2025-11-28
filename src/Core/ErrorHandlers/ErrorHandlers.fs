@@ -10,7 +10,15 @@ open Core.Exceptions.Validation
 open Core.Exceptions.Authentication
 open Core.Exceptions.Authorization
 
+/// <summary>
+/// Module holds error handlers
+/// </summary>
 module ErrorHandlers =
+
+    /// <summary>
+    /// Handle the http errors according to the thrown exception.
+    /// </summary>
+    /// <param name="ex">The thrown</param>
     let mainHandler (ex : Exception) (logger : ILogger) =
         clearResponse
         >=> match ex with

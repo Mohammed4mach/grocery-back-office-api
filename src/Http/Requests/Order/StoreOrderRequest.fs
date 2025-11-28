@@ -11,6 +11,9 @@ type OrderItemData =
         product_id : Nullable<int>
     }
 
+/// <summary>
+/// Validatable request that validate order store data
+/// </summary>
 [<CLIMutable>]
 type StoreOrderRequest =
     {

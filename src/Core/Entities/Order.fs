@@ -2,6 +2,9 @@ namespace Core.Entities
 
 open System
 
+/// <summary>
+/// Entity that model orders resource
+/// </summary>
 [<CLIMutable>]
 type Order =
     {

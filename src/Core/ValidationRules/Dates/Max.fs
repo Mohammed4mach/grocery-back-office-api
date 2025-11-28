@@ -4,6 +4,14 @@ open System
 open Core.Interfaces
 open Core.Exceptions.Validation
 
+/// <summary>
+/// Ensure that a date is not greater than a specific date
+/// </summary>
+/// <param name="attributeName">
+/// The name of the field to include in exception message
+/// </param>
+/// <param name="value">The date to be validated</param>
+/// <param name="minVal">The date used as maximum date</param>
 type Max (attributeName : string, value : DateOnly, maxVal : DateOnly) =
     interface IValidationRule with
         member _.Validate() : unit =

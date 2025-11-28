@@ -3,6 +3,9 @@ namespace Http.Routes
 open Giraffe
 open Http.Handlers
 
+/// <summary>
+/// Order items routes
+/// </summary>
 module OrderItems =
     let routes<'T> =
         choose [

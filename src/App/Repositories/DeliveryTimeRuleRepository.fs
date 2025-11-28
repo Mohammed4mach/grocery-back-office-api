@@ -3,6 +3,9 @@ namespace App.Repositories
 open Core.Entities
 open Infrastructure.Repositories
 
+/// <summary>
+/// Delivery time rule entity repository
+/// </summary>
 [<AutoOpen>]
 module DeliveryTimeRule =
     let DeliveryTimeRuleRepository : Repository<DeliveryTimeRule | null> = {

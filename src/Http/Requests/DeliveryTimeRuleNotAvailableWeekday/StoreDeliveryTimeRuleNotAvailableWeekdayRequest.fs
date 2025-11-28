@@ -3,6 +3,9 @@ namespace Http.Requests
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate existence of the rule and the weekday
+/// </summary>
 [<CLIMutable>]
 type StoreDeliveryTimeRuleNotAvailableWeekdayRequest =
     {

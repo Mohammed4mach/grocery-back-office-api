@@ -3,6 +3,9 @@ namespace App.Repositories
 open Core.Entities
 open Infrastructure.Repositories
 
+/// <summary>
+/// Order entity repository
+/// </summary>
 [<AutoOpen>]
 module Order =
     let OrderRepository : Repository<Order | null> = {

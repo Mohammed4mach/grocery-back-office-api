@@ -1,5 +1,8 @@
 namespace Core.Entities
 
+/// <summary>
+/// Entity that model products resource
+/// </summary>
 [<CLIMutable>]
 type Product = {
     id: int

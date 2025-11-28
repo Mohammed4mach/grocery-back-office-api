@@ -4,6 +4,9 @@ open System
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate delivery rule store data
+/// </summary>
 [<CLIMutable>]
 type StoreDeliveryTimeRuleRequest =
     {

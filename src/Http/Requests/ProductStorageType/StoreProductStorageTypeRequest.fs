@@ -3,6 +3,9 @@ namespace Http.Requests
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate product storage type store data
+/// </summary>
 [<CLIMutable>]
 type StoreProductStorageTypeRequest =
     {

@@ -1,5 +1,8 @@
 namespace Core.Entities
 
+/// <summary>
+/// Entity that model users resource
+/// </summary>
 [<CLIMutable>]
 type User = {
     id       : int

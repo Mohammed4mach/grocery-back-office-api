@@ -3,6 +3,9 @@ namespace App.Repositories
 open Core.Entities
 open Infrastructure.Repositories
 
+/// <summary>
+/// User entity repository
+/// </summary>
 [<AutoOpen>]
 module User =
     let UserRepository : Repository<User | null> = {

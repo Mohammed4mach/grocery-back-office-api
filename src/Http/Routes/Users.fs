@@ -3,6 +3,9 @@ namespace Http.Routes
 open Giraffe
 open Http.Handlers
 
+/// <summary>
+/// Users routes
+/// </summary>
 module Users =
     let routes<'T> =
         subRoute "/users"

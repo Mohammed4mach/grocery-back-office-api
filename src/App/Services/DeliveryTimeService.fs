@@ -71,7 +71,7 @@ module DeliveryTimeService =
     /// products types
     /// </returns>
     let getDeliveryTimes (order : Order) : DeliveryTimes seq =
-        let timeSlots     : Set<TimeSlot>    = getTimeSlots()
+        let timeSlots     : Set<TimeSlot>     = getTimeSlots()
         let deliveryTimes : DeliveryTimes seq = DeliveryTimeRuleService.getValidDeliveryTimes order getDeliveryDates timeSlots
 
         deliveryTimes

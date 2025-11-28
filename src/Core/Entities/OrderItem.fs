@@ -1,5 +1,8 @@
 namespace Core.Entities
 
+/// <summary>
+/// Entity that model the order item
+/// </summary>
 [<CLIMutable>]
 type OrderItem =
     {

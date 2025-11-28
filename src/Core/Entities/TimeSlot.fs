@@ -2,6 +2,9 @@ namespace Core.Entities
 
 open System
 
+/// <summary>
+/// Entity that model time slots
+/// </summary>
 [<CLIMutable>]
 [<CustomEquality; CustomComparison>]
 type TimeSlot =

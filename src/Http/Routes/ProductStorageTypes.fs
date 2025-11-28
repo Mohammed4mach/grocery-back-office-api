@@ -3,6 +3,9 @@ namespace Http.Routes
 open Giraffe
 open Http.Handlers
 
+/// <summary>
+/// Product storage types routes
+/// </summary>
 module ProductStorageTypes =
     let routes<'T> =
         subRoute "/product-storage-types"

@@ -1,9 +1,11 @@
 namespace Http.Requests
 
-open System
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate weekday store data
+/// </summary>
 [<CLIMutable>]
 type StoreWeekdayRequest =
     {

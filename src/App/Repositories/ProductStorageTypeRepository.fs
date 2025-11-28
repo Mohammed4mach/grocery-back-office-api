@@ -3,6 +3,9 @@ namespace App.Repositories
 open Core.Entities
 open Infrastructure.Repositories
 
+/// <summary>
+/// Product storage type entity repository
+/// </summary>
 [<AutoOpen>]
 module ProductStorageType =
     let ProductStorageTypeRepository : Repository<ProductStorageType | null> = {

@@ -3,6 +3,9 @@ namespace Http.Requests
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate username and password for login
+/// </summary>
 [<CLIMutable>]
 type LoginRequest =
     {

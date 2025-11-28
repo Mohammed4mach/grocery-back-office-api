@@ -3,6 +3,9 @@ namespace Http.Requests
 open Core.Interfaces
 open Core.ValidationRules
 
+/// <summary>
+/// Validatable request that validate order item store data
+/// </summary>
 [<CLIMutable>]
 type StoreOrderItemRequest =
     {

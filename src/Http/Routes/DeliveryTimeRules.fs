@@ -3,6 +3,9 @@ namespace Http.Routes
 open Giraffe
 open Http.Handlers
 
+/// <summary>
+/// Delivery time rules routes
+/// </summary>
 module DeliveryTimeRules =
     let routes<'T> =
         choose [

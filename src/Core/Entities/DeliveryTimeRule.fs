@@ -2,6 +2,9 @@ namespace Core.Entities
 
 open System
 
+/// <summary>
+/// Entity that model the delivery time rule
+/// </summary>
 [<CLIMutable>]
 type DeliveryTimeRule =
     {
