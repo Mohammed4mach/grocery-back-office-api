@@ -105,4 +105,53 @@ module DeliveryTimeRuleService =
 
         rule, offdays
 
+    let getCompositeRuleForOrder =
+        ProductStorageTypeService.getStorageTypesOfOrder >>
+        getDeliveryRulesOfStorageTypes >>
+        combineRules
+
+    // Some helpers funs to filter timeslots based on rules
+    let private forGreaterThanNow  = fun (slot : TimeSlot) -> slot.time > (TimeOnly.FromDateTime DateTime.Now)
+    let private toWeekdayBoolTuble = fun (weekday : Weekday) -> weekday.code, true
+
+    // Get valid delivery time slots, based on rules of delivery related
+    // to types of products in the order.
+    let getValidDeliveryTimes (order : Order) (getDeliveryDates : DateOnly -> Set<DateOnly>) (slots : Set<TimeSlot>) : DeliveryTimes seq =
+        let now : DateTime     = DateTime.Now
+        let today : DateOnly   = DateOnly.FromDateTime now
+        let nowTime : TimeOnly = TimeOnly.FromDateTime now
+        let rule, offdays      = order |> getCompositeRuleForOrder // Get the composite rule
+
+        let offdaysMap : Map<string, bool> = offdays |> Seq.map toWeekdayBoolTuble |> Map.ofSeq
+        let todaySlots : Set<TimeSlot>     = slots |> Set.filter forGreaterThanNow // All slots after the current time
+
+        // Filter dates against offdays and `rule.in_advance_days`
+        let toNoneOffdays =
+            fun (date : DateOnly) ->
+                match offdaysMap.TryFind (date.DayOfWeek.ToString()) with
+                | Some _ -> false
+                | None -> true
+
+        // Get valid slots
+        let stValidDate : DateOnly = today.AddDays rule.in_advance_days
+        let dates : DateOnly list  =
+            stValidDate |> getDeliveryDates |> Set.toList |> List.filter toNoneOffdays
+
+        // Whether to eliminate today from the list
+        let deadlinePassed : bool =
+            match rule.same_day_deadline.HasValue with
+            | true -> nowTime > rule.same_day_deadline.Value
+            | false -> true
+
+        let initDTimes : DeliveryTimes list = // Includes today slots if deadline not passed
+            match not deadlinePassed with
+            | true -> [ { date = dates.Head; time_slots = todaySlots } ]
+            | false -> []
+
+        let deliveryTimes : DeliveryTimes list = // Includes initial delivery times (`initDTimes`) if `rule.in_advance_days = 0`
+            match rule.in_advance_days with
+            | days when days = 0 -> initDTimes @ List.map (fun (date : DateOnly) -> { date = date; time_slots = slots }) dates.Tail
+            | _ -> List.map (fun (date : DateOnly) -> { date = date; time_slots = slots }) dates
+
+        deliveryTimes
 

@@ -1,4 +1,4 @@
-2025-11-26 Order Update endpoint timer:12h-3m-5s
+2025-11-28 Document the code
 2025-11-26 Product pictures
 2025-11-06 Write detailed README.md
 2025-11-23 Dockerize
@@ -33,3 +33,4 @@ x 2025-11-26 2025-11-24 Products endpoints timer:1h-11m-8s
 x 2025-11-26 2025-11-24 Order endpoints timer:3h-32m-5s
 x 2025-11-26 2025-11-24 OrderItems endpoints timer:2h-34m-27s
 x 2025-11-26 2025-11-21 Make super user to control users
+x 2025-11-28 2025-11-26 Order Update endpoint timer:13h-23m-14s

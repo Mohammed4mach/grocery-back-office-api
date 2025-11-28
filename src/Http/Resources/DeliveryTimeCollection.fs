@@ -9,7 +9,7 @@ type DeliveryTimeResourceData =
         time_slots : TimeSlot seq
     }
 
-    static member ofEntity (time : DeliveryTime) : DeliveryTimeResourceData =
+    static member ofEntity (time : DeliveryTimes) : DeliveryTimeResourceData =
         {
             date       = time.date
             time_slots = time.time_slots
@@ -20,7 +20,7 @@ type DeliveryTimeCollection =
         data : DeliveryTimeResourceData seq
     }
 
-    static member ofEntity (times : DeliveryTime seq) : DeliveryTimeCollection =
+    static member ofEntity (times : DeliveryTimes seq) : DeliveryTimeCollection =
         let timesResource : DeliveryTimeResourceData seq = times |> Seq.map DeliveryTimeResourceData.ofEntity
 
         { data = timesResource }

@@ -43,12 +43,12 @@
     <Compile Include="src/App/Services/UserService.fs" />
     <Compile Include="src/App/Services/CustomerService.fs" />
     <Compile Include="src/App/Services/WeekdayService.fs" />
-    <Compile Include="src/App/Services/DeliveryTimeRuleService.fs" />
     <Compile Include="src/App/Services/ProductStorageTypeService.fs" />
     <Compile Include="src/App/Services/ProductService.fs" />
+    <Compile Include="src/App/Services/DeliveryTimeRuleService.fs" />
+    <Compile Include="src/App/Services/DeliveryTimeService.fs" />
     <Compile Include="src/App/Services/OrderItemService.fs" />
     <Compile Include="src/App/Services/OrderService.fs" />
-    <Compile Include="src/App/Services/DeliveryTimeService.fs" />
 
     <Compile Include="src/Http/Resources/**/*Resource.fs" />
     <Compile Include="src/Http/Resources/**/*Collection.fs" />

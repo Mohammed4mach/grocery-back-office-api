@@ -1,4 +1,4 @@
-all: watch
+all: run
 
 watch:
 	dotnet watch run
@@ -9,11 +9,11 @@ run:
 build:
 	dotnet build
 
-build-debug:
+debug:
 	dotnet build --configuration Debug
 
-build-release:
-	dotnet build --configuration release
+release:
+	dotnet build --configuration Release
 
 clean:
 	dotnet clean

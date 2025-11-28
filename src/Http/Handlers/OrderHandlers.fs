@@ -14,14 +14,14 @@ module OrderHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
             let filters : Condition<string> seq = []
-            let orders  = OrderService.index filters
+            let orders     = OrderService.index filters
             let collection = OrderCollection.ofEntity orders
 
             negotiate collection next ctx
 
     let show (id : int) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let order = OrderService.show id
+            let order    = OrderService.show id
             let resource = OrderResource.ofEntity order
 
             negotiate resource next ctx
@@ -31,7 +31,7 @@ module OrderHandlers =
             let order = OrderService.show id
 
             // Get delivery time
-            let times : DeliveryTime seq          = DeliveryTimeService.getDeliveryTimes order
+            let times    : DeliveryTimes seq      = DeliveryTimeService.getDeliveryTimes order
             let resource : DeliveryTimeCollection = DeliveryTimeCollection.ofEntity times
 
             negotiate resource next ctx
@@ -62,8 +62,8 @@ module OrderHandlers =
                         fun (item : OrderItemData) ->
                             {
                                 OrderItem.Default with
-                                    quantity      = item.quantity.Value
-                                    product_id    = item.product_id.Value
+                                    quantity   = item.quantity.Value
+                                    product_id = item.product_id.Value
                             }
                     )
 
@@ -76,22 +76,15 @@ module OrderHandlers =
         fun (next : HttpFunc) (ctx : HttpContext) ->
             bindModel<UpdateOrderRequest> None (
                 fun request ->
-                    request.id <- id
-
                     validate request
 
-                    let order : Order = {
-                        id                = request.id
-                        total_cost        = 0.00
-                        order_time        = DateTime.Now
-                        delivery_date     = Nullable()
-                        delivery_time     = Nullable()
-                        is_green_delivery = false
-                        user_id           = 0
-                        customer_id       = 0
+                    let deliveryTime : DeliveryTime = {
+                        date = DateOnly.Parse request.delivery_date
+                        time = TimeOnly.Parse request.delivery_time
                     }
 
-                    let resource = OrderResource.ofEntity (OrderService.update id order)
+                    let updatedOrder : Order         = deliveryTime |> OrderService.setDeliveryTime id
+                    let resource     : OrderResource = OrderResource.ofEntity updatedOrder
 
                     negotiate resource
             ) next ctx

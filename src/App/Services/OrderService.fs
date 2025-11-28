@@ -2,6 +2,7 @@ namespace App.Services
 
 open System
 open Core.Entities
+open Core.Exceptions.Validation
 open App.Repositories
 open App.Interfaces
 open Infrastructure.Core.Types
@@ -43,6 +44,32 @@ module OrderService =
         items |> Seq.iter<OrderItem> (fun item -> OrderItemService.store order.id item true |> ignore)
 
         let updatedOrder = order.id |> updateOrderTotalCost
+
+        updatedOrder
+
+    let setDeliveryTime (id : int) (deliveryTime : DeliveryTime) : Order =
+        let order : Order = repo.find (id.ToString()) []
+        let { date = date; time = time } = deliveryTime
+
+        // Check if the time is valid
+        let valid : bool =  deliveryTime |> DeliveryTimeService.isValidDeliveryTime order
+
+        if not valid then
+            let dateStr = date.ToString "yyyy-MM-dd"
+            let timeStr = time.ToString "HH:mm"
+
+            raise (ConflictError $"The time {timeStr} on {date.DayOfWeek.ToString()} ({dateStr}) is not suitable to deliver this order")
+
+        let isGreen     : bool  = time |> DeliveryTimeService.isGreenTime
+        let orderBody   : Order = {
+            Order.Default with
+                delivery_date     = Nullable(date)
+                delivery_time     = Nullable(time)
+                is_green_delivery = isGreen
+        }
+
+        let fields       : string seq = [ "delivery_date"; "delivery_time"; "is_green_delivery" ]
+        let updatedOrder : Order      = orderBody |> repo.partialUpdate (order.id.ToString()) fields
 
         updatedOrder
 
