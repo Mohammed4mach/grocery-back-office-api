@@ -290,19 +290,20 @@ module DeliveryTimeRuleService =
             List.filter toNoneOffdays
 
         // Whether to eliminate today from the list
+        let firstIsToday   : bool = dates.Head = today
         let deadlinePassed : bool =
             match rule.same_day_deadline.HasValue with
             | true -> nowTime > rule.same_day_deadline.Value
             | false -> true
 
-        let initDTimes : DeliveryTimes list = // Includes today slots if deadline not passed
-            match not deadlinePassed with
+        let initDTimes : DeliveryTimes list = // Includes today slots if first valid date is today and deadline not passed
+            match firstIsToday && not deadlinePassed with
             | true -> [ { date = dates.Head; time_slots = todaySlots } ]
             | false -> []
 
-        let deliveryTimes : DeliveryTimes list = // Includes initial delivery times (`initDTimes`) if `rule.in_advance_days = 0`
+        let deliveryTimes : DeliveryTimes list = // Includes initial delivery times (`initDTimes`) if first valid date is today and `rule.in_advance_days = 0`
             match rule.in_advance_days with
-            | days when days = 0 -> initDTimes @ List.map (fun (date : DateOnly) -> { date = date; time_slots = slots }) dates.Tail
+            | days when firstIsToday  && days = 0 -> initDTimes @ List.map (fun (date : DateOnly) -> { date = date; time_slots = slots }) dates.Tail
             | _ -> List.map (fun (date : DateOnly) -> { date = date; time_slots = slots }) dates
 
         deliveryTimes
