@@ -243,6 +243,7 @@ module PostgreSQL =
             with __ -> reraise()
         finally
             connection.Close()
+            connection.Dispose()
 
     /// <summary>
     /// Execute a statement
