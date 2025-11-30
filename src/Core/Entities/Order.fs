@@ -16,6 +16,7 @@ type Order =
         is_green_delivery: bool
         user_id: int
         customer_id: int
+        notes: string | null
     }
 
     static member Default : Order =
@@ -28,5 +29,6 @@ type Order =
             is_green_delivery = false
             user_id           = 0
             customer_id       = 0
+            notes             = ""
         }
 

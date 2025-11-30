@@ -51,6 +51,7 @@ module OrderHandlers =
                             order_time  = DateTime.Now
                             user_id     = request.user_id
                             customer_id = request.customer_id
+                            notes       = request.notes
                     }
 
                     let requestItems : OrderItemData seq =

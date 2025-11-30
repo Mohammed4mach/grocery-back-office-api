@@ -6,6 +6,7 @@ CREATE TABLE orders (
     delivery_time TIME NULL,
     is_green_delivery BOOLEAN NOT NULL DEFAULT FALSE,
     user_id INT NOT NULL REFERENCES users(id) ON UPDATE CASCADE,
-    customer_id INT NOT NULL REFERENCES customers(id) ON DELETE CASCADE ON UPDATE CASCADE
+    customer_id INT NOT NULL REFERENCES customers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    notes TEXT DEFAULT NULL
 );
 

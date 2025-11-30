@@ -20,6 +20,7 @@ type StoreOrderRequest =
         mutable user_id : int
         customer_id : int
         items : OrderItemData seq
+        notes : string | null
     }
 
     static member private getItemValidationRules (item : OrderItemData) : IValidationRule list =

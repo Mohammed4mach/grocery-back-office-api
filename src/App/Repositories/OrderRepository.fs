@@ -19,6 +19,7 @@ module Order =
                 "is_green_delivery"
                 "user_id"
                 "customer_id"
+                "notes"
             ]
     }
 

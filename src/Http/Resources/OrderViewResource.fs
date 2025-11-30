@@ -15,6 +15,7 @@ type OrderViewResourceData =
         customer_id: int
         user_name: string
         customer_name: string
+        notes: string
     }
 
     static member ofEntity (order : OrderView) : OrderViewResourceData =
@@ -29,6 +30,7 @@ type OrderViewResourceData =
             customer_id       = order.customer_id
             user_name         = order.user_name
             customer_name     = order.customer_name
+            notes             = order.notes
         }
 
 type OrderViewResource =

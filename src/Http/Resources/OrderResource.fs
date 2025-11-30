@@ -13,6 +13,7 @@ type OrderResourceData =
         is_green_delivery: bool
         user_id: int
         customer_id: int
+        notes: string | null
     }
 
     static member ofEntity (order : Order) : OrderResourceData =
@@ -25,6 +26,7 @@ type OrderResourceData =
             is_green_delivery = order.is_green_delivery
             user_id           = order.user_id
             customer_id       = order.customer_id
+            notes             = order.notes
         }
 
 type OrderResource =

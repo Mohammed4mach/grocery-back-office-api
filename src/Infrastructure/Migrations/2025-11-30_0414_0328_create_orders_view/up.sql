@@ -8,6 +8,7 @@ CREATE VIEW orders_view AS
         o.is_green_delivery,
         o.user_id,
         o.customer_id,
+        o.notes,
         u.fullname as user_name,
         c.fullname as customer_name
     FROM

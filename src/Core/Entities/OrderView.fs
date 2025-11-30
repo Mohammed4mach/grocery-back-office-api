@@ -18,5 +18,6 @@ type OrderView =
         customer_id: int
         user_name: string
         customer_name: string
+        notes: string | null
     }
 

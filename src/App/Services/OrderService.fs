@@ -102,7 +102,7 @@ module OrderService =
             let dateStr = date.ToString "yyyy-MM-dd"
             let timeStr = time.ToString "HH:mm"
 
-            raise (ConflictError $"The time {timeStr} on {date.DayOfWeek.ToString()} ({dateStr}) is not suitable to deliver this order")
+            raise (ConflictError $"The time {timeStr} on {date.DayOfWeek.ToString()} ({dateStr}) is not suitable for delivering this order")
 
         let isGreen     : bool  = time |> DeliveryTimeService.isGreenTime
         let orderBody   : Order = {
