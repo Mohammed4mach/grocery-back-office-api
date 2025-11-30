@@ -47,9 +47,11 @@ let configureCors (builder : CorsPolicyBuilder) =
     builder
         .WithOrigins(
             "http://localhost:5000",
+            "http://localhost:5173",
             "https://localhost:5001")
        .AllowAnyMethod()
        .AllowAnyHeader()
+       .AllowCredentials()
        |> ignore
 
 let configureApp (app : IApplicationBuilder) =

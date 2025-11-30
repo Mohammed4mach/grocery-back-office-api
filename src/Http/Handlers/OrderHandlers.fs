@@ -13,22 +13,22 @@ open Http.Requests
 module OrderHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition<string> seq = []
-            let orders     = OrderService.index filters
-            let collection = OrderCollection.ofEntity orders
+            let filters    : Condition<string> seq = []
+            let orders     : OrderView seq         = OrderService.index filters
+            let collection : OrderViewCollection   = OrderViewCollection.ofEntity orders
 
             negotiate collection next ctx
 
     let show (id : int) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let order    = OrderService.show id
-            let resource = OrderResource.ofEntity order
+            let order    : OrderView         = OrderService.showView id
+            let resource : OrderViewResource = OrderViewResource.ofEntity order
 
             negotiate resource next ctx
 
     let getDeliveryTimes (id : int) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let order = OrderService.show id
+            let order : Order = OrderService.show id
 
             // Get delivery time
             let times    : DeliveryTimes seq      = DeliveryTimeService.getDeliveryTimes order

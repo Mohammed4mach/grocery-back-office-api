@@ -12,9 +12,9 @@ open Http.Requests
 module ProductHandlers =
     let index : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let filters : Condition<string> seq = []
-            let products  = ProductService.index filters
-            let collection = ProductCollection.ofEntity products
+            let filters : Condition<string> seq    = []
+            let products : ProductView seq         = ProductService.index filters
+            let collection : ProductViewCollection = ProductViewCollection.ofEntity products
 
             negotiate collection next ctx
 

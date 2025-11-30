@@ -12,7 +12,8 @@ open Infrastructure.Core.Types
 /// order resource
 /// </summary>
 module OrderService =
-    let private repo = OrderRepository :> IRepository<Order | null>
+    let private repo     = OrderRepository :> IRepository<Order | null>
+    let private viewRepo = OrderViewRepository :> IRepository<OrderView | null>
 
     /// <summary>
     /// Get a collection of the resource
@@ -20,8 +21,8 @@ module OrderService =
     /// <typeparam name="'Y">Conditions values type</typeparam>
     /// <param name="filters">The conditions for filtering the results</param>
     /// <returns>Collection of the resource</returns>
-    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : Order seq =
-        let orders = repo.get [] filters
+    let index<'Y when 'Y : null> (filters : Condition<'Y> seq) : OrderView seq =
+        let orders = viewRepo.get [] filters
 
         orders
 
@@ -32,6 +33,16 @@ module OrderService =
     /// <returns>The entity that match for the identifier</returns>
     let show (id : int) : Order =
         let order = repo.find (id.ToString()) []
+
+        order
+
+    /// <summary>
+    /// Get the order based on the identifier
+    /// </summary>
+    /// <param name="id">Identifier of the order</param>
+    /// <returns>The entity that match for the identifier</returns>
+    let showView (id : int) : OrderView =
+        let order = viewRepo.find (id.ToString()) []
 
         order
 

@@ -12,6 +12,7 @@ open Infrastructure.Core.Types
 /// </summary>
 module OrderItemService =
     let private repo        = OrderItemRepository :> IRepository<OrderItem | null>
+    let private viewRepo    = OrderItemViewRepository :> IRepository<OrderItemView | null>
     let private orderRepo   = OrderRepository :> IRepository<Order | null>
     let private productRepo = ProductRepository :> IRepository<Product | null>
 
@@ -27,6 +28,21 @@ module OrderItemService =
 
         let conditions = (List.ofSeq filters) @ [ Helpers.Database.where "order_id" (Some (order.id.ToString())) ]
         let items      = repo.get [] conditions
+
+        items
+
+    /// <summary>
+    /// Get a collection of the resource related to the order
+    /// </summary>
+    /// <param name="orderId">The order id</param>
+    /// <param name="filters">The conditions for filtering the results</param>
+    /// <returns>Collection of the resource</returns>
+    let indexView (orderId : int) (filters : Condition<string> seq) : OrderItemView seq =
+        // Check if order exists
+        let order : Order = orderRepo.find (orderId.ToString()) []
+
+        let conditions = (List.ofSeq filters) @ [ Helpers.Database.where "order_id" (Some (order.id.ToString())) ]
+        let items      = viewRepo.get [] conditions
 
         items
 

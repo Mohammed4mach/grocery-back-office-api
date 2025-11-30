@@ -11,6 +11,7 @@ open Infrastructure.Core.Types
 /// </summary>
 module ProductService =
     let private repo     = ProductRepository :> IRepository<Product | null>
+    let private viewRepo = ProductViewRepository :> IRepository<ProductView | null>
     let private typeRepo = ProductStorageTypeRepository :> IRepository<ProductStorageType | null>
 
     /// <summary>
@@ -19,8 +20,8 @@ module ProductService =
     /// <typeparam name="'Y">Conditions values type</typeparam>
     /// <param name="filters">The conditions for filtering the results</param>
     /// <returns>Collection of the resource</returns>
-    let index<'Y when 'Y : null> (filters : Condition<'Y > seq) : Product seq =
-        let products = repo.get [] filters
+    let index<'Y when 'Y : null> (filters : Condition<'Y > seq) : ProductView seq =
+        let products = viewRepo.get [] filters
 
         products
 

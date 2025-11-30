@@ -1,4 +1,4 @@
-all: run
+all: build run
 
 watch:
 	dotnet watch run
