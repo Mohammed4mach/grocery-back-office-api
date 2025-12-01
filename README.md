@@ -52,15 +52,15 @@ to change or be extended over the time.
 The core problem here is to give a valid delivery date and time, which is
 constrained by delivery time rules on the storage types. A brute-force solution
 will works fine, as the working hours and the maximum number of days to
-order in advance are not too large in number, so **O(n<sup>2</sup>)** will
+order in advance are not too large in number.
 do the job.
 
 However, an elegant, dynamic, and more reliable solution is to compose one
 rule from the set of rules that apply on products of the order. This
 comprehensive rule should satisfy all constraints that are defined by rules
-it composed from. That is nearly **O(kn)**, where **k** is constant, and
-**n** is the number of the distinct delivery rules which apply. This logic
-can be found in
+it composed from. Then all time slots - included in working hours - and all
+14 days pass will be filtered according to constrained set by the composite
+rule. This logic can be found in
 <a href="src/App/Services/DeliveryTimeService.fs">DeliveryTimeService</a>
 and
 <a href="src/App/Services/DeliveryTimeRuleService.fs">DeliveryTimeRuleService</a>.
