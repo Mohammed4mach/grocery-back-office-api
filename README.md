@@ -3,8 +3,8 @@
 ## Table of Contents
 
 - [Installation](#installation)
-- [The Design](#the-design)
-- [ERD Mapping](#erd-mapping)
+- [Design](#design)
+- [Delivery Time Rules Composition](#delivery-time-rules-composition)
 
 ## Installation
 
@@ -33,102 +33,41 @@ or use
 dotnet run watch
 ```
 
-**Note**:
-
-**The project still under development and zero endpoint are implemented**
-
-## The Design
+## Design
 
 Here is the design for my solution to the problem
 
-[![ERD](assets/diagrams/ERD.png)](assets/diagrams/ERD.png)
+<p align="center">
+    <a href="assets/diagrams/ERD.png">
+        <img src="assets/diagrams/ERD.png" alt="ERD" />
+    </a>
+</p>
 
 The idea is to avoid hard-coding product categories and thier time constraints.
-This is better for users and developers as business needs and policies tends
+This is better for users and developers, as business needs and policies tends
 to change or be extended over the time.
 
-## ERD Mapping
+## Delivery Time Rules Composition
 
-### Users
+The core problem here is to give a valid delivery date and time, which is
+constrained by delivery time rules on the storage types. A brute-force solution
+will works fine, as the working hours and the maximum number of days to
+order in advance are not too large in number, so **O(n<sup>2</sup>)** will
+do the job.
 
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| fullname | varchar | |
-| username | varchar | |
-| password | varchar | |
+However, an elegant, dynamic, and more reliable solution is to compose one
+rule from the set of rules that apply on products of the order. This
+comprehensive rule should satisfy all constraints that are defined by rules
+it composed from. That is nearly **O(kn)**, where **k** is constant, and
+**n** is the number of the distinct delivery rules which apply. This logic
+can be found in
+<a href="src/App/Services/DeliveryTimeService.fs">DeliveryTimeService</a>
+and
+<a href="src/App/Services/DeliveryTimeRuleService.fs">DeliveryTimeRuleService</a>.
 
-### Customers
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| fullname | varchar | |
-| address | text | |
-
-### Weekdays
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| code | varchar | |
-
-### Delivery Time Rules
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| in_advance_days | integer | |
-| same_day_deadline | time | |
-
-### Delivery Time Rule Not Available Weekdays (pivot table)
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| delivery_time_rule_id | integer | References delivery_time_rule(id) |
-| weekday_id | integer | References weekday(id) |
-
-### Product Storage Types
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| delivery_time_rule_id | integer | References delivery_time_rule(id) |
-
-### Products
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| name | varchar | |
-| price | decimal | |
-| description | text | |
-| product_storage_type_id | integer | References product_storage_type(id) |
-
-### Orders
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| total_cost | decimal | |
-| order_time | timestamp | |
-| delivery_date | date | |
-| delivery_time | time | |
-| is_green_delivery | boolean | |
-| user_id | integer | References user(id) |
-| customer_id | integer | References customer(id) |
-
-### Order Items
-
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | integer | Primary Key |
-| cost_per_item | decimal | |
-| quantity | integer | |
-| product_id | integer | References product(id) |
-| order_id | integer | References order(id) |
+<p align="center">
+    <a href="assets/diagrams/delivery-rule-composition-flow-diagram.png">
+        <img src="assets/diagrams/delivery-rule-composition-flow-diagram.png" alt="rules-flow-diagram" />
+    </a>
+</p>
 
