@@ -1,3 +1,8 @@
+PROJECT_NAME=grocery-back-office-api.fsproj
+OUTPUT_DIR=publish
+RUNTIME=linux-x64
+CONFIGURATION=Release
+
 all: build run
 
 watch:
@@ -5,6 +10,9 @@ watch:
 
 run:
 	dotnet run
+
+restore:
+	dotnet restore
 
 build:
 	dotnet build
@@ -31,4 +39,11 @@ seed:
 	dotnet fsi ./src/Infrastructure/Scripts/seed.fsx
 
 project: migrate-fresh seed
+
+publish: clean restore
+	dotnet publish $(PROJECT_NAME)\
+		-c $(CONFIGURATION)\
+		-o ./$(OUTPUT_DIR)\
+		-r $(RUNTIME)\
+		--self-contained true
 

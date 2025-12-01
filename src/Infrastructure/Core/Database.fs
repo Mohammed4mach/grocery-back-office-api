@@ -9,8 +9,6 @@ open Infrastructure.Core.Exceptions
 module Database =
     type private Connections =
         | PgSql
-        | MySql
-        | MsSql
 
     let private pgsqlOperations = Implementations.PostgreSQL.operations
     // let private mysqlOperations = Implementations.MySql.operations

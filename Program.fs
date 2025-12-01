@@ -48,6 +48,7 @@ let configureCors (builder : CorsPolicyBuilder) =
         .WithOrigins(
             "http://localhost:5000",
             "http://localhost:5173",
+            "https://mohammed4mach.github.io",
             "https://localhost:5001")
        .AllowAnyMethod()
        .AllowAnyHeader()
@@ -87,7 +88,6 @@ let configureLogging (builder : ILoggingBuilder) =
 [<EntryPoint>]
 let main args =
     Env.Load() |> ignore
-    Configs.Helpers.refreshConfigs()
 
     Database.configure() |> ignore
 
