@@ -2,7 +2,7 @@ namespace Http.Middlewares
 
 open Microsoft.AspNetCore.Authentication.Cookies
 open Giraffe
-open Core.Enums.Http
+open Http.Enums
 open Helpers.Response
 
 /// <summary>

@@ -27,7 +27,7 @@
     <Compile Include="src/Infrastructure/Core/Implementations/*.fs" />
     <Compile Include="src/Infrastructure/Core/*.fs" />
 
-    <Compile Include="src/Core/Enums/**/*.fs" />
+    <Compile Include="src/Http/Enums/**/*.fs" />
     <Compile Include="src/Core/Entities/TimeSlot.fs" />
     <Compile Include="src/Core/Entities/**/*.fs" Exclude="src/Core/Entities/TimeSlot.fs" />
 
@@ -53,12 +53,11 @@
     <Compile Include="src/Http/Resources/**/*Resource.fs" />
     <Compile Include="src/Http/Resources/**/*Collection.fs" />
     <Compile Include="src/Http/Requests/**/*.fs" />
-    <Compile
-        Include="src/Http/**/*.fs"
-        Exclude="src/Http/Re*/**/*.fs"
-    />
+    <Compile Include="src/Http/Middlewares/**/*.fs" />
+    <Compile Include="src/Http/Handlers/**/*.fs" />
+    <Compile Include="src/Http/Routes/**/*.fs" />
 
-    <Compile Include="src/Core/ErrorHandlers/**/*.fs" />
+    <Compile Include="src/Http/ErrorHandlers/**/*.fs" />
 
     <Compile Include="Program.fs" />
 

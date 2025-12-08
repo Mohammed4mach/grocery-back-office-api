@@ -1,4 +1,4 @@
-namespace Core.Enums.Http
+namespace Http.Enums
 
 /// <summary>
 /// Http status codes

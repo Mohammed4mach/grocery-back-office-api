@@ -1,10 +1,10 @@
-namespace Core
+namespace Http
 
 open System
 open Microsoft.Extensions.Logging
 open Giraffe
 open Helpers.Response
-open Core.Enums.Http
+open Http.Enums
 open Core.Exceptions
 open Core.Exceptions.Validation
 open Core.Exceptions.Authentication
